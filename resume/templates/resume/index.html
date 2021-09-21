@@ -1,0 +1,15 @@
+{% extends 'job_finder/layout.html' %}
+{% load static %}
+{% block title %}Killer Resume{% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'resume/paper.css' %}">
+    <link rel="stylesheet" href="{% static 'resume/index.css' %}">
+{% endblock %}
+{% block body %}
+<body class="A4">
+  <div id="root"></div>
+</body>
+{% endblock %}
+{% block script %}
+  <script src="{% static 'resume/main.js' %}"></script>
+{% endblock %}

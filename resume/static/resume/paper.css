@@ -1,0 +1,27 @@
+@page { margin: 0; size: A4; }
+.sheet {
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+}
+
+body.A4 .sheet { width: 210mm; height: 296mm; }
+.sheet.padding-10mm { padding: 10mm }
+.sheet.padding-15mm { padding: 15mm }
+.sheet.padding-20mm { padding: 20mm }
+.sheet.padding-25mm { padding: 25mm }
+
+@media screen {
+  body { background: #e0e0e0 }
+  .sheet {
+    background: white;
+    box-shadow: 0 .5mm 2mm rgba(0,0,0,.3);
+    margin: auto;
+  }
+}
+@media print {
+           body.A3.landscape { width: 420mm }
+  body.A3, body.A4.landscape { width: 297mm }
+  body.A4, body.A5.landscape { width: 210mm }
+  body.A5                    { width: 148mm }
+}

@@ -1,0 +1,43 @@
+#resume_maker {
+  #alert {
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+    // opacity: 70%;
+    text-align: center;
+  }
+
+  #navigation {
+    position:sticky;
+    top: 0rem;
+  }
+
+  #resume {    
+    margin-top: 2rem;
+
+    input, textarea {
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0.5rem;
+    }
+
+    .section {
+      h5 {
+        border-bottom: 1px solid black;
+        margin-bottom: none;
+      }
+
+      .sectionContent {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+}
+
+button {
+  margin: 0.5rem;
+}

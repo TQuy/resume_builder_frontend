@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{% static 'favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap-5.0.0-beta3-dist/css/bootstrap.min.css' %}">
+    {% block style %}{% endblock %}
+</head>
+{% with request.resolver_match.view_name as view_name %}
+<!-- <body{% if view_name == 'resume:index' %} class="A4"{% endif %}> -->
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark  d-print-none">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                    <li class="nav-item">
+                        <a class="nav-link{% if view_name == 'job_finder:index' %} active" aria-current="page"{% else %}"{% endif %} href="{% url 'job_finder:index' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if view_name == 'resume_responsive:index' %} active" aria-current="page" {% else %}"{% endif %} href="{% url 'resume_responsive:index' %}">Resume (mobile)</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto mb-2 mb-sm-0">
+                    {% if not user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link{% if view_name == 'job_finder:login' %} active" aria-current="page" {% else %}"{% endif %}
+                                href="{% url 'job_finder:login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link{% if view_name == 'job_finder:register' %} active" aria-current="page" {% else %}"{% endif %}
+                                href="{% url 'job_finder:register' %}">Register</a>
+                    </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a id="logout_btn" class="nav-link{% if view_name == 'job_finder:logout' %} active" aria-current="page" {% else %}"{% endif %}
+                                href="{% url 'job_finder:logout' %}">Logout</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% block body %}{% endblock %}
+    <script src="{% static 'bootstrap-5.0.0-beta3-dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script> -->
+    <script src="{% static 'js.cookie.min.js' %}"></script>
+    <script type="module" src="{% static 'job_finder/clear_session_data.js' %}"></script>
+    {% block script %}{% endblock %}
+</body>
+{% endwith %}
+</html>

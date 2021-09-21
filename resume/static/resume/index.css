@@ -1,0 +1,78 @@
+html {
+  font-size: 75%;
+}
+
+button {
+  margin: 0.5rem;
+}
+
+#navigation {
+  position: sticky;
+  top: 0rem;
+  z-index: 1;
+}
+
+#resume ul {
+  list-style-type: none;
+  padding: 0rem 1rem;
+}
+
+input, textarea {
+  width: 100%;
+  resize: none;
+  border: transparent;
+}
+
+input {
+  font-weight: bold;
+}
+
+ul.dropdown-menu input[type=number] {
+  width: 3rem;
+}
+
+ul.dropdown-menu input[type=number]:hover {
+  background-color: grey;
+}
+
+ul.dropdown-menu label {
+  margin-right: 1rem;
+}
+
+.center-max {
+  text-align: center;
+}
+
+.right-max {
+  text-align: right;
+}
+
+.left-max {
+  text-align: left;
+}
+
+.section:hover {
+  border: 0.5px dotted;
+}
+
+#basicInfo {
+  margin-bottom: 1rem;
+}
+#basicInfo input[name=fullName] {
+  font-size: 2rem;
+  background-color: yellow;
+}
+
+.sectionHeader {
+  border-bottom: 1px solid black;
+}
+
+.sectionContent {
+  padding-left: 0rem;
+}
+
+input[name=certificateName] {
+  font-weight: normal;
+}
+
+/*# sourceMappingURL=index.css.map */
