@@ -1,0 +1,17 @@
+input, textarea {
+  width: 100%;
+  resize: none;
+  /* border: transparent; */
+}
+
+.center-max {
+  text-align: center;
+}
+
+.right-max {
+  text-align: right;
+}
+
+.left-max {
+  text-align: left;
+}
