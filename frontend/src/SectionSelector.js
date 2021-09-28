@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
-import { capitalize } from "./Base";
+import { useState } from "react";
+import { capitalize, str2bool } from "./Base";
 
 function SectionSelector() {
 
@@ -23,12 +23,13 @@ function SectionSelector() {
 }
 
 function Section({ name }) {
-    const [checked, setChecked] = useState(false);
-    const [numberSub, setNumberSub] = useState(1);
     console.log(`name: ${name}`);
     const box_name = `${name}-checkbox`;
     const number_name = `number-${name}`;
     const label_name = name.split("-").map(word => capitalize(word)).join(" ");
+    const [checked, setChecked] = useState( str2bool(sessionStorage.getItem(name, false)) );
+    const [numberSub, setNumberSub] = useState( sessionStorage.getItem(number_name, 1) );
+
     return(
         <div className="form-check">
             <input className="form-check-input" type="checkbox" id={box_name}

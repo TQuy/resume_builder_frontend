@@ -1,6 +1,8 @@
 input, textarea {
   width: 100%;
   resize: none;
+  margin: 5px;
+  font-size: 1rem;
   /* border: transparent; */
 }
 
@@ -14,4 +16,8 @@ input, textarea {
 
 .left-max {
   text-align: left;
+}
+
+input[name=full-name] {
+  font-size: 2rem;
 }
