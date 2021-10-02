@@ -62,7 +62,8 @@ const MemorizedSection = React.memo(function Section({ name, checked, number_sub
                 onChange={(e) => handleChange(e)}
                 />
             <label className="form-check-label" htmlFor={box_name}>{label_name}</label>
-            <input 
+            <input
+                readOnly={!checked}
                 type="number" 
                 className="numberSubSection"
                 name={number_name}
