@@ -17,7 +17,7 @@ const initialState = {
 };
 
 function reducer(state, action) {
-    const newState = {...state, [action.name] :action.value};
+    const newState = {...state, [action.name]: action.value};
     console.log(`action`, action);
     console.log(`newState: ${newState}`);
     return newState
