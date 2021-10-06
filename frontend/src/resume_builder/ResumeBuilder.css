@@ -1,0 +1,10 @@
+.btn-group {
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.btn-group button {
+    margin: 5px;
+    border-radius: 0px;
+}
+  

@@ -1,5 +1,5 @@
 import "./App.css";
-import Resume from "./Resume";
+import ResumeBuilder from "./resume_builder/ResumeBuilder";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
 				</div>
 			</div>
 			<div>
-				<Resume />
+				<ResumeBuilder />
 			</div>
 		</>
   )
