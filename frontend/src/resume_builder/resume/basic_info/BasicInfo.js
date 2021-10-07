@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./BasicInfo.css";
 import { useDisplaySection, useDisplaySubSection } from "../custom_hook";
 
@@ -6,8 +6,11 @@ const MemorizedBasicInfo = React.memo(
     function BasicInfo({ control_state }) {
         const [ display, list_of_info ] = useDisplaySection(control_state, Info);
         return (
-            <> 
-                { display && list_of_info }
+            <>{ display && 
+                <div id="basic-info">
+                    { list_of_info }
+                </div>
+            }
             </>
         )
     }
@@ -24,7 +27,7 @@ function Info({ order }) {
     const [ state, setState ] = useDisplaySubSection(initial_state);
 
     return (
-    <div id='basic-info' className="row section">
+    <div className="row section">
         <div className="col-4">
             <div className="row">
                 <input className="center-max" type="text" name={`gender-${order}`} placeholder={`gender ${order}`} value={state["gender"]} onChange={(e) => setState(e)} />
@@ -34,7 +37,7 @@ function Info({ order }) {
             </div>
         </div>
         <div className="col-4 align-self-center">
-            <input className="center-max" type="text" name={`full-name-${order}`} placeholder={`full name ${order}`} value={state["full-name"]} onChange={(e) => setState(e)} />
+            <input className="center-max distinguish" type="text" name={`full-name-${order}`} placeholder={`full name ${order}`} value={state["full-name"]} onChange={(e) => setState(e)} />
         </div>
         <div className="col-4">
             <div className="row">

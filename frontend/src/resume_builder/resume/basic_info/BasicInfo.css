@@ -1,9 +1,13 @@
-input[name=full-name] {
-  width: 100%;
-  font-size: 18px;
-  background-color: yellow;
-}
-
 #basic-info {
   margin-bottom: 15px;
+}
+
+#basic-info input {
+  font-weight: bold;
+}
+
+input.distinguish {
+  width: 100%;
+  font-size: 24px;
+  background-color: yellow;
 }

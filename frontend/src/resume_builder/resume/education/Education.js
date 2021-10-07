@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Education.css";
 import { useDisplaySection, useDisplaySubSection } from "../custom_hook";
 
@@ -27,7 +27,7 @@ function School({ order }) {
         "school-location": sessionStorage.getItem(`school-location-${order}`, ""),
         "school-detail": sessionStorage.getItem(`school-detail-${order}`, ""),
     };
-    const [ state, setState ] = useDisplaySubSection(initial_state);
+    const [ state, setState, schoolDetail ] = useDisplaySubSection(initial_state);
 
 
     return (
@@ -44,9 +44,10 @@ function School({ order }) {
             </div>
         </div>
         <div className="details">
-            <textarea name={`school-detail-${order}`} placeholder={`more details ${order}`} value={state["school-detail"]} onInput={(e) => setState(e)} />
+            <textarea name={`school-detail-${order}`} ref={schoolDetail} placeholder={`more details ${order}`} value={state["school-detail"]} onInput={(e) => setState(e)} />
         </div>
     </li>
     )
 };
+
 export default MemorizedEducation
