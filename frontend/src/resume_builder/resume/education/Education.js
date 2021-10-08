@@ -28,23 +28,45 @@ function School({ order }) {
         "school-detail": sessionStorage.getItem(`school-detail-${order}`, ""),
     };
     const [ state, setState, schoolDetail ] = useDisplaySubSection(initial_state);
-
-
     return (
     <li className="">
         <div className="row">
             <div className="col-3">
-                <input name={`school-period-${order}`} className='left-max' placeholder={`learning period ${order}`} value={state["school-period"]} onChange={(e) => setState(e)} />
+                <input 
+                name={`school-period-${order}`} 
+                className='left-max' 
+                placeholder={`learning period ${order}`} 
+                value={state["school-period"]} 
+                onChange={(e) => setState(e)} 
+                />
             </div>
             <div className="col-6">
-                <input name={`school-name-${order}`} className='center-max' placeholder={`school's name ${order}`} value={state["school-name"]} onChange={(e) => setState(e)} />
+                <input 
+                name={`school-name-${order}`} 
+                className='center-max' 
+                placeholder={`school's name ${order}`} 
+                value={state["school-name"]} 
+                onChange={(e) => setState(e)} 
+                />
             </div>
             <div className="col-3">
-                <input name={`school-location-${order}`} className='right-max' placeholder={`location ${order}`} value={state["school-location"]} onChange={(e) => setState(e)} />
+                <input 
+                name={`school-location-${order}`} 
+                className='right-max' 
+                placeholder={`location ${order}`} 
+                value={state["school-location"]} 
+                onChange={(e) => setState(e)} 
+                />
             </div>
         </div>
         <div className="details">
-            <textarea name={`school-detail-${order}`} ref={schoolDetail} placeholder={`more details ${order}`} value={state["school-detail"]} onInput={(e) => setState(e)} />
+            <textarea 
+            name={`school-detail-${order}`} 
+            ref={schoolDetail} 
+            placeholder={`more details ${order}`} 
+            value={state["school-detail"]} 
+            onInput={(e) => setState(e)} 
+            />
         </div>
     </li>
     )

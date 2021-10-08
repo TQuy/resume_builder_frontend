@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 function useDisplaySection(control_state, SubSec) {
     const [ display, number_subsection ] = Object.values(control_state);
@@ -10,11 +10,14 @@ function useDisplaySection(control_state, SubSec) {
 
 function useDisplaySubSection(initial_state) {
     const Detail = useRef(null);
+    useEffect(() => {
+        Detail.current.style.height = `${Math.max(Detail.current.scrollHeight, 45)}px`;
+        Detail.current.style.overflowY = "hidden";
+    })
     const [ state, setState ] = useState(initial_state);
     const handleChange = (e) => {
         setState({...state, [e.target.name]: e.target.value});
         sessionStorage.setItem(e.target.name, e.target.value);
-        // console.log('target', e.target.tagName);
         if (e.target.tagName === "TEXTAREA") {
             e.target.style.height = "auto";
             e.target.style.height = `${Math.max(e.target.scrollHeight, 45)}px`;

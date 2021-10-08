@@ -28,24 +28,24 @@ const MemorizedSection = React.memo(
         const number_name = `number-${name}`;
         const label_name = name.split("-").map(word => capitalize(word)).join(" ");
         const [ checked, number_subsection ] = Object.values(states);
-        const handleChange = (e) => {
+        const handleChange = (e, checked, number_subsection) => {
             const payload = {
                 "checked": checked,
                 "number_subsection": number_subsection,
             };
-                if (e.target.type === 'checkbox') {
-                    payload["checked"] = e.target.checked;
-                } else {
-                    payload["number_subsection"] = Math.max(1, e.target.value);
-                }
-                onChange({ "name": name, "payload": payload });
+            if (e.target.type === 'checkbox') {
+                payload["checked"] = e.target.checked;
+            } else {
+                payload["number_subsection"] = Math.max(1, e.target.value);
+            }
+            onChange({ "name": name, "payload": payload });
         };
         return (
             <div className="form-check">
                     <input className="form-check-input" type="checkbox" id={box_name}
                     name={name}
                     checked={checked}
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e, checked, number_subsection)}
                     />
                 <label className="form-check-label" htmlFor={box_name}>{label_name}</label>
                 <input
@@ -54,7 +54,7 @@ const MemorizedSection = React.memo(
                     className="numberSubSection"
                     name={number_name}
                     value={number_subsection}
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e, checked, number_subsection)}
                 />
             </div>
         )
