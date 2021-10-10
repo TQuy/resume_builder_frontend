@@ -1,10 +1,10 @@
 import React from "react";
 import "./BasicInfo.css";
-import { useDisplaySection, useDisplayWithoutDetail } from "../custom_hook";
+import { useSectionList, useStateWithoutDetail } from "../custom_hook";
 
 const MemorizedBasicInfo = React.memo(
     function BasicInfo({ control_state }) {
-        const [ display, list_of_info ] = useDisplaySection(control_state, Info);
+        const [ display, list_of_info ] = useSectionList(control_state, Info);
         return (
             <>{ display && 
                 <div id="basic-info">
@@ -24,7 +24,7 @@ function Info({ order }) {
         "phone-number": sessionStorage.getItem(`phone-number-${order}`, ""),
         "email": sessionStorage.getItem(`email-${order}`, ""),
     };
-    const [ state, setState ] = useDisplayWithoutDetail(initial_state);
+    const [ state, setState ] = useStateWithoutDetail(initial_state);
 
     return (
         <div className="row section">

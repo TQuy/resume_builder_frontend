@@ -1,10 +1,10 @@
 import React from "react";
 import "./Education.css";
-import { useDisplaySection, useDisplaySubSection } from "../custom_hook";
+import { useSectionList, useStateWithDetail } from "../custom_hook";
 
 const MemorizedEducation = React.memo(
     function Education({ control_state }) {
-        const [ display, list_of_schools ] = useDisplaySection(control_state, School);
+        const [ display, list_of_schools ] = useSectionList(control_state, School);
         return (
             <>
                 { display &&
@@ -27,7 +27,7 @@ function School({ order }) {
         "school-location": sessionStorage.getItem(`school-location-${order}`, ""),
         "school-detail": sessionStorage.getItem(`school-detail-${order}`, ""),
     };
-    const [ state, setState, schoolDetail ] = useDisplaySubSection(initial_state);
+    const [ state, setState, schoolDetail ] = useStateWithDetail(initial_state);
     return (
     <li className="">
         <div className="row">

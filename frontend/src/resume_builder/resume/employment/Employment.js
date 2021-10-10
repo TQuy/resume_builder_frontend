@@ -1,10 +1,10 @@
 import React from "react";
 import "./Employment.css";
-import { useDisplaySection, useDisplaySubSection } from "../custom_hook";
+import { useSectionList, useStateWithDetail } from "../custom_hook";
 
 const MemorizedEmployment = React.memo(
     function Employment({ control_state }) {
-        const [ display, list_of_companies ] = useDisplaySection(control_state, Company);
+        const [ display, list_of_companies ] = useSectionList(control_state, Company);
         return (
             <>
                 { display &&
@@ -27,7 +27,7 @@ function Company({ order }) {
         "company-location": sessionStorage.getItem(`company-location-${order}`, ""),
         "company-detail": sessionStorage.getItem(`company-detail-${order}`, ""),
     };
-    const [ state, setState, companyDetail ] = useDisplaySubSection(initial_state);
+    const [ state, setState, companyDetail ] = useStateWithDetail(initial_state);
     return (
     <li className="">
         <div className="row">
