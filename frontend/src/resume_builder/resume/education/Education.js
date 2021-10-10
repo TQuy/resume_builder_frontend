@@ -29,7 +29,7 @@ function School({ order }) {
     };
     const [ state, setState, schoolDetail ] = useStateWithDetail(initial_state);
     return (
-    <li className="">
+    <li>
         <div className="row">
             <div className="col-3">
                 <input 
