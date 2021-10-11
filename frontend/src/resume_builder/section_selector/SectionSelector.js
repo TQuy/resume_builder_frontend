@@ -2,7 +2,7 @@ import React from "react";
 import { capitalize } from "resume_builder/Base";
 import "./SectionSelector.css";
 
-function SectionSelector({ control_state, onChange }) {
+function SectionSelector({ control_state, dispatch }) {
     return (
         <div id="section-selector" className="dropdown">
             <button className="btn btn-info dropdown-toggle" type="button" id="sectionSelector" data-bs-toggle="dropdown" aria-expanded="false">
@@ -10,12 +10,12 @@ function SectionSelector({ control_state, onChange }) {
             </button> 
             <ul className="dropdown-menu" aria-labelledby="sectionSelector">
                 <li>
-                    <MemorizedSection name={"basic-info"} states={control_state["basic-info"]} onChange={onChange} />
-                    <MemorizedSection name={"education"} states={control_state["education"]} onChange={onChange} />
-                    <MemorizedSection name={"employment"} states={control_state["employment"]} onChange={onChange} />
-                    <MemorizedSection name={"certificates"} states={control_state["certificates"]} onChange={onChange} />
-                    <MemorizedSection name={"projects"} states={control_state["projects"]} onChange={onChange} />
-                    <MemorizedSection name={"skills"} states={control_state["skills"]} onChange={onChange} />
+                    <MemorizedSection name={"basic-info"} states={control_state["basic-info"]} dispatch={dispatch} />
+                    <MemorizedSection name={"education"} states={control_state["education"]} dispatch={dispatch} />
+                    <MemorizedSection name={"employment"} states={control_state["employment"]} dispatch={dispatch} />
+                    <MemorizedSection name={"certificates"} states={control_state["certificates"]} dispatch={dispatch} />
+                    <MemorizedSection name={"projects"} states={control_state["projects"]} dispatch={dispatch} />
+                    <MemorizedSection name={"skills"} states={control_state["skills"]} dispatch={dispatch} />
                 </li>
             </ul>
         </div>
@@ -23,29 +23,24 @@ function SectionSelector({ control_state, onChange }) {
 }
 
 const MemorizedSection = React.memo(
-    function Section({ name, states, onChange }) {
+    function Section({ name, states, dispatch }) {
         const box_name = `${name}-checkbox`;
         const number_name = `number-${name}`;
         const label_name = name.split("-").map(word => capitalize(word)).join(" ");
         const [ checked, number_subsection ] = Object.values(states);
-        const handleChange = (e, checked, number_subsection) => {
-            const payload = {
-                "checked": checked,
-                "number_subsection": number_subsection,
-            };
+        const handleChange = (e) => {
             if (e.target.type === 'checkbox') {
-                payload["checked"] = e.target.checked;
+                dispatch({ "name": name, "key": "checked", "value": e.target.checked });
             } else {
-                payload["number_subsection"] = Math.max(1, e.target.value);
+                dispatch({ "name": name, "key": "number_subsection", "value": Math.max(1, e.target.value) });
             }
-            onChange({ "name": name, "payload": payload });
         };
         return (
             <div className="form-check">
                     <input className="form-check-input" type="checkbox" id={box_name}
                     name={name}
                     checked={checked}
-                    onChange={(e) => handleChange(e, checked, number_subsection)}
+                    onChange={(e) => handleChange(e)}
                     />
                 <label className="form-check-label" htmlFor={box_name}>{label_name}</label>
                 <input
@@ -54,7 +49,7 @@ const MemorizedSection = React.memo(
                     className="numberSubSection"
                     name={number_name}
                     value={number_subsection}
-                    onChange={(e) => handleChange(e, checked, number_subsection)}
+                    onChange={(e) => handleChange(e)}
                 />
             </div>
         )
