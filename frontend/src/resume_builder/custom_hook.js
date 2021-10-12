@@ -1,34 +1,40 @@
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 
-function useSectionList(control_state, SubSec) {
-    const [ display, number_subsection ] = Object.values(control_state);
-    const list_of_subsec = Array(number_subsection).fill().map((_, i) => (
-        <SubSec key={i.toString()} order={i} />
-    ));
-    return [ display, list_of_subsec ]
+export function useSectionList(control_state, initial_content, dispatch) {
+    const { checked, number_subsection, payload } = control_state;
+    let content_list;
+    let empty_list;
+    if ( payload.length === 0 ) {
+        content_list = Array(number_subsection).fill(initial_content);
+    } else if ( payload.length >= number_subsection ) {
+        content_list = payload.slice(0, number_subsection);
+    } else {
+        // when content.length < number_subsection
+        empty_list = Array(number_subsection - payload.length).fill(initial_content);
+        content_list = payload.concat(empty_list);
+    };
+    const handleChange = (e, index) => {
+        const new_payload = content_list.slice(0);
+        const new_content = {...new_payload[index], [e.target.name]: e.target.value};
+        new_payload[index] = new_content;
+        dispatch({ "name": "education", "key": "payload", "value": new_payload })
+    };
+    return [ content_list, handleChange, checked ] 
 };
 
-function useStateWithoutDetail(initial_state) {
-    const [ state, setState ] = useState(initial_state);
-    const handleChange = (e) => {
-        setState({...state, [e.target.name]: e.target.value});
-        sessionStorage.setItem(e.target.name, e.target.value);
-        if (e.target.tagName === "TEXTAREA") {
-            e.target.style.height = "auto";
-            e.target.style.height = `${Math.max(e.target.scrollHeight, 45)}px`;
-        }
-    };
-    return [ state, handleChange ]
-}
-
-function useStateWithDetail(initial_state) {
+export function useDetailRef() {
     const Detail = useRef(null);
     useEffect(() => {
         Detail.current.style.height = `${Math.max(Detail.current.scrollHeight, 45)}px`;
         Detail.current.style.overflowY = "hidden";
-    })
-    const [ state, handleChange ] = useStateWithoutDetail(initial_state);
-    return [ state, handleChange, Detail ]
+    });
+    return Detail
 };
 
-export { useSectionList, useStateWithoutDetail, useStateWithDetail };
+export function handleChange(e, index, onChange) {
+    if (e.target.tagName === "TEXTAREA") {
+        e.target.style.height = "auto";
+        e.target.style.height = `${Math.max(e.target.scrollHeight, 45)}px`;
+    }
+    onChange(e, index);
+};
