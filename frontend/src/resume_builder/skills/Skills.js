@@ -1,13 +1,18 @@
 import React from "react";
 import "./Skills.css";
-import { useSectionList, useStateWithDetail } from "../custom_hook";
+import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
 
 const MemorizedSkills = React.memo(
-    function Skills({ control_state }) {
-        const [ display, list_of_skills ] = useSectionList(control_state, Skill);
-        return (
+    function Skills({ control_state, dispatch }) {
+        const initial_content = {
+            "skill-detail": "",
+        };
+        const [contentList, setContentList, checked] = useSectionList("skills", control_state, initial_content, dispatch);
+        const list_of_skills = contentList.map((content_i, i) => {
+            return <Skill key={i.toString()} index={i} content={content_i} onChange={setContentList} />
+        });        return (
             <>
-                { display &&
+                { checked &&
                     <div id="skills" className="row section">
                         <h5 className="section-header">Skills</h5>
                         <ul className="section-content">
@@ -20,15 +25,18 @@ const MemorizedSkills = React.memo(
     }
 );
 
-function Skill({ order }) {
-    const initial_state = {
-        "skill-detail": sessionStorage.getItem(`skill-detail-${order}`, ""),
-    };
-    const [ state, setState, skillDetail ] = useStateWithDetail(initial_state);
+function Skill({ index, content, onChange }) {
+    const Detail = useDetailRef();
     return (
-        <li>
+        <li id={`skill-${index}`}>
             <div className="details">
-                <textarea name={`skill-detail-${order}`} placeholder={`more details ${order}`} value={state["skill-detail"]} ref={skillDetail} onInput={(e) => setState(e)} />
+                <textarea 
+                name="skill-detail"
+                placeholder={`more details ${index}`} 
+                value={content["skill-detail"]} 
+                ref={Detail} 
+                onChange={(e) => handleChange(e, index, onChange)} 
+                />
             </div>
         </li>
     )

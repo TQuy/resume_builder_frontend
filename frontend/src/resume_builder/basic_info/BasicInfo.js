@@ -1,12 +1,22 @@
 import React from "react";
 import "./BasicInfo.css";
-import { useSectionList, useStateWithoutDetail } from "../custom_hook";
+import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
 
 const MemorizedBasicInfo = React.memo(
-    function BasicInfo({ control_state }) {
-        const [ display, list_of_info ] = useSectionList(control_state, Info);
+    function BasicInfo({ control_state, dispatch }) {
+        const initial_content = {
+            "gender":  "",
+            "year-of-birth": "",
+            "full-name": "",
+            "phone-number": "",
+            "email": "",
+        };
+        const [contentList, setContentList, checked] = useSectionList("basic-info", control_state, initial_content, dispatch);
+        const list_of_info = contentList.map((content_i, i) => {
+            return <Info key={i.toString()} index={i} content={content_i} onChange={setContentList} />
+        });
         return (
-            <>{ display && 
+            <>{ checked && 
                 <div id="basic-info">
                     { list_of_info }
                 </div>
@@ -16,69 +26,60 @@ const MemorizedBasicInfo = React.memo(
     }
 );
 
-function Info({ order }) {
-    const initial_state = {
-        "gender": sessionStorage.getItem(`gender-${order}`, ""),
-        "year-of-birth": sessionStorage.getItem(`year-of-birth-${order}`, ""),
-        "full-name": sessionStorage.getItem(`full-name-${order}`, ""),
-        "phone-number": sessionStorage.getItem(`phone-number-${order}`, ""),
-        "email": sessionStorage.getItem(`email-${order}`, ""),
-    };
-    const [ state, setState ] = useStateWithoutDetail(initial_state);
-
+function Info({ index, content, onChange }) {
     return (
-        <div className="row section">
+        <div id={`basic-info-${index}`} className="row section">
             <div className="col-4">
                 <div className="row">
                     <input 
+                    name="gender" 
                     className="center-max" 
                     type="text" 
-                    name={`gender-${order}`} 
-                    placeholder={`gender ${order}`} 
-                    value={state["gender"]} 
-                    onChange={(e) => setState(e)} 
+                    placeholder={`gender ${index}`} 
+                    value={content["gender"]} 
+                    onChange={(e) => handleChange(e, index, onChange)} 
                     />
                 </div>
                 <div className="row">
                     <input 
+                    name="year-of-birth"
                     className="center-max" 
                     type="text" 
-                    name={`year-of-birth-${order}`} 
-                    placeholder={`year of birth ${order}`} 
-                    value={state["year-of-birth"]} 
-                    onChange={(e) => setState(e)} 
+                    placeholder={`year of birth ${index}`} 
+                    value={content["year-of-birth"]} 
+                    onChange={(e) => handleChange(e, index, onChange)} 
                     />
                 </div>
             </div>
             <div className="col-4 align-self-center">
                 <input 
+                name="full-name"
                 className="center-max distinguish" 
                 type="text" 
-                name={`full-name-${order}`} 
-                placeholder={`full name ${order}`} 
-                value={state["full-name"]} 
-                onChange={(e) => setState(e)} 
+                placeholder={`full name ${index}`} 
+                value={content["full-name"]} 
+                onChange={(e) => handleChange(e, index, onChange)} 
                 />
             </div>
             <div className="col-4">
                 <div className="row">
                     <input 
+                    name="phone-number" 
                     className="center-max" 
                     type="tel" 
-                    name={`phone-number-${order}`} 
-                    placeholder={`phone number ${order}`} 
-                    value={state["phone-number"]} 
-                    onChange={(e) => setState(e)} 
+                    placeholder={`phone number ${index}`} 
+                    value={content["phone-number"]} 
+                    onChange={(e) => handleChange(e, index, onChange)} 
                     />
                 </div>
                 <div className="row">
                     <input 
+                    name="email"
                     className="center-max" 
                     type="email" 
-                    name={`email-${order}`} 
-                    placeholder={`email address ${order}`} 
-                    value={state["email"]} 
-                    onChange={(e) => setState(e)} 
+                    placeholder={`email address ${index}`} 
+                    value={content["email"]} 
+                    onChange={(e) => handleChange(e, index, onChange)} 
                     />
                 </div>
             </div>

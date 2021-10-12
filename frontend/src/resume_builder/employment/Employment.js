@@ -1,13 +1,22 @@
 import React from "react";
 import "./Employment.css";
-import { useSectionList, useStateWithDetail } from "../custom_hook";
+import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
 
 const MemorizedEmployment = React.memo(
-    function Employment({ control_state }) {
-        const [ display, list_of_companies ] = useSectionList(control_state, Company);
+    function Employment({ control_state, dispatch }) {
+        const initial_content = {
+            "company-period": "",
+            "company-name": "",
+            "company-location": "",
+            "company-detail": "",
+        };
+        const [contentList, setContentList, checked] = useSectionList("employment", control_state, initial_content, dispatch);
+        const list_of_companies = contentList.map((content_i, i) => {
+            return <Company key={i.toString()} index={i} content={content_i} onChange={setContentList} />
+        });        
         return (
             <>
-                { display &&
+                { checked &&
                     <div id="employment" className="row section">
                         <h5 className="section-header">Employment</h5>
                         <ul className="section-content">
@@ -20,52 +29,46 @@ const MemorizedEmployment = React.memo(
     }
 );
 
-function Company({ order }) {
-    const initial_state = {
-        "company-period": sessionStorage.getItem(`company-period-${order}`, ""),
-        "company-name": sessionStorage.getItem(`company-name-${order}`, ""),
-        "company-location": sessionStorage.getItem(`company-location-${order}`, ""),
-        "company-detail": sessionStorage.getItem(`company-detail-${order}`, ""),
-    };
-    const [ state, setState, companyDetail ] = useStateWithDetail(initial_state);
+function Company({ index, content, onChange }) {
+    const Detail = useDetailRef();
     return (
-    <li className="">
+    <li id={`company-${index}`}>
         <div className="row">
             <div className="col-3">
                 <input 
-                name={`company-period-${order}`} 
+                name="company-period"
                 className='left-max' 
-                placeholder={`working period ${order}`} 
-                value={state["company-period"]} 
-                onChange={(e) => setState(e)} 
+                placeholder={`working period ${index}`} 
+                value={content["company-period"]} 
+                onChange={(e) => handleChange(e, index, onChange)} 
                 />
             </div>
             <div className="col-6">
                 <input 
-                name={`company-name-${order}`} 
+                name="company-name"
                 className='center-max' 
-                placeholder={`company's name ${order}`} 
-                value={state["company-name"]} 
-                onChange={(e) => setState(e)} 
+                placeholder={`company's name ${index}`} 
+                value={content["company-name"]} 
+                onChange={(e) => handleChange(e, index, onChange)} 
                 />
             </div>
             <div className="col-3">
                 <input 
-                name={`company-location-${order}`} 
+                name="company-location"
                 className='right-max' 
-                placeholder={`location ${order}`} 
-                value={state["company-location"]} 
-                onChange={(e) => setState(e)} 
+                placeholder={`location ${index}`} 
+                value={content["company-location"]} 
+                onChange={(e) => handleChange(e, index, onChange)} 
                 />
             </div>
         </div>
         <div className="details">
             <textarea 
-            name={`company-detail-${order}`} 
-            ref={companyDetail} 
-            placeholder={`more details ${order}`} 
-            value={state["company-detail"]} 
-            onInput={(e) => setState(e)} 
+            name="company-detail"
+            ref={Detail} 
+            placeholder={`more details ${index}`} 
+            value={content["company-detail"]} 
+            onInput={(e) => handleChange(e, index, onChange)} 
             />
         </div>
     </li>

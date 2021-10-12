@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 
-export function useSectionList(control_state, initial_content, dispatch) {
+export function useSectionList(name, control_state, initial_content, dispatch) {
     const { checked, number_subsection, payload } = control_state;
     let content_list;
     let empty_list;
@@ -14,10 +14,11 @@ export function useSectionList(control_state, initial_content, dispatch) {
         content_list = payload.concat(empty_list);
     };
     const handleChange = (e, index) => {
+        console.log(e.target.value);
         const new_payload = content_list.slice(0);
         const new_content = {...new_payload[index], [e.target.name]: e.target.value};
         new_payload[index] = new_content;
-        dispatch({ "name": "education", "key": "payload", "value": new_payload })
+        dispatch({ "name": name, "key": "payload", "value": new_payload })
     };
     return [ content_list, handleChange, checked ] 
 };

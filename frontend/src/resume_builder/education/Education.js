@@ -10,7 +10,7 @@ const MemorizedEducation = React.memo(
             "school-location": "",
             "school-detail": "",
         };
-        const [contentList, setContentList, checked] = useSectionList(control_state, initial_content, dispatch);
+        const [contentList, setContentList, checked] = useSectionList("education", control_state, initial_content, dispatch);
         const list_of_schools = contentList.map((content_i, i) => {
             return <School key={i.toString()} index={i} content={content_i} onChange={setContentList} />
         });

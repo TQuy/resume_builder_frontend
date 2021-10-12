@@ -1,13 +1,19 @@
 import React from "react";
 import "./Projects.css";
-import { useSectionList, useStateWithDetail } from "../custom_hook";
+import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
 
 const MemorizedProjects = React.memo(
-    function Projects({ control_state }) {
-        const [ display, list_of_projects ] = useSectionList(control_state, Project);
-        return (
+    function Projects({ control_state, dispatch }) {
+        const initial_content = {
+            "project-name": "",
+            "project-detail": "",
+        };
+        const [contentList, setContentList, checked] = useSectionList("projects", control_state, initial_content, dispatch);
+        const list_of_projects = contentList.map((content_i, i) => {
+            return <Project key={i.toString()} index={i} content={content_i} onChange={setContentList} />
+        });        return (
             <>
-                { display &&
+                { checked &&
                     <div id="projects" className="row section">
                         <h5 className="section-header">Projects</h5>
                         <ul className="section-content">
@@ -20,19 +26,28 @@ const MemorizedProjects = React.memo(
     }
 );
 
-function Project({ order }) {
-    const initial_state = {
-        "project-name": sessionStorage.getItem(`project-name-${order}`, ""),
-        "project-detail": sessionStorage.getItem(`project-detail-${order}`, ""),
-    };
-    const [ state, setState, projectDetail ] = useStateWithDetail(initial_state);
+function Project({ index, content, onChange }) {
+    const Detail = useDetailRef();
     return (
-        <li>
+        <li id={`project-${index}`}>
             <div className='row'>
-                    <input name={`project-name-${order}`} className='left-max' placeholder={`Project's name ${order}`} value={state["project-name"]} onChange={(e) => setState(e)} />
+                    <input 
+                    name="project-name"
+                    className='left-max' 
+                    placeholder={`Project's name ${index}`} 
+                    value={content["project-name"]} 
+                    onChange={(e) => handleChange(e, index, onChange)} 
+                    />
             </div>
             <div className="details">
-                <textarea name={`project-detail-${order}`} className='left-max' placeholder={`more details ${order}`} value={state["project-detail"]} ref={projectDetail} onInput={(e) => setState(e)} />
+                <textarea 
+                name="project-detail" 
+                className='left-max' 
+                placeholder={`more details ${index}`} 
+                value={content["project-detail"]} 
+                ref={Detail} 
+                onChange={(e) => handleChange(e, index, onChange)} 
+                />
             </div>
         </li>
     )

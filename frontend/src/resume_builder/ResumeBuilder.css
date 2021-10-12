@@ -41,10 +41,12 @@ ul {
 
 .section input {
   font-size: 12px;
+  font-weight: bold;
 }
 
 .section textarea {
   font-size: 12px;
+  resize: none;
 }
 
 .center-max {
