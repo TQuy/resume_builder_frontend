@@ -85,6 +85,6 @@ function Info({ index, content, onChange }) {
             </div>
         </div>
         )
-    };
-    
-    export default MemorizedBasicInfo
+};
+
+export default MemorizedBasicInfo

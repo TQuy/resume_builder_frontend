@@ -7,6 +7,9 @@ import MemorizedEmployment from "./employment/Employment";
 import MemorizedCertificates from "./certificate/Certificates";
 import MemorizedProjects from "./projects/Projects";
 import MemorizedSkills from "./skills/Skills";
+import ClearButton from "./clear_button/ClearButton";
+
+
 
 const initial_control_state = {
     "basic-info": {"checked": false, "number_subsection": 1, "payload": []},
@@ -18,6 +21,9 @@ const initial_control_state = {
 };
 
 function reducer(state, action) {
+    if (action.name === "all") {
+        return initial_control_state
+    };
     // avoid shallow copy
     const newName = {...state[action.name], [action.key]: action.value};
     const newState = {...state, [action.name]: newName};
@@ -27,7 +33,13 @@ function reducer(state, action) {
 function ResumeBuilder() {
     const [control_state, dispatch] = useReducer(reducer, initial_control_state);
     return (
-        <>
+        <>			
+            <div className="btn-group d-print-none">
+                <button type="button" className="btn btn-success">Save</button>
+                <button type="button" className="btn btn-primary">Load</button>
+                <ClearButton dispatch={dispatch} />
+                <button type="button" className="btn btn-danger">Delete</button>
+            </div>
             <div className="d-print-none">
                 <SectionSelector control_state={control_state} dispatch={dispatch} />
             </div>

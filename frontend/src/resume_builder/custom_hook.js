@@ -14,7 +14,6 @@ export function useSectionList(name, control_state, initial_content, dispatch) {
         content_list = payload.concat(empty_list);
     };
     const handleChange = (e, index) => {
-        console.log(e.target.value);
         const new_payload = content_list.slice(0);
         const new_content = {...new_payload[index], [e.target.name]: e.target.value};
         new_payload[index] = new_content;
