@@ -8,8 +8,8 @@ import MemorizedCertificates from "./certificate/Certificates";
 import MemorizedProjects from "./projects/Projects";
 import MemorizedSkills from "./skills/Skills";
 import ClearButton from "./clear_button/ClearButton";
-
-
+import SaveButton from "./save_button/SaveButton";
+import SaveModal from "./save_modal/SaveModal";
 
 const initial_control_state = {
     "basic-info": {"checked": false, "number_subsection": 1, "payload": []},
@@ -32,14 +32,16 @@ function reducer(state, action) {
 
 function ResumeBuilder() {
     const [control_state, dispatch] = useReducer(reducer, initial_control_state);
+    // const [modalDisplay, setModalDisplay] = useState("")
     return (
         <>			
             <div className="btn-group d-print-none">
-                <button type="button" className="btn btn-success">Save</button>
+                <SaveButton control_state={control_state} />
                 <button type="button" className="btn btn-primary">Load</button>
                 <ClearButton dispatch={dispatch} />
                 <button type="button" className="btn btn-danger">Delete</button>
             </div>
+            <SaveModal />
             <div className="d-print-none">
                 <SectionSelector control_state={control_state} dispatch={dispatch} />
             </div>

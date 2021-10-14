@@ -1,6 +1,6 @@
 import React from "react";
 import "./Certificates.css";
-import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
+import { useSectionList, handleChange } from "../custom_hook";
 
 const MemorizedCertificates = React.memo(
     function Certificates({ control_state, dispatch }) {

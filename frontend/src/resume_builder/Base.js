@@ -1,3 +1,7 @@
+import Cookies from 'js-cookie';
+
+export const csrftoken = Cookies.get('csrftoken');
+
 export function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }

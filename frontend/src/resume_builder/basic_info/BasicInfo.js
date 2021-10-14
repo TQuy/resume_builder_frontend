@@ -1,6 +1,6 @@
 import React from "react";
 import "./BasicInfo.css";
-import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
+import { useSectionList, handleChange } from "../custom_hook";
 
 const MemorizedBasicInfo = React.memo(
     function BasicInfo({ control_state, dispatch }) {
