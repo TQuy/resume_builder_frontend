@@ -1,5 +1,5 @@
 import "./ResumeBuilder.css";
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useState } from "react";
 import SectionSelector from "./section_selector/SectionSelector";
 import MemorizedBasicInfo from "./basic_info/BasicInfo";
 import MemorizedEducation from "./education/Education";
@@ -9,8 +9,7 @@ import MemorizedProjects from "./projects/Projects";
 import MemorizedSkills from "./skills/Skills";
 import ClearButton from "./clear_button/ClearButton";
 import SaveButton from "./save_button/SaveButton";
-// import LoadButton from "./load_button/LoadButton";
-import SaveModal from "./save_modal/SaveModal";
+import LoadButton from "./load_button/LoadButton";
 
 const initial_control_state = {
     "basic-info": {"checked": false, "number_subsection": 1, "payload": []},
@@ -22,47 +21,41 @@ const initial_control_state = {
 };
 
 function reducer(state, action) {
-    if (action.name === "all") {
-        return initial_control_state
-    };
+    if (action.name === "blank") return initial_control_state;
+    if (action.name === "load") return action.value;
     // avoid shallow copy
-    const newName = {...state[action.name], [action.key]: action.value};
-    const newState = {...state, [action.name]: newName};
+    const newSectionState = {...state[action.name], [action.key]: action.value};
+    const newState = {...state, [action.name]: newSectionState};
     return newState
 };
 
 function ResumeBuilder() {
+    const [resumeList, setResumeList] = useState([]);
     useEffect(() => {
-        (async () => {
-            const queryResumeList = async () => {
-                try {
-                    let response = await fetch("http://127.0.0.1:8000/resumes/", {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': 'Token ac8351a89f512010e0b36591e522cfa095e39f81',
-                        },
-                    });
-                    response = await response.json();
-                    return response['content'];
-                } catch(err) {
-                    alert(err);
-                }
-            };
-            const list_of_resumes = await queryResumeList();
-            console.log('list_of_resumes', list_of_resumes);
-        })()
+        fetch("http://127.0.0.1:8000/resumes/", {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Token ac8351a89f512010e0b36591e522cfa095e39f81'
+            }
+        }).then(
+            response => response.json()
+        ).then(data => {
+            const newResumeList = data['content'];
+            console.log('newResumeList', newResumeList);
+            setResumeList(newResumeList);
+        }).catch(
+            error => console.error(error)
+        )
     }, []);
     const [control_state, dispatch] = useReducer(reducer, initial_control_state);
-    // const [modalDisplay, setModalDisplay] = useState("")
     return (
         <>			
-            <div className="btn-group d-print-none">
+            <div className="row justify-content-center">
                 <SaveButton control_state={control_state} />
-                {/* <LoadButton /> */}
+                <LoadButton resume_list={resumeList} dispatch={dispatch} />
                 <ClearButton dispatch={dispatch} />
                 <button type="button" className="btn btn-danger">Delete</button>
             </div>
-            <SaveModal content={control_state} />
             <div className="d-print-none">
                 <SectionSelector control_state={control_state} dispatch={dispatch} />
             </div>

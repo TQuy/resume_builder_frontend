@@ -1,20 +1,8 @@
-import { useEffect } from "react/cjs/react.development";
+import React from "react/cjs/react.development";
 
-export default function LoadButton() {
-    useEffect(() => {
-        const list_of_resumes = async () => {
-            try {
-                let response = await fetch('/list_resume');
-                response = await response.json();
-                return response['content'];
-            } catch(err) {
-                console.error(err);
-            }
-        };
-    })
-
-    const resume_list = list_of_resumes.map((i) => {
-        return <SavedResume key={i['name']} id={i['id']} name={i['name']} onClick={this.handleLoad} />;
+export default function LoadButton({ resume_list, dispatch }) {
+    const list_of_resumes = resume_list.map((i) => {
+        return <SavedResume key={i.name} resume_id={i.id} resume_name={i.name} dispatch={dispatch} />;
     });
 
     return (
@@ -23,8 +11,30 @@ export default function LoadButton() {
                 Load
             </button>
             <ul className="dropdown-menu" aria-labelledby="load_btn">
-                {resume_list}
+                {list_of_resumes}
             </ul>
         </div>
+    )
+}
+
+function SavedResume({ resume_id, resume_name, dispatch }) {
+    const handleClick = (resume_id) => {
+        console.log('resume_id', resume_id);
+        fetch(`http://127.0.0.1:8000/resume/${resume_id}/`, {
+            method: 'GET',
+            headers: {'Authorization': 'Token ac8351a89f512010e0b36591e522cfa095e39f81'},
+        }).then(
+            response => response.json()
+        ).then(data => {
+            console.log('content', data['content']);
+            dispatch({ 'name': 'load', 'value': data['content'] });
+        }).catch(error => alert(error))
+    }
+    return (
+        <li>
+            <button className="dropdown-item" onClick={() => handleClick(resume_id)}>
+                {resume_name}
+            </button>
+        </li>
     )
 }

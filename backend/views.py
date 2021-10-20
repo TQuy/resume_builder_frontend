@@ -20,11 +20,6 @@ def list_resume(request):
             'message': 'OK'
             }, 
             status = status.HTTP_200_OK,
-            headers = {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, OPTIONS',
-                'Access-Control-Allow-Headers': 'Authorization'
-            }
         )
     else:
         return Response(
