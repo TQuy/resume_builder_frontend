@@ -1,0 +1,9 @@
+#basic-info input {
+  font-weight: bold;
+}
+
+input.distinguish {
+  width: 100%;
+  font-size: 24px;
+  background-color: yellow;
+}
