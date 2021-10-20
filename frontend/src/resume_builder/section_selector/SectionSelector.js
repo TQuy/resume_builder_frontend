@@ -10,20 +10,20 @@ function SectionSelector({ control_state, dispatch }) {
             </button> 
             <ul className="dropdown-menu" aria-labelledby="sectionSelector">
                 <li>
-                    <MemorizedSection name={"basic-info"} states={control_state["basic-info"]} dispatch={dispatch} />
-                    <MemorizedSection name={"education"} states={control_state["education"]} dispatch={dispatch} />
-                    <MemorizedSection name={"employment"} states={control_state["employment"]} dispatch={dispatch} />
-                    <MemorizedSection name={"certificates"} states={control_state["certificates"]} dispatch={dispatch} />
-                    <MemorizedSection name={"projects"} states={control_state["projects"]} dispatch={dispatch} />
-                    <MemorizedSection name={"skills"} states={control_state["skills"]} dispatch={dispatch} />
+                    <Section name={"basic-info"} states={control_state["basic-info"]} dispatch={dispatch} />
+                    <Section name={"education"} states={control_state["education"]} dispatch={dispatch} />
+                    <Section name={"employment"} states={control_state["employment"]} dispatch={dispatch} />
+                    <Section name={"certificates"} states={control_state["certificates"]} dispatch={dispatch} />
+                    <Section name={"projects"} states={control_state["projects"]} dispatch={dispatch} />
+                    <Section name={"skills"} states={control_state["skills"]} dispatch={dispatch} />
                 </li>
             </ul>
         </div>
     )
 }
 
-const MemorizedSection = React.memo(
-    function Section({ name, states, dispatch }) {
+const Section = React.memo(
+    function ({ name, states, dispatch }) {
         const box_name = `${name}-checkbox`;
         const number_name = `number-${name}`;
         const label_name = name.split("-").map(word => capitalize(word)).join(" ");

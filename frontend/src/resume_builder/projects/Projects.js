@@ -2,8 +2,9 @@ import React from "react";
 import "./Projects.css";
 import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
 
-const MemorizedProjects = React.memo(
-    function Projects({ control_state, dispatch }) {
+const Projects = React.memo(
+    function ({ control_state, dispatch }) {
+        console.log('Projects');
         const initial_content = {
             "project-name": "",
             "project-detail": "",
@@ -53,4 +54,4 @@ function Project({ index, content, onChange }) {
     )
 };
 
-export default MemorizedProjects
+export default Projects

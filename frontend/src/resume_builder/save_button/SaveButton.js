@@ -1,8 +1,9 @@
 import { useRef } from "react";
 import { useEffect, useState } from "react/cjs/react.development";
-import { fetch_resume } from "resume_builder/Base";
+import { fetch_resume, save_resume } from "resume_builder/Base";
 
 export default function SaveButton({ control_state, setResumeList, setCurrentResume }) {
+    console.log('SaveButton');
     return (
         <>
             <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#saveModal">Save</button>
@@ -16,40 +17,28 @@ export default function SaveButton({ control_state, setResumeList, setCurrentRes
 }
 
 function SaveModal({ content, setResumeList, setCurrentResume }) {
+    console.log('SaveModal');
     const saveModal = useRef(null);
     const nameInput = useRef(null);
     const closeBtn = useRef(null);
-
+        
     useEffect(() => {
         saveModal.current.addEventListener('shown.bs.modal', function() {
             nameInput.current.focus();
         })
     });
-
-    const [fileName, setFileName] = useState("");
-
+    
     const handleSave = async () => {
+        const fileName = nameInput.current.value;
         try {
             if (fileName === "") throw new Error("Empty file name");
-            let response = await fetch('http://localhost:8000/save_resume/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Token ac8351a89f512010e0b36591e522cfa095e39f81',
-                },
-                body: JSON.stringify({
-                    name: fileName,
-                    content: content
-                })
-            });
-            const data = await response.json();
-            console.log('response', data);
+            const data = await save_resume(fileName, content);
             // update the resume_list for load button
             const resume_list = await fetch_resume();
             setResumeList(resume_list);
             // set current resume to the newly saved one
             setCurrentResume({ 'id': data['id'], 'name': data['name'] });
-
+            // close saveModal
             closeBtn.current.click();
         } catch(err) {
             alert(err);
@@ -66,7 +55,7 @@ function SaveModal({ content, setResumeList, setCurrentResume }) {
                     </div>
                     <div className="modal-body">
                         <label htmlFor="resume_name" className="form-label">Resume Name</label>
-                        <input id="resume_name" type="text" className="form-control" value={fileName} onChange={(e) => setFileName(e.target.value)} ref={nameInput} />
+                        <input id="resume_name" type="text" className="form-control" ref={nameInput} />
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-success" onClick={() => handleSave()}>Save</button>

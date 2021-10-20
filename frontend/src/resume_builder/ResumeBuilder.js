@@ -1,12 +1,12 @@
 import "./ResumeBuilder.css";
 import { useReducer, useEffect, useState } from "react";
 import SectionSelector from "./section_selector/SectionSelector";
-import MemorizedBasicInfo from "./basic_info/BasicInfo";
-import MemorizedEducation from "./education/Education";
-import MemorizedEmployment from "./employment/Employment";
-import MemorizedCertificates from "./certificate/Certificates";
-import MemorizedProjects from "./projects/Projects";
-import MemorizedSkills from "./skills/Skills";
+import BasicInfo from "./basic_info/BasicInfo";
+import Education from "./education/Education";
+import Employment from "./employment/Employment";
+import Certificates from "./certificate/Certificates";
+import Projects from "./projects/Projects";
+import Skills from "./skills/Skills";
 import ClearButton from "./clear_button/ClearButton";
 import SaveButton from "./save_button/SaveButton";
 import LoadButton from "./load_button/LoadButton";
@@ -33,12 +33,13 @@ function reducer(state, action) {
 function ResumeBuilder() {
     const [resumeList, setResumeList] = useState([]);
     const [currentResume, setCurrentResume] = useState({'name': '', 'id': 0});
+    const [control_state, dispatch] = useReducer(reducer, initial_control_state);
     useEffect(() => {
+        console.log('useEffect');
         fetch_resume().then(
             resume_list => setResumeList(resume_list)
         ).catch(error => alert(error));
     }, []);
-    const [control_state, dispatch] = useReducer(reducer, initial_control_state);
     return (
         <>			
             <div id="button-group">
@@ -53,7 +54,7 @@ function ResumeBuilder() {
                 dispatch={dispatch} 
                 />
                 <ClearButton 
-                dispatch={dispatch} 
+                dispatch={dispatch}
                 />
                 <button type="button" className="btn btn-danger">Delete</button>
             </div>
@@ -62,12 +63,12 @@ function ResumeBuilder() {
                 <SectionSelector control_state={control_state} dispatch={dispatch} />
             </div>
             <div id="resume" className="sheet">
-                <MemorizedBasicInfo control_state={control_state["basic-info"]} dispatch={dispatch} />
-                <MemorizedEducation control_state={control_state["education"]} dispatch={dispatch} />
-                <MemorizedEmployment control_state={control_state["employment"]} dispatch={dispatch} />
-                <MemorizedCertificates control_state={control_state["certificates"]} dispatch={dispatch} />
-                <MemorizedProjects control_state={control_state["projects"]} dispatch={dispatch} />
-                <MemorizedSkills control_state={control_state["skills"]} dispatch={dispatch} />
+                <BasicInfo control_state={control_state["basic-info"]} dispatch={dispatch} />
+                <Education control_state={control_state["education"]} dispatch={dispatch} />
+                <Employment control_state={control_state["employment"]} dispatch={dispatch} />
+                <Certificates control_state={control_state["certificates"]} dispatch={dispatch} />
+                <Projects control_state={control_state["projects"]} dispatch={dispatch} />
+                <Skills control_state={control_state["skills"]} dispatch={dispatch} />
             </div>        
         </>
     );

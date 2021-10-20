@@ -2,8 +2,8 @@ import React from "react";
 import "./Employment.css";
 import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
 
-const MemorizedEmployment = React.memo(
-    function Employment({ control_state, dispatch }) {
+const Employment = React.memo(
+    function ({ control_state, dispatch }) {
         const initial_content = {
             "company-period": "",
             "company-name": "",
@@ -74,4 +74,4 @@ function Company({ index, content, onChange }) {
     </li>
     )
 };
-export default MemorizedEmployment
+export default Employment

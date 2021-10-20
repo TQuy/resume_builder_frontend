@@ -2,8 +2,8 @@ import React from "react";
 import "./Education.css";
 import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
 
-const MemorizedEducation = React.memo(
-    function Education({ control_state, dispatch }) {
+const Education = React.memo(
+    function ({ control_state, dispatch }) {
         const initial_content = {
             "school-period": "",
             "school-name": "",
@@ -75,4 +75,4 @@ function School({ index, content, onChange }) {
     )
 };
 
-export default MemorizedEducation
+export default Education

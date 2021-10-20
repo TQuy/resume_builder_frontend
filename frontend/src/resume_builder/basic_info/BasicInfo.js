@@ -2,8 +2,8 @@ import React from "react";
 import "./BasicInfo.css";
 import { useSectionList, handleChange } from "../custom_hook";
 
-const MemorizedBasicInfo = React.memo(
-    function BasicInfo({ control_state, dispatch }) {
+const BasicInfo = React.memo(
+    function ({ control_state, dispatch }) {
         const initial_content = {
             "gender":  "",
             "year-of-birth": "",
@@ -87,4 +87,4 @@ function Info({ index, content, onChange }) {
         )
 };
 
-export default MemorizedBasicInfo
+export default BasicInfo

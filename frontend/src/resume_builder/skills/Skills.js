@@ -2,8 +2,8 @@ import React from "react";
 import "./Skills.css";
 import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
 
-const MemorizedSkills = React.memo(
-    function Skills({ control_state, dispatch }) {
+const Skills = React.memo(
+    function ({ control_state, dispatch }) {
         const initial_content = {
             "skill-detail": "",
         };
@@ -42,4 +42,4 @@ function Skill({ index, content, onChange }) {
     )
 };
 
-export default MemorizedSkills
+export default Skills

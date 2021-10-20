@@ -2,8 +2,8 @@ import React from "react";
 import "./Certificates.css";
 import { useSectionList, handleChange } from "../custom_hook";
 
-const MemorizedCertificates = React.memo(
-    function Certificates({ control_state, dispatch }) {
+const Certificates = React.memo(
+    function ({ control_state, dispatch }) {
         const initial_content = {
             "valid-period": "",
             "certificate-name": "",
@@ -53,4 +53,4 @@ function Certificate({ index, content, onChange }) {
     )
 };
 
-export default MemorizedCertificates
+export default Certificates
