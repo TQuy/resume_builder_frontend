@@ -10,6 +10,7 @@ import MemorizedSkills from "./skills/Skills";
 import ClearButton from "./clear_button/ClearButton";
 import SaveButton from "./save_button/SaveButton";
 import LoadButton from "./load_button/LoadButton";
+import { fetch_resume } from "./Base";
 
 const initial_control_state = {
     "basic-info": {"checked": false, "number_subsection": 1, "payload": []},
@@ -31,31 +32,32 @@ function reducer(state, action) {
 
 function ResumeBuilder() {
     const [resumeList, setResumeList] = useState([]);
+    const [currentResume, setCurrentResume] = useState({'name': '', 'id': 0});
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/resumes/", {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Token ac8351a89f512010e0b36591e522cfa095e39f81'
-            }
-        }).then(
-            response => response.json()
-        ).then(data => {
-            const newResumeList = data['content'];
-            console.log('newResumeList', newResumeList);
-            setResumeList(newResumeList);
-        }).catch(
-            error => console.error(error)
-        )
+        fetch_resume().then(
+            resume_list => setResumeList(resume_list)
+        ).catch(error => alert(error));
     }, []);
     const [control_state, dispatch] = useReducer(reducer, initial_control_state);
     return (
         <>			
-            <div className="row justify-content-center">
-                <SaveButton control_state={control_state} />
-                <LoadButton resume_list={resumeList} dispatch={dispatch} />
-                <ClearButton dispatch={dispatch} />
+            <div id="button-group">
+                <SaveButton 
+                control_state={control_state} 
+                setResumeList={setResumeList}
+                setCurrentResume={setCurrentResume}
+                />
+                <LoadButton 
+                setCurrentResume={setCurrentResume} 
+                resume_list={resumeList} 
+                dispatch={dispatch} 
+                />
+                <ClearButton 
+                dispatch={dispatch} 
+                />
                 <button type="button" className="btn btn-danger">Delete</button>
             </div>
+            <h1 style={{ textAlign: 'center' }}>{currentResume['name']}</h1>
             <div className="d-print-none">
                 <SectionSelector control_state={control_state} dispatch={dispatch} />
             </div>

@@ -1,14 +1,15 @@
 @page { margin: 0; size: A4; }
 
-.btn-group {
-    left: 50%;
-    transform: translate(-50%, 0%);
+#button-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.btn-group button {
-    margin: 5px;
-    border-radius: 0px;
+#button-group button {
+  margin: 5px;
 }
+
 
 .sheet {
   overflow: hidden;

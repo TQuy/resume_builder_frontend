@@ -1,16 +1,21 @@
 import { useRef } from "react";
 import { useEffect, useState } from "react/cjs/react.development";
+import { fetch_resume } from "resume_builder/Base";
 
-export default function SaveButton({ control_state }) {
+export default function SaveButton({ control_state, setResumeList, setCurrentResume }) {
     return (
         <>
             <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#saveModal">Save</button>
-            <SaveModal content={control_state} />
+            <SaveModal 
+            content={control_state}
+            setResumeList={setResumeList}
+            setCurrentResume={setCurrentResume}
+             />
         </>
     );
 }
 
-function SaveModal({ content }) {
+function SaveModal({ content, setResumeList, setCurrentResume }) {
     const saveModal = useRef(null);
     const nameInput = useRef(null);
     const closeBtn = useRef(null);
@@ -37,8 +42,14 @@ function SaveModal({ content }) {
                     content: content
                 })
             });
-            response = await response.json();
-            console.log('response', response);
+            const data = await response.json();
+            console.log('response', data);
+            // update the resume_list for load button
+            const resume_list = await fetch_resume();
+            setResumeList(resume_list);
+            // set current resume to the newly saved one
+            setCurrentResume({ 'id': data['id'], 'name': data['name'] });
+
             closeBtn.current.click();
         } catch(err) {
             alert(err);

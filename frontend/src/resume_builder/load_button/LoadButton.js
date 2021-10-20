@@ -1,8 +1,15 @@
 import React from "react/cjs/react.development";
 
-export default function LoadButton({ resume_list, dispatch }) {
+export default function LoadButton({ setCurrentResume, resume_list, dispatch }) {
+    console.log('resume_list', resume_list);
     const list_of_resumes = resume_list.map((i) => {
-        return <SavedResume key={i.name} resume_id={i.id} resume_name={i.name} dispatch={dispatch} />;
+        return <SavedResume 
+                key={i.name} 
+                resume_id={i.id} 
+                resume_name={i.name} 
+                dispatch={dispatch}
+                setCurrentResume={setCurrentResume}
+                />;
     });
 
     return (
@@ -17,7 +24,7 @@ export default function LoadButton({ resume_list, dispatch }) {
     )
 }
 
-function SavedResume({ resume_id, resume_name, dispatch }) {
+function SavedResume({ setCurrentResume, resume_id, resume_name, dispatch }) {
     const handleClick = (resume_id) => {
         console.log('resume_id', resume_id);
         fetch(`http://127.0.0.1:8000/resume/${resume_id}/`, {
@@ -28,6 +35,7 @@ function SavedResume({ resume_id, resume_name, dispatch }) {
         ).then(data => {
             console.log('content', data['content']);
             dispatch({ 'name': 'load', 'value': data['content'] });
+            setCurrentResume({ 'id': resume_id, 'name': resume_name });
         }).catch(error => alert(error))
     }
     return (
