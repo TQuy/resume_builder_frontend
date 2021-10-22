@@ -1,9 +1,8 @@
 import { useRef } from "react";
 import { useEffect, useState } from "react/cjs/react.development";
-import { fetch_resume, save_resume } from "resume_builder/Base";
+import { list_resume, save_resume } from "resume_builder/Base";
 
 export default function SaveButton({ control_state, setResumeList, setCurrentResume }) {
-    console.log('SaveButton');
     return (
         <>
             <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#saveModal">Save</button>
@@ -17,7 +16,6 @@ export default function SaveButton({ control_state, setResumeList, setCurrentRes
 }
 
 function SaveModal({ content, setResumeList, setCurrentResume }) {
-    console.log('SaveModal');
     const saveModal = useRef(null);
     const nameInput = useRef(null);
     const closeBtn = useRef(null);
@@ -34,7 +32,7 @@ function SaveModal({ content, setResumeList, setCurrentResume }) {
             if (fileName === "") throw new Error("Empty file name");
             const data = await save_resume(fileName, content);
             // update the resume_list for load button
-            const resume_list = await fetch_resume();
+            const resume_list = await list_resume();
             setResumeList(resume_list);
             // set current resume to the newly saved one
             setCurrentResume({ 'id': data['id'], 'name': data['name'] });

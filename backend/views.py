@@ -17,7 +17,7 @@ def list_resume(request):
         return Response(
             data = {
             'content': resume_list,
-            'message': 'OK'
+            'message': 'Loaded list of resumes successfully'
             }, 
             status = status.HTTP_200_OK,
         )

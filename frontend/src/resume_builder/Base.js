@@ -16,14 +16,14 @@ export function str2bool(value) {
     }
 }
 
-export async function fetch_resume() {
-    console.log('FETCH_RESUME');
+export async function list_resume() {
     try {
         const response = await fetch("http://127.0.0.1:8000/resumes/", {
             method: 'GET',
             headers: {'Authorization': 'Token ac8351a89f512010e0b36591e522cfa095e39f81'}
         });
         const data = await response.json();
+        console.log(data['message'])
         return data['content']
     } catch(error) {
         alert(error);
@@ -31,18 +31,35 @@ export async function fetch_resume() {
 }
 
 export async function save_resume(fileName, content) {
-    console.log('--------------------SAVE_RESUME');
-    const response = await fetch('http://localhost:8000/save_resume/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Token ac8351a89f512010e0b36591e522cfa095e39f81',
-        },
-        body: JSON.stringify({
-            name: fileName,
-            content: content
-        })
-    });
-    const data = await response.json();
-    return data
+    try {
+        const response = await fetch('http://127.0.0.1:8000/save_resume/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ac8351a89f512010e0b36591e522cfa095e39f81',
+            },
+            body: JSON.stringify({
+                name: fileName,
+                content: content
+            })
+        });
+        const data = await response.json();
+        console.log(data['message'])
+        return data
+    } catch(error) {
+        alert(error);
+    }
+}
+
+export async function delete_resume(resume_id) {
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/resume/${resume_id}/delete/`, {
+            method: 'DELETE',
+            headers: {'Authorization': 'Token ac8351a89f512010e0b36591e522cfa095e39f81'}
+        });
+        const data = await response.json();
+        console.log(data['message']);
+    } catch(error) {
+        alert(error);
+    }
 }
