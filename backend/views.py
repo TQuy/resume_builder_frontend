@@ -44,7 +44,7 @@ def load_resume(request, resume_id):
             'id': resume.id,
             'name': resume.name,
             'content': json.loads(resume.content),
-            'message': 'Resume loaded successfully.'
+            'message': 'Loaded resume successfully.'
         }, status=status.HTTP_200_OK)
     else:
         return Response({
@@ -63,7 +63,7 @@ def save_resume(request):
         return Response({
             'id': resume.id,
             'name': resume.name,
-            'message': 'Saved successfully',
+            'message': 'Saved resume successfully',
         }, status=status.HTTP_200_OK)
     else:
         return Response({
@@ -82,7 +82,7 @@ def delete_resume(request, resume_id):
             }, status=status.HTTP_404_NOT_FOUND)
         resume.delete()
         return Response({
-            'message': 'Resume deleted successfully.'
+            'message': 'Deleted resume successfully.'
         }, status=status.HTTP_200_OK)
     else:
         return Response({

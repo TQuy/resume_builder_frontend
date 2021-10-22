@@ -1,15 +1,16 @@
-import React from "react/cjs/react.development";
+import React from "react";
+import { load_resume } from "resume_builder/Base";
 
 const LoadButton = React.memo(
-        function ({ setCurrentResume, resume_list, dispatch }) {
-        console.log('LoadButton');
+        function ({ setCurrentResume, resume_list, dispatch, setAlertContent }) {
         const list_of_resumes = resume_list.map((i) => {
             return <SavedResume 
-                    key={i.name} 
-                    resume_id={i.id} 
-                    resume_name={i.name} 
-                    dispatch={dispatch}
-                    setCurrentResume={setCurrentResume}
+                        key={i.name} 
+                        resume_id={i.id} 
+                        resume_name={i.name} 
+                        dispatch={dispatch}
+                        setCurrentResume={setCurrentResume}
+                        setAlertContent={setAlertContent}
                     />;
         });
 
@@ -26,18 +27,13 @@ const LoadButton = React.memo(
     }
 );
 
-function SavedResume({ setCurrentResume, resume_id, resume_name, dispatch }) {
-    console.log('SavedResume');
-    const handleClick = (resume_id) => {
-        fetch(`http://127.0.0.1:8000/resume/${resume_id}/`, {
-            method: 'GET',
-            headers: {'Authorization': 'Token ac8351a89f512010e0b36591e522cfa095e39f81'},
-        }).then(
-            response => response.json()
-        ).then(data => {
-            setCurrentResume({ 'id': resume_id, 'name': resume_name });
-            dispatch({ 'name': 'load', 'value': data['content'] });
-        }).catch(error => alert(error))
+function SavedResume({ setCurrentResume, resume_id, resume_name, dispatch, setAlertContent }) {
+    const handleClick = async (resume_id) => {
+        const data = await load_resume(resume_id);
+        setCurrentResume({ 'id': resume_id, 'name': resume_name });
+        dispatch({ 'name': 'load', 'value': data['content'] });
+        // call alert
+        setAlertContent(data['message']);
     }
     return (
         <li>

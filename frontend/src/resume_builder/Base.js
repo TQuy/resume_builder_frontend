@@ -30,6 +30,19 @@ export async function list_resume() {
     }
 }
 
+export async function load_resume(resume_id) {
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/resume/${resume_id}/`, {
+            method: 'GET',
+            headers: {'Authorization': 'Token ac8351a89f512010e0b36591e522cfa095e39f81'},
+        })
+        const data = await response.json();
+        return data
+    } catch(error) {
+        alert(error)
+    }
+}
+
 export async function save_resume(fileName, content) {
     try {
         const response = await fetch('http://127.0.0.1:8000/save_resume/', {
@@ -59,6 +72,7 @@ export async function delete_resume(resume_id) {
         });
         const data = await response.json();
         console.log(data['message']);
+        return data['message']
     } catch(error) {
         alert(error);
     }

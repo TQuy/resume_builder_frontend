@@ -2,20 +2,7 @@ import { useRef } from "react";
 import { useEffect, useState } from "react/cjs/react.development";
 import { list_resume, save_resume } from "resume_builder/Base";
 
-export default function SaveButton({ control_state, setResumeList, setCurrentResume }) {
-    return (
-        <>
-            <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#saveModal">Save</button>
-            <SaveModal 
-            content={control_state}
-            setResumeList={setResumeList}
-            setCurrentResume={setCurrentResume}
-             />
-        </>
-    );
-}
-
-function SaveModal({ content, setResumeList, setCurrentResume }) {
+export default function SaveButton({ control_state, setResumeList, setCurrentResume, setAlertContent }) {
     const saveModal = useRef(null);
     const nameInput = useRef(null);
     const closeBtn = useRef(null);
@@ -30,21 +17,24 @@ function SaveModal({ content, setResumeList, setCurrentResume }) {
         const fileName = nameInput.current.value;
         try {
             if (fileName === "") throw new Error("Empty file name");
-            const data = await save_resume(fileName, content);
+            const data = await save_resume(fileName, control_state);
             // update the resume_list for load button
             const resume_list = await list_resume();
             setResumeList(resume_list);
             // set current resume to the newly saved one
             setCurrentResume({ 'id': data['id'], 'name': data['name'] });
+            // call alert
+            setAlertContent(data['message']);
             // close saveModal
             closeBtn.current.click();
         } catch(err) {
             alert(err);
         };
     }
-
     return (
-        <div className="modal fade" id="saveModal" tabIndex="-1" aria-labelledby="saveModalLabel" aria-hidden="true" ref={saveModal}>
+        <>
+            <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#saveModal">Save</button>
+            <div className="modal fade" id="saveModal" tabIndex="-1" aria-labelledby="saveModalLabel" aria-hidden="true" ref={saveModal}>
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -61,5 +51,6 @@ function SaveModal({ content, setResumeList, setCurrentResume }) {
                 </div>
             </div>
         </div>
-    )
+        </>
+    );
 }

@@ -1,18 +1,20 @@
 import React, { useRef } from "react";
 import { delete_resume, list_resume } from "resume_builder/Base";
 
-export default function DeleteButton({ currentResume, setCurrentResume, dispatch, setResumeList }) {
+export default function DeleteButton({ currentResume, setCurrentResume, dispatch, setResumeList, setAlertContent }) {
     const closeBtn = useRef(null);
 
     const resume_id = currentResume['id'];
     const resume_name = currentResume['name'];
     const handleDelete = async (resume_id) => {
-        await delete_resume(resume_id);
-        // clean the resume's content
-        dispatch({ 'name': 'blank' });
+        const data = await delete_resume(resume_id);
         // reset resume name and its id
         setCurrentResume({ 'name': '', 'id': 0 });
-        // load updated list of resumes
+        // clean the resume's content
+        dispatch({ 'name': 'blank' });
+        // call alert
+        setAlertContent(data);
+        // update list of resumes
         const resume_list = await list_resume();
         setResumeList(resume_list);
         // close delete modal

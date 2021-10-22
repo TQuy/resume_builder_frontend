@@ -1,5 +1,6 @@
 import "./ResumeBuilder.css";
 import { useReducer, useEffect, useState } from "react";
+import { list_resume } from "./Base";
 import SectionSelector from "./section_selector/SectionSelector";
 import BasicInfo from "./basic_info/BasicInfo";
 import Education from "./education/Education";
@@ -10,8 +11,8 @@ import Skills from "./skills/Skills";
 import ClearButton from "./clear_button/ClearButton";
 import SaveButton from "./save_button/SaveButton";
 import LoadButton from "./load_button/LoadButton";
-import { list_resume } from "./Base";
 import DeleteButton from "./delete_button/DeleteButton";
+import Alert from "./alert/Alert";
 
 const initial_control_state = {
     "basic-info": {"checked": false, "number_subsection": 1, "payload": []},
@@ -40,33 +41,47 @@ function ResumeBuilder() {
     const [resumeList, setResumeList] = useState([]);
     const [currentResume, setCurrentResume] = useState({'name': '', 'id': 0});
     const [control_state, dispatch] = useReducer(reducer, initial_control_state);
+    const [alertContent, setAlertContent] = useState('');
+
     useEffect(() => {
         console.log('useEffect');
         list_resume().then(
             resume_list => setResumeList(resume_list)
         ).catch(error => alert(error));
     }, []);
+
+    useEffect(() => {
+        if (alertContent) {
+            console.log('alertContent', alertContent);
+            setTimeout(() => setAlertContent(''), 1000);
+        }
+    })
     return (
         <>			
+            <Alert content={alertContent} />
             <div id="button-group">
                 <SaveButton 
                     control_state={control_state} 
                     setResumeList={setResumeList}
                     setCurrentResume={setCurrentResume}
+                    setAlertContent={setAlertContent}
                 />
                 <LoadButton 
                     setCurrentResume={setCurrentResume} 
                     resume_list={resumeList} 
-                    dispatch={dispatch} 
+                    dispatch={dispatch}
+                    setAlertContent={setAlertContent}
                 />
                 <ClearButton 
                     dispatch={dispatch}
+                    setAlertContent={setAlertContent}
                 />
                 <DeleteButton
                     currentResume={currentResume}
                     setCurrentResume={setCurrentResume}
                     dispatch={dispatch}
                     setResumeList={setResumeList}
+                    setAlertContent={setAlertContent}
                 />
             </div>
             <h1 style={{ textAlign: 'center' }}>{currentResume['name']}</h1>
