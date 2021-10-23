@@ -16,7 +16,7 @@
   position: relative;
   box-sizing: border-box;
   width: 210mm;
-  height: 296mm;
+  /* height: 296mm; */
   box-shadow: 0 .5mm 2mm rgba(0,0,0,.3);
   padding: 10mm;
   margin: auto;
@@ -75,7 +75,7 @@ ul {
   z-index: 1;
   position: absolute;
   width: 100%;
-  /* opacity: 70%; */
+  opacity: 70%;
   text-align: center;
 
 }

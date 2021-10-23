@@ -12,6 +12,7 @@ import ClearButton from "./clear_button/ClearButton";
 import SaveButton from "./save_button/SaveButton";
 import LoadButton from "./load_button/LoadButton";
 import DeleteButton from "./delete_button/DeleteButton";
+import PrintButton from "./print_button/PrintButton";
 import Alert from "./alert/Alert";
 
 const initial_control_state = {
@@ -59,7 +60,7 @@ function ResumeBuilder() {
     return (
         <>			
             <Alert content={alertContent} />
-            <div id="button-group">
+            <div id="button-group" className="d-print-none">
                 <SaveButton 
                     control_state={control_state} 
                     setResumeList={setResumeList}
@@ -83,8 +84,9 @@ function ResumeBuilder() {
                     setResumeList={setResumeList}
                     setAlertContent={setAlertContent}
                 />
+                <PrintButton />
             </div>
-            <h1 style={{ textAlign: 'center' }}>{currentResume['name']}</h1>
+            <h1 style={{ textAlign: 'center' }} className="d-print-none">{currentResume['name']}</h1>
             <div className="d-print-none">
                 <SectionSelector control_state={control_state} dispatch={dispatch} />
             </div>

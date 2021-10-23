@@ -50,6 +50,7 @@ const Section = React.memo(
                     name={number_name}
                     value={number_subsection}
                     onChange={(e) => handleChange(e)}
+                    maxlength="2"
                 />
             </div>
         )
