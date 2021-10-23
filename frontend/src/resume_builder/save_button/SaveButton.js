@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import { useEffect, useState } from "react/cjs/react.development";
+import { useRef, useEffect } from "react";
 import { list_resume, save_resume } from "resume_builder/Base";
 
 export default function SaveButton({ control_state, setResumeList, setCurrentResume, setAlertContent }) {

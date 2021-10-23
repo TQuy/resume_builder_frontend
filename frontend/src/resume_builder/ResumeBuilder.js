@@ -74,7 +74,7 @@ function ResumeBuilder() {
                 />
                 <ClearButton 
                     dispatch={dispatch}
-                    setAlertContent={setAlertContent}
+                    setCurrentResume={setCurrentResume}
                 />
                 <DeleteButton
                     currentResume={currentResume}
