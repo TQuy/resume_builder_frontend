@@ -25,7 +25,7 @@ export default function LoginPage({ setAuthToken }) {
                 <form onSubmit={(e) => handleSubmit(e)} method="post">
                     <div className="mb-3">
                         <label htmlFor="exampleFormControlInput1" className="form-label">Username</label>
-                        <input name="username" type="username" className="form-control" id="exampleFormControlInput1" required />
+                        <input name="username" type="username" className="form-control" id="exampleFormControlInput1" required autoFocus/>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="exampleFormControlTextarea1" className="form-label">Password</label>
