@@ -1,7 +1,7 @@
-import "./SignInPage.css";
+import "./LoginPage.css";
 import { Redirect } from "react-router";
 
-export default function SignInPage({ setAuthToken }) {
+export default function LoginPage({ setAuthToken }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await fetch("http://localhost:8000/api-token-auth/", {

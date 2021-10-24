@@ -2,7 +2,7 @@ import "./App.css";
 import { useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import NavigationBar from "navigation_bar/NavigationBar";
-import SignInPage from "./sign_in_page/SignInPage";
+import LoginPage from "./login_page/LoginPage";
 import ResumeBuilder from "./resume_builder/ResumeBuilder";
 
 function App() {
@@ -10,13 +10,13 @@ function App() {
   	return (
 		<>
 			<BrowserRouter>
-				<NavigationBar />
+				<NavigationBar authToken={authToken} setAuthToken={setAuthToken} />
 				<Switch>
 					<Route path="/resume/">
 						{authToken ? <ResumeBuilder authToken={authToken} /> : <Redirect to="/login/" /> }
 					</Route>
 					<Route path="/login/">
-						<SignInPage setAuthToken={setAuthToken} />
+						<LoginPage setAuthToken={setAuthToken} />
 					</Route>
 				</Switch>
 			</BrowserRouter>

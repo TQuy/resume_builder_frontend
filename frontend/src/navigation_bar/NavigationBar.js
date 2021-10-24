@@ -1,6 +1,14 @@
 import { NavLink } from "react-router-dom"
 
-export default function NavigationBar() {
+export default function NavigationBar({ authToken, setAuthToken }) {
+    const handleLogout = () => {
+        setAuthToken(null);
+        sessionStorage.clear();
+        window.location.replace("/login/");
+    }
+    const Login = <NavLink className="nav-link" to="/login/" activeClassName="active" aria-current="page">Log in</NavLink>;
+    const Logout = <a className="nav-link" onClick={handleLogout}>Log out</a>;
+    const in_or_out = authToken ? Logout : Login
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
@@ -14,9 +22,7 @@ export default function NavigationBar() {
                     </NavLink>
                 </div>
                 <div className="navbar-nav ms-auto">
-                    <NavLink className="nav-link" to="/login/" activeClassName="active" aria-current="page">
-                        Sign in
-                    </NavLink>
+                    {in_or_out}
                 </div>
             </div>
         </div>
