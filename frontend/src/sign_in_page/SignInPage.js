@@ -1,6 +1,6 @@
 import "./SignInPage.css";
 
-export default function SignInPage() {
+export default function SignInPage({ setAuthToken }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await fetch("http://localhost:8000/api-token-auth/", {
@@ -13,6 +13,7 @@ export default function SignInPage() {
         });
         const data = await response.json();
         console.log('data', data);
+        setAuthToken(data['token']);
         sessionStorage.setItem('auth_token',data['token']);
     }
 
