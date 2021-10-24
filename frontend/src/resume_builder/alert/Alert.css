@@ -1,0 +1,7 @@
+#alert {
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+    /* opacity: 70%; */
+    text-align: center;
+  }
