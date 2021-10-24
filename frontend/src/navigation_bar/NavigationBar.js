@@ -1,4 +1,4 @@
-
+import { NavLink } from "react-router-dom"
 
 export default function NavigationBar() {
     return (
@@ -9,13 +9,14 @@ export default function NavigationBar() {
             </button>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div className="navbar-nav me-auto">
-                    <a className="nav-link active" aria-current="page" href="/resume/">Home</a>
-                    <a className="nav-link">Features</a>
-                    <a className="nav-link">Pricing</a>
-                    <a className="nav-link disabled">Disabled</a>
+                    <NavLink className="nav-link" to="/resume/" activeClassName="active" aria-current="page">
+                        Home
+                    </NavLink>
                 </div>
                 <div className="navbar-nav ms-auto">
-                    <a className="nav-link" href="/login">Sign in</a>
+                    <NavLink className="nav-link" to="/login/" activeClassName="active" aria-current="page">
+                        Sign in
+                    </NavLink>
                 </div>
             </div>
         </div>

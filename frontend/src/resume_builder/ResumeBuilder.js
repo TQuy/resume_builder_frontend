@@ -49,7 +49,7 @@ function ResumeBuilder({ authToken }) {
         if (authToken) list_resume().then(
             resume_list => setResumeList(resume_list)
         ).catch(error => alert(error));
-    }, []);
+    }, [authToken]);
 
     useEffect(() => {
         if (alertContent) {

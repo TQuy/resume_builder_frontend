@@ -9,8 +9,8 @@ function App() {
 	const [authToken, setAuthToken] = useState(sessionStorage.getItem('auth_token'));
   	return (
 		<>
-			<NavigationBar />
 			<BrowserRouter>
+				<NavigationBar />
 				<Switch>
 					<Route path="/resume">
 						<ResumeBuilder authToken={authToken} />
