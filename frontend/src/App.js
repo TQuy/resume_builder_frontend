@@ -12,10 +12,10 @@ function App() {
 			<BrowserRouter>
 				<NavigationBar />
 				<Switch>
-					<Route path="/resume">
-						{authToken ? <ResumeBuilder authToken={authToken} /> : <Redirect to="/login" /> }
+					<Route path="/resume/">
+						{authToken ? <ResumeBuilder authToken={authToken} /> : <Redirect to="/login/" /> }
 					</Route>
-					<Route path="/login">
+					<Route path="/login/">
 						<SignInPage setAuthToken={setAuthToken} />
 					</Route>
 				</Switch>

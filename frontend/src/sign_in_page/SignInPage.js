@@ -1,4 +1,5 @@
 import "./SignInPage.css";
+import { Redirect } from "react-router";
 
 export default function SignInPage({ setAuthToken }) {
     const handleSubmit = async (e) => {
@@ -15,6 +16,7 @@ export default function SignInPage({ setAuthToken }) {
         console.log('data', data);
         setAuthToken(data['token']);
         sessionStorage.setItem('auth_token',data['token']);
+        window.location.replace("/resume/");
     }
 
     return (
