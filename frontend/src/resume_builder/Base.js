@@ -100,7 +100,7 @@ export async function login(username, password) {
         });
         const data = await response.json();
         const token = data.token;
-        if (!token) throw("Login unsuccessful");
+        if (!token) throw("Login unsuccessful.");
         return data
     } catch(error) {
         throw(error);
