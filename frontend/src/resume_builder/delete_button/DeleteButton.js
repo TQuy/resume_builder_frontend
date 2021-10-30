@@ -1,7 +1,9 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { delete_resume, list_resume } from "resume_builder/Base";
+import { DispatchContext } from "resume_builder/ResumeBuilder";
 
-export default function DeleteButton({ currentResume, setCurrentResume, dispatch, setResumeList, setAlertContent }) {
+export default function DeleteButton({ currentResume, setCurrentResume, setResumeList, setAlertContent }) {
+    const dispatch = useContext(DispatchContext);
     const closeBtn = useRef(null);
 
     const resume_id = currentResume['id'];

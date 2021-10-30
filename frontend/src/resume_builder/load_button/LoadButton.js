@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { load_resume } from "resume_builder/Base";
+import { DispatchContext } from "resume_builder/ResumeBuilder";
 
 const LoadButton = React.memo(
-        function ({ setCurrentResume, resume_list, dispatch, setAlertContent }) {
+    function ({ setCurrentResume, resume_list, setAlertContent }) {
+        const dispatch = useContext(DispatchContext);
         const list_of_resumes = resume_list.map((i) => {
             return <SavedResume 
                         key={i.name} 
@@ -24,8 +26,7 @@ const LoadButton = React.memo(
                 </ul>
             </div>
         )
-    }
-);
+});
 
 function SavedResume({ setCurrentResume, resume_id, resume_name, dispatch, setAlertContent }) {
     const handleClick = async (resume_id) => {

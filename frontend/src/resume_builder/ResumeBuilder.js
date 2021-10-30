@@ -76,17 +76,14 @@ function ResumeBuilder({ authToken }) {
                     <LoadButton 
                         setCurrentResume={setCurrentResume} 
                         resume_list={resumeList} 
-                        dispatch={dispatch}
                         setAlertContent={setAlertContent}
                     />
                     <ClearButton 
-                        dispatch={dispatch}
                         setCurrentResume={setCurrentResume}
                     />
                     <DeleteButton
                         currentResume={currentResume}
                         setCurrentResume={setCurrentResume}
-                        dispatch={dispatch}
                         setResumeList={setResumeList}
                         setAlertContent={setAlertContent}
                     />

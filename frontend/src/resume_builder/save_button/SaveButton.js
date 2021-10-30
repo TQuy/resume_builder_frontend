@@ -45,7 +45,7 @@ export default function SaveButton({ control_state, setResumeList, setCurrentRes
                         <input id="resume_name" type="text" className="form-control" ref={nameInput} />
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-success" onClick={() => handleSave()}>Save</button>
+                        <button type="button" className="btn btn-success" onClick={handleSave}>Save</button>
                     </div>
                 </div>
             </div>
