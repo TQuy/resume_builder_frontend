@@ -46,14 +46,17 @@ function ResumeBuilder({ authToken }) {
 
     useEffect(() => {
         console.log('useEffect');
-        if (authToken) list_resume().then(
-            resume_list => setResumeList(resume_list)
-        ).catch(error => alert(error));
+        if (authToken) {
+            list_resume().then(
+                resume_list => setResumeList(resume_list)
+            ).catch(
+                error => console.error(error)
+            );
+        }
     }, [authToken]);
 
     useEffect(() => {
         if (alertContent) {
-            console.log('alertContent', alertContent);
             setTimeout(() => setAlertContent(''), 1000);
         }
     })

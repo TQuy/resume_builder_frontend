@@ -20,21 +20,23 @@ export function str2bool(value) {
 
 export async function list_resume() {
     try {
+        console.log('list_resume');
         const auth_token = get_auth_token();
         const response = await fetch("http://127.0.0.1:8000/resumes/", {
             method: 'GET',
             headers: {'Authorization': auth_token}
         });
         const data = await response.json();
-        console.log(data['message'])
-        return data['content']
+        const content = data['content'];
+        return content
     } catch(error) {
-        alert(error);
+        throw(error);
     }
 }
 
 export async function load_resume(resume_id) {
     try {
+        console.log('load_resume');
         const auth_token = get_auth_token();
         const response = await fetch(`http://127.0.0.1:8000/resume/${resume_id}/`, {
             method: 'GET',
@@ -43,12 +45,13 @@ export async function load_resume(resume_id) {
         const data = await response.json();
         return data
     } catch(error) {
-        alert(error)
+        throw(error)
     }
 }
 
 export async function save_resume(fileName, content) {
     try {
+        console.log('save_resume');
         const auth_token = get_auth_token();
         const response = await fetch('http://127.0.0.1:8000/save_resume/', {
             method: 'POST',
@@ -62,24 +65,62 @@ export async function save_resume(fileName, content) {
             })
         });
         const data = await response.json();
-        console.log(data['message'])
         return data
     } catch(error) {
-        alert(error);
+        throw(error);
     }
 }
 
 export async function delete_resume(resume_id) {
     try {
+        console.log('delete_resume');
         const auth_token = get_auth_token();
         const response = await fetch(`http://127.0.0.1:8000/resume/${resume_id}/delete/`, {
             method: 'DELETE',
             headers: {'Authorization': auth_token}
         });
         const data = await response.json();
-        console.log(data['message']);
-        return data['message']
+        const message = data['message'];
+        return message
     } catch(error) {
-        alert(error);
+        throw(error);
+    }
+}
+
+export async function login(username, password) {
+    try {
+        console.log('login');
+        const response = await fetch("http://localhost:8000/api-token-auth/", {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                username: username,
+                password: password,
+            })
+        });
+        const data = await response.json();
+        const token = data.token;
+        if (!token) throw("Login unsuccessful");
+        return data
+    } catch(error) {
+        throw(error);
+    }
+}
+
+export async function register(username, password, confirm_password) {
+    try {
+        console.log('register');
+        const response = await fetch("http://localhost:8000/resume/register/", {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                username: username,
+                password: password,
+                confirm_password: confirm_password
+            })
+        });
+        return response
+    } catch(error) {
+        throw(error);
     }
 }

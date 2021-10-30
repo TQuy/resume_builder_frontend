@@ -1,6 +1,7 @@
 import json
 from icecream import ic
 from django.shortcuts import render, redirect
+from django.db import IntegrityError
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
@@ -87,4 +88,31 @@ def delete_resume(request, resume_id):
     else:
         return Response({
             'message': 'DELETE request required.'
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def register_view(request):
+    if request.method == 'POST':
+        username = request.data['username']
+        password = request.data['password']
+        confirm_password = request.data['confirm_password']
+        if password != confirm_password:
+            Response({
+                'message': 'Passwords must match.'
+            }, status==status.HTTP_409_CONFLICT)
+        try:
+            user = User.objects.create_user(
+                username=username,
+                password=password
+            )
+            return Response({
+                'message' 'Created new account successfully.'
+            }, status=status.HTTP_201_CREATED)
+        except IntegrityError:
+            return Response({
+                'message': 'This username is existed, please choose another one.'
+            }, status=status.HTTP_406_NOT_ACCEPTABLE)
+    else:
+        return Response({
+            'message': 'POST request required.'
         }, status=status.HTTP_400_BAD_REQUEST)

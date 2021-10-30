@@ -6,7 +6,13 @@ export default function NavigationBar({ authToken, setAuthToken }) {
         sessionStorage.clear();
         window.location.replace("/login/");
     }
-    const Login = <NavLink className="nav-link" to="/login/" activeClassName="active" aria-current="page">Log in</NavLink>;
+    const Login = (
+        <>
+            <NavLink className="nav-link" to="/login/" activeClassName="active" aria-current="page">Log in</NavLink>;
+            <NavLink className="nav-link" to="/register/" activeClassName="active" aria-current="page">Register</NavLink>;
+        </>
+
+    );
     const Logout = <a className="nav-link" onClick={handleLogout}>Log out</a>;
     const in_or_out = authToken ? Logout : Login
     return (
