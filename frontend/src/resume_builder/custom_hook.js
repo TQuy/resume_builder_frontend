@@ -31,10 +31,11 @@ export function useDetailRef() {
     return Detail
 };
 
-export function handleChange(e, index, onChange) {
+export function handleChange(e, index, dispatch) {
     if (e.target.tagName === "TEXTAREA") {
+        // adjust textarea height
         e.target.style.height = "auto";
         e.target.style.height = `${Math.max(e.target.scrollHeight, 45)}px`;
     }
-    onChange(e, index);
+    dispatch(e, index);
 };
