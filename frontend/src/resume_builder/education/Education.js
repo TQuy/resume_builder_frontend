@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Education.css";
 import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
+import { DispatchContext } from "resume_builder/ResumeBuilder";
 
 const Education = React.memo(
-    function ({ control_state, dispatch }) {
+    function ({ control_state }) {
+        const dispatch = useContext(DispatchContext);
         const initial_content = {
             "school-period": "",
             "school-name": "",
@@ -12,7 +14,11 @@ const Education = React.memo(
         };
         const [contentList, setContentList, checked] = useSectionList("education", control_state, initial_content, dispatch);
         const list_of_schools = contentList.map((content_i, i) => {
-            return <School key={i.toString()} index={i} content={content_i} onChange={setContentList} />
+            return <School 
+                key={i.toString()} 
+                content={content_i} 
+                handleChange={e => handleChange(e, i, setContentList)}
+            />
         });
         return (
             <>
@@ -29,46 +35,46 @@ const Education = React.memo(
     }
 );
 
-function School({ index, content, onChange }) {
+function School({ content, handleChange }) {
     const Detail = useDetailRef();
     return (
-        <li id={`school-${index}`}> 
+        <li className="school"> 
             <div className="row">
                 <div className="col-3">
                     <input 
-                    name={`school-period`} 
+                    name='school-period' 
                     className='left-max' 
-                    placeholder={`learning period ${index}`} 
+                    placeholder='learning-period'
                     value={content["school-period"]} 
-                    onChange={(e) => handleChange(e, index, onChange)} 
+                    onChange={e => handleChange(e)} 
                     />
                 </div>
                 <div className="col-6">
                     <input 
-                    name={`school-name`} 
+                    name='school-name'
                     className='center-max' 
-                    placeholder={`school's name ${index}`} 
+                    placeholder='school-name'
                     value={content["school-name"]} 
-                    onChange={(e) => handleChange(e, index, onChange)} 
+                    onChange={e => handleChange(e)} 
                     />
                 </div>
                 <div className="col-3">
                     <input 
-                    name={`school-location`} 
+                    name='school-location' 
                     className='right-max' 
-                    placeholder={`location ${index}`} 
+                    placeholder='location'
                     value={content["school-location"]} 
-                    onChange={(e) => handleChange(e, index, onChange)} 
+                    onChange={e => handleChange(e)} 
                     />
                 </div>
             </div>
             <div className="details">
                 <textarea 
-                name={`school-detail`} 
+                name='school-detail'
                 ref={Detail} 
-                placeholder={`more details ${index}`} 
+                placeholder='more detail'
                 value={content["school-detail"]} 
-                onInput={(e) => handleChange(e, index, onChange)} 
+                onInput={e => handleChange(e)} 
                 />
             </div>
         </li>

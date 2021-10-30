@@ -1,5 +1,5 @@
 import "./ResumeBuilder.css";
-import { useReducer, useEffect, useState } from "react";
+import { useReducer, useEffect, useState, createContext } from "react";
 import { list_resume } from "./Base";
 import SectionSelector from "./section_selector/SectionSelector";
 import BasicInfo from "./basic_info/BasicInfo";
@@ -38,6 +38,8 @@ function reducer(state, action) {
     }
 };
 
+export const DispatchContext = createContext();
+
 function ResumeBuilder({ authToken }) {
     const [resumeList, setResumeList] = useState([]);
     const [currentResume, setCurrentResume] = useState({'name': '', 'id': 0});
@@ -61,64 +63,60 @@ function ResumeBuilder({ authToken }) {
         }
     })
     return (
-        <>			
-            <Alert content={alertContent} />
-            <div id="button-group" className="d-print-none">
-                <SaveButton 
-                    control_state={control_state} 
-                    setResumeList={setResumeList}
-                    setCurrentResume={setCurrentResume}
-                    setAlertContent={setAlertContent}
-                />
-                <LoadButton 
-                    setCurrentResume={setCurrentResume} 
-                    resume_list={resumeList} 
-                    dispatch={dispatch}
-                    setAlertContent={setAlertContent}
-                />
-                <ClearButton 
-                    dispatch={dispatch}
-                    setCurrentResume={setCurrentResume}
-                />
-                <DeleteButton
-                    currentResume={currentResume}
-                    setCurrentResume={setCurrentResume}
-                    dispatch={dispatch}
-                    setResumeList={setResumeList}
-                    setAlertContent={setAlertContent}
-                />
-                <PrintButton />
-            </div>
-            <h1 style={{ textAlign: 'center' }} className="d-print-none">{currentResume['name']}</h1>
-            <div className="d-print-none">
-                <SectionSelector control_state={control_state} dispatch={dispatch} />
-            </div>
-            <div id="resume" className="sheet">
-                <BasicInfo 
-                    control_state={control_state["basic-info"]} 
-                    dispatch={dispatch} 
-                />
-                <Education 
-                    control_state={control_state["education"]} 
-                    dispatch={dispatch} 
-                />
-                <Employment 
-                    control_state={control_state["employment"]} 
-                    dispatch={dispatch} 
-                />
-                <Certificates 
-                    control_state={control_state["certificates"]}
-                    dispatch={dispatch} 
-                />
-                <Projects 
-                    control_state={control_state["projects"]} 
-                    dispatch={dispatch} 
-                />
-                <Skills 
-                    control_state={control_state["skills"]} 
-                    dispatch={dispatch} 
-                />
-            </div> 
+        <>	
+            <DispatchContext.Provider value={dispatch}>
+                <Alert content={alertContent} />
+                <div id="button-group" className="d-print-none">
+                    <SaveButton 
+                        control_state={control_state} 
+                        setResumeList={setResumeList}
+                        setCurrentResume={setCurrentResume}
+                        setAlertContent={setAlertContent}
+                    />
+                    <LoadButton 
+                        setCurrentResume={setCurrentResume} 
+                        resume_list={resumeList} 
+                        dispatch={dispatch}
+                        setAlertContent={setAlertContent}
+                    />
+                    <ClearButton 
+                        dispatch={dispatch}
+                        setCurrentResume={setCurrentResume}
+                    />
+                    <DeleteButton
+                        currentResume={currentResume}
+                        setCurrentResume={setCurrentResume}
+                        dispatch={dispatch}
+                        setResumeList={setResumeList}
+                        setAlertContent={setAlertContent}
+                    />
+                    <PrintButton />
+                </div>
+                <h1 style={{ textAlign: 'center' }} className="d-print-none">{currentResume['name']}</h1>
+                <div className="d-print-none">
+                    <SectionSelector control_state={control_state} dispatch={dispatch} />
+                </div>
+                <div id="resume" className="sheet">
+                    <BasicInfo 
+                        control_state={control_state["basic-info"]} 
+                    />
+                    <Education 
+                        control_state={control_state["education"]} 
+                    />
+                    <Employment 
+                        control_state={control_state["employment"]} 
+                    />
+                    <Certificates 
+                        control_state={control_state["certificates"]}
+                    />
+                    <Projects 
+                        control_state={control_state["projects"]} 
+                    />
+                    <Skills 
+                        control_state={control_state["skills"]} 
+                    />
+                </div> 
+            </DispatchContext.Provider>		
         </>
     );
 }
