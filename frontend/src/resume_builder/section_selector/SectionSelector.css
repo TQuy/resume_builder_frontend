@@ -1,5 +1,6 @@
 #section-selector {
     position: fixed;
+    z-index: 1;
 }
 
 input[type=number] {
