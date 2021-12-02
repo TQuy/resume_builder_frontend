@@ -1,3 +1,5 @@
+/* eslint-disable no-fallthrough */
+/* eslint-disable default-case */
 import "./ResumeBuilder.css";
 import { useReducer, useEffect, useState, createContext } from "react";
 import { list_resume } from "./Base";
@@ -15,19 +17,21 @@ import DeleteButton from "./delete_button/DeleteButton";
 import PrintButton from "./print_button/PrintButton";
 import Alert from "./alert/Alert";
 
-const initial_control_state = (preservedKey) => {
-    const preservedState = sessionStorage.getItem(preservedKey);
-    if (preservedState) {
-        console.log("preservedState", preservedState);
-        return JSON.parse(preservedState);
-    } else {
-        return {
-            "basic-info": {"checked": false, "number_subsection": 1, "payload": []},
-            "education": {"checked": false, "number_subsection": 1, "payload": []},
-            "employment": {"checked": false, "number_subsection": 1, "payload": []},
-            "projects": {"checked": false, "number_subsection": 1, "payload": []},
-            "certificates": {"checked": false, "number_subsection": 1, "payload": []},
-            "skills": {"checked": false, "number_subsection": 1, "payload": []},
+const initControlState = (preservedKey) => {
+    switch(preservedKey) {
+        case "control_state": {
+            const preservedState = sessionStorage.getItem(preservedKey);
+            if (preservedState) return JSON.parse(preservedState);
+        }
+        case "init": {
+            return {
+                "basic-info": {"checked": false, "number_subsection": 1, "payload": []},
+                "education": {"checked": false, "number_subsection": 1, "payload": []},
+                "employment": {"checked": false, "number_subsection": 1, "payload": []},
+                "projects": {"checked": false, "number_subsection": 1, "payload": []},
+                "certificates": {"checked": false, "number_subsection": 1, "payload": []},
+                "skills": {"checked": false, "number_subsection": 1, "payload": []},
+            }
         }
     }
 };
@@ -35,8 +39,9 @@ const initial_control_state = (preservedKey) => {
 function reducer(state, action) {
     switch(action.name) {
         case "blank":
-            sessionStorage.setItem('control_state', JSON.stringify(initial_control_state));
-            return initial_control_state;
+            const initState = initControlState('init');
+            sessionStorage.setItem('control_state', JSON.stringify(initState));
+            return initState;
         case 'load':
             sessionStorage.setItem('control_state', JSON.stringify(action.value));
             return action.value;
@@ -54,7 +59,7 @@ export const DispatchContext = createContext();
 function ResumeBuilder({ authToken }) {
     const [resumeList, setResumeList] = useState([]);
     const [currentResume, setCurrentResume] = useState({'name': '', 'id': 0});
-    const [control_state, dispatch] = useReducer(reducer, 'control_state', initial_control_state);
+    const [control_state, dispatch] = useReducer(reducer, 'control_state', initControlState);
     const [alertContent, setAlertContent] = useState('');
 
     useEffect(() => {
