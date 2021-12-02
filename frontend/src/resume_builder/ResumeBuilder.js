@@ -15,9 +15,10 @@ import DeleteButton from "./delete_button/DeleteButton";
 import PrintButton from "./print_button/PrintButton";
 import Alert from "./alert/Alert";
 
-const initial_control_state = (preservedState) => {
+const initial_control_state = (preservedKey) => {
+    const preservedState = sessionStorage.getItem(preservedKey);
     if (preservedState) {
-        return JSON.parse(preservedState)
+        return JSON.parse(preservedState);
     } else {
         return {
             "basic-info": {"checked": false, "number_subsection": 1, "payload": []},
