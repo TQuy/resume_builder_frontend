@@ -7,10 +7,12 @@ export default function SaveButton({ control_state, setResumeList, setCurrentRes
     const closeBtn = useRef(null);
         
     useEffect(() => {
-        saveModal.current.addEventListener('shown.bs.modal', function() {
-            nameInput.current.focus();
-        })
-    });
+        function focusInput() {
+            return nameInput.current.focus();
+        }
+        saveModal.current?.addEventListener('shown.bs.modal', focusInput)
+        return saveModal.current?.removeEventListener('shown.bs.modal', focusInput);
+    }, []);
     
     const handleSave = async () => {
         const fileName = nameInput.current.value;
