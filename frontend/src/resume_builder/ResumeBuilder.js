@@ -18,6 +18,7 @@ import Alert from "./alert/Alert";
 const initial_control_state = (preservedKey) => {
     const preservedState = sessionStorage.getItem(preservedKey);
     if (preservedState) {
+        console.log("preservedState", preservedState);
         return JSON.parse(preservedState);
     } else {
         return {
@@ -53,7 +54,7 @@ export const DispatchContext = createContext();
 function ResumeBuilder({ authToken }) {
     const [resumeList, setResumeList] = useState([]);
     const [currentResume, setCurrentResume] = useState({'name': '', 'id': 0});
-    const [control_state, dispatch] = useReducer(reducer, sessionStorage.getItem('control_state'), initial_control_state);
+    const [control_state, dispatch] = useReducer(reducer, 'control_state', initial_control_state);
     const [alertContent, setAlertContent] = useState('');
 
     useEffect(() => {
