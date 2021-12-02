@@ -1,5 +1,4 @@
 /* eslint-disable no-fallthrough */
-/* eslint-disable default-case */
 import "./ResumeBuilder.css";
 import { useReducer, useEffect, useState, createContext } from "react";
 import { list_resume } from "./Base";
@@ -23,7 +22,7 @@ const initControlState = (preservedKey) => {
             const preservedState = sessionStorage.getItem(preservedKey);
             if (preservedState) return JSON.parse(preservedState);
         }
-        case "init": {
+        default: {
             return {
                 "basic-info": {"checked": false, "number_subsection": 1, "payload": []},
                 "education": {"checked": false, "number_subsection": 1, "payload": []},
