@@ -15,9 +15,10 @@ import DeleteButton from "./delete_button/DeleteButton";
 import PrintButton from "./print_button/PrintButton";
 import Alert from "./alert/Alert";
 
-const initial_control_state = (preservedState) => {
-    if (preservedState) {
-        return JSON.parse(preservedState)
+const initial_control_state = (preservedKey) => {
+    const preservedData = sessionStorage.getItem(preservedKey);
+    if (preservedData) {
+        return preservedData
     } else {
         return {
             "basic-info": {"checked": false, "number_subsection": 1, "payload": []},
@@ -52,7 +53,7 @@ export const DispatchContext = createContext();
 function ResumeBuilder({ authToken }) {
     const [resumeList, setResumeList] = useState([]);
     const [currentResume, setCurrentResume] = useState({'name': '', 'id': 0});
-    const [control_state, dispatch] = useReducer(reducer, sessionStorage.getItem('control_state'), initial_control_state);
+    const [control_state, dispatch] = useReducer(reducer, "control_state", initial_control_state);
     const [alertContent, setAlertContent] = useState('');
 
     useEffect(() => {
@@ -67,8 +68,12 @@ function ResumeBuilder({ authToken }) {
     }, [authToken]);
 
     useEffect(() => {
+        let alertTimeOut;
         if (alertContent) {
-            setTimeout(() => setAlertContent(''), 1000);
+            alertTimeOut = setTimeout(() => setAlertContent(''), 1000);
+        }
+        return () => {
+            if (alertTimeOut) clearInterval(alertTimeOut)
         }
     })
     return (
@@ -78,7 +83,7 @@ function ResumeBuilder({ authToken }) {
                 <div id="button-group" className="d-print-none">
                     <SaveButton 
                         control_state={control_state} 
-                        setResumeList={setResumeList}
+                    setResumeList={setResumeList}
                         setCurrentResume={setCurrentResume}
                         setAlertContent={setAlertContent}
                     />
