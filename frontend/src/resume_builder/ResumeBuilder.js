@@ -17,120 +17,113 @@ import PrintButton from "./print_button/PrintButton";
 import Alert from "./alert/Alert";
 
 const initControlState = (preservedKey) => {
-    switch(preservedKey) {
-        case "control_state": {
-            const preservedState = sessionStorage.getItem(preservedKey);
-            if (preservedState) return JSON.parse(preservedState);
-        }
-        default: {
-            return {
-                "basic-info": {"checked": false, "number_subsection": 1, "payload": []},
-                "education": {"checked": false, "number_subsection": 1, "payload": []},
-                "employment": {"checked": false, "number_subsection": 1, "payload": []},
-                "projects": {"checked": false, "number_subsection": 1, "payload": []},
-                "certificates": {"checked": false, "number_subsection": 1, "payload": []},
-                "skills": {"checked": false, "number_subsection": 1, "payload": []},
-            }
-        }
+  switch (preservedKey) {
+    case "control_state": {
+      const preservedState = sessionStorage.getItem(preservedKey);
+      if (preservedState) return JSON.parse(preservedState);
     }
+    default: {
+      return {
+        "basic-info": { checked: false, number_subsection: 1, payload: [] },
+        education: { checked: false, number_subsection: 1, payload: [] },
+        employment: { checked: false, number_subsection: 1, payload: [] },
+        projects: { checked: false, number_subsection: 1, payload: [] },
+        certificates: { checked: false, number_subsection: 1, payload: [] },
+        skills: { checked: false, number_subsection: 1, payload: [] },
+      };
+    }
+  }
 };
 
 function reducer(state, action) {
-    switch(action.name) {
-        case "blank":
-            const initState = initControlState('init');
-            sessionStorage.setItem('control_state', JSON.stringify(initState));
-            return initState;
-        case 'load':
-            sessionStorage.setItem('control_state', JSON.stringify(action.value));
-            return action.value;
-        default:
-            // avoid shallow copy
-            const newSectionState = {...state[action.name], [action.key]: action.value};
-            const newState = {...state, [action.name]: newSectionState};
-            sessionStorage.setItem('control_state', JSON.stringify(newState));
-            return newState
-    }
-};
+  switch (action.name) {
+    case "blank":
+      const initState = initControlState("init");
+      sessionStorage.setItem("control_state", JSON.stringify(initState));
+      return initState;
+    case "load":
+      sessionStorage.setItem("control_state", JSON.stringify(action.value));
+      return action.value;
+    default:
+      // avoid shallow copy
+      const newSectionState = {
+        ...state[action.name],
+        [action.key]: action.value,
+      };
+      const newState = { ...state, [action.name]: newSectionState };
+      sessionStorage.setItem("control_state", JSON.stringify(newState));
+      return newState;
+  }
+}
 
 export const DispatchContext = createContext();
 
 function ResumeBuilder({ authToken }) {
-    const [resumeList, setResumeList] = useState([]);
-    const [currentResume, setCurrentResume] = useState({'name': '', 'id': 0});
-    const [control_state, dispatch] = useReducer(reducer, 'control_state', initControlState);
-    const [alertContent, setAlertContent] = useState('');
+  const [resumeList, setResumeList] = useState([]);
+  const [currentResume, setCurrentResume] = useState({ name: "", id: 0 });
+  const [control_state, dispatch] = useReducer(
+    reducer,
+    "control_state",
+    initControlState
+  );
+  const [alertContent, setAlertContent] = useState("");
 
-    useEffect(() => {
-        console.log('useEffect');
-        if (authToken) {
-            list_resume().then(
-                resume_list => setResumeList(resume_list)
-            ).catch(
-                error => console.error(error)
-            );
-        }
-    }, [authToken]);
+  useEffect(() => {
+    console.log("useEffect");
+    if (authToken) {
+      list_resume()
+        .then((resume_list) => setResumeList(resume_list))
+        .catch((error) => console.error(error));
+    }
+  }, [authToken]);
 
-    useEffect(() => {
-        if (alertContent) {
-            setTimeout(() => setAlertContent(''), 1000);
-        }
-    })
-    return (
-        <>	
-            <DispatchContext.Provider value={dispatch}>
-                <Alert content={alertContent} />
-                <div id="button-group" className="d-print-none">
-                    <SaveButton 
-                        control_state={control_state} 
-                        setResumeList={setResumeList}
-                        setCurrentResume={setCurrentResume}
-                        setAlertContent={setAlertContent}
-                    />
-                    <LoadButton 
-                        setCurrentResume={setCurrentResume} 
-                        resume_list={resumeList} 
-                        setAlertContent={setAlertContent}
-                    />
-                    <ClearButton 
-                        setCurrentResume={setCurrentResume}
-                    />
-                    <DeleteButton
-                        currentResume={currentResume}
-                        setCurrentResume={setCurrentResume}
-                        setResumeList={setResumeList}
-                        setAlertContent={setAlertContent}
-                    />
-                    <PrintButton />
-                </div>
-                <h1 style={{ textAlign: 'center' }} className="d-print-none">{currentResume['name']}</h1>
-                <div className="d-print-none">
-                    <SectionSelector control_state={control_state} dispatch={dispatch} />
-                </div>
-                <div id="resume" className="sheet">
-                    <BasicInfo 
-                        control_state={control_state["basic-info"]} 
-                    />
-                    <Education 
-                        control_state={control_state["education"]} 
-                    />
-                    <Employment 
-                        control_state={control_state["employment"]} 
-                    />
-                    <Certificates 
-                        control_state={control_state["certificates"]}
-                    />
-                    <Projects 
-                        control_state={control_state["projects"]} 
-                    />
-                    <Skills 
-                        control_state={control_state["skills"]} 
-                    />
-                </div> 
-            </DispatchContext.Provider>		
-        </>
-    );
+  useEffect(() => {
+    if (alertContent) {
+      setTimeout(() => setAlertContent(""), 1000);
+    }
+  });
+  return (
+    <>
+      <DispatchContext.Provider value={dispatch}>
+        <Alert content={alertContent} />
+        <div id="button-group" className="d-print-none">
+          <SaveButton
+            control_state={control_state}
+            setResumeList={setResumeList}
+            setCurrentResume={setCurrentResume}
+            setAlertContent={setAlertContent}
+          />
+          <LoadButton
+            setCurrentResume={setCurrentResume}
+            resume_list={resumeList}
+            setAlertContent={setAlertContent}
+          />
+          <ClearButton setCurrentResume={setCurrentResume} />
+          <DeleteButton
+            currentResume={currentResume}
+            setCurrentResume={setCurrentResume}
+            setResumeList={setResumeList}
+            setAlertContent={setAlertContent}
+          />
+          <PrintButton />
+        </div>
+        <h1 style={{ textAlign: "center" }} className="d-print-none">
+          {currentResume["name"]}
+        </h1>
+        <div className="d-print-none">
+          <SectionSelector control_state={control_state} dispatch={dispatch} />
+        </div>
+        <div id="resume" className="sheet">
+          <BasicInfo control_state={control_state["basic-info"]} />
+          <Education control_state={control_state["education"]} />
+          <Employment control_state={control_state["employment"]} />
+          <Certificates control_state={control_state["certificates"]} />
+          <Projects control_state={control_state["projects"]} />
+          <Skills control_state={control_state["skills"]} />
+        </div>
+      </DispatchContext.Provider>
+    </>
+  );
 }
 
-export default ResumeBuilder
+export default ResumeBuilder;

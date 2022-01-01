@@ -1,8 +1,8 @@
 #section-selector {
-    position: fixed;
-    z-index: 1;
+  position: fixed;
+  z-index: 1;
 }
 
-input[type=number] {
+input[type="number"] {
   width: 5rem;
 }
