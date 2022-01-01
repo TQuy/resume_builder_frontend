@@ -1,29 +1,39 @@
-import { useRef, useEffect } from "react";
+import { Modal } from "bootstrap";
+import React, { useRef, useEffect } from "react";
 import { list_resume, save_resume } from "resume_builder/Base";
 
-export default function SaveButton({
-  control_state,
+const SaveButton = React.memo(function SaveButton({
   setResumeList,
   setCurrentResume,
   setAlertContent,
 }) {
-  const saveModal = useRef(null);
-  const nameInput = useRef(null);
-  const closeBtn = useRef(null);
+  const saveModalRef = useRef(null);
+  const nameInputRef = useRef(null);
 
   useEffect(() => {
+    // focus input when modal show up
     function focusInput() {
-      return nameInput.current.focus();
+      return nameInputRef.current.focus();
     }
-    saveModal.current?.addEventListener("shown.bs.modal", focusInput);
-    return saveModal.current?.removeEventListener("shown.bs.modal", focusInput);
+    saveModalRef.current?.addEventListener("shown.bs.modal", focusInput);
+    return () =>
+      saveModalRef.current?.removeEventListener("shown.bs.modal", focusInput);
   }, []);
 
-  const handleSave = async () => {
-    const fileName = nameInput.current.value;
+  const handleShowModal = () => {
+    console.log("hello");
+    if (saveModalRef.current) {
+      const modalController = Modal.getOrCreateInstance(saveModalRef.current);
+      modalController.show();
+    }
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    const fileName = nameInputRef.current.value;
     try {
-      if (fileName === "") throw new Error("Empty file name");
-      const data = await save_resume(fileName, control_state);
+      const controlState = JSON.parse(sessionStorage.getItem("control_state"));
+      const data = await save_resume(fileName, controlState);
       // update the resume_list for load button
       const resume_list = await list_resume();
       setResumeList(resume_list);
@@ -32,18 +42,21 @@ export default function SaveButton({
       // call alert
       setAlertContent(data["message"]);
       // close saveModal
-      closeBtn.current.click();
+      if (saveModalRef.current) {
+        const modalController = Modal.getOrCreateInstance(saveModalRef.current);
+        modalController.hide();
+      }
     } catch (err) {
       alert(err);
     }
   };
+
   return (
     <>
       <button
         type="button"
         className="btn btn-success"
-        data-bs-toggle="modal"
-        data-bs-target="#saveModal"
+        onClick={handleShowModal}
       >
         Save
       </button>
@@ -53,7 +66,7 @@ export default function SaveButton({
         tabIndex="-1"
         aria-labelledby="saveModalLabel"
         aria-hidden="true"
-        ref={saveModal}
+        ref={saveModalRef}
       >
         <div className="modal-dialog">
           <div className="modal-content">
@@ -66,32 +79,32 @@ export default function SaveButton({
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                ref={closeBtn}
               ></button>
             </div>
-            <div className="modal-body">
-              <label htmlFor="resume_name" className="form-label">
-                Resume Name
-              </label>
-              <input
-                id="resume_name"
-                type="text"
-                className="form-control"
-                ref={nameInput}
-              />
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-success"
-                onClick={handleSave}
-              >
-                Save
-              </button>
-            </div>
+            <form onSubmit={handleSave}>
+              <div className="modal-body">
+                <label htmlFor="resume_name" className="form-label">
+                  Resume Name
+                </label>
+                <input
+                  id="resume_name"
+                  type="text"
+                  className="form-control"
+                  ref={nameInputRef}
+                  required
+                />
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-success">
+                  Save
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </>
   );
-}
+});
+
+export { SaveButton as default };

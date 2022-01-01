@@ -69,7 +69,6 @@ function ResumeBuilder({ authToken }) {
   const [alertContent, setAlertContent] = useState("");
 
   useEffect(() => {
-    console.log("useEffect");
     if (authToken) {
       list_resume()
         .then((resume_list) => setResumeList(resume_list))
@@ -78,17 +77,21 @@ function ResumeBuilder({ authToken }) {
   }, [authToken]);
 
   useEffect(() => {
+    let alertTimeout;
     if (alertContent) {
-      setTimeout(() => setAlertContent(""), 1000);
+      alertTimeout = setTimeout(() => setAlertContent(""), 1000);
     }
-  });
+    return () => {
+      if (alertContent) clearTimeout(alertContent);
+    };
+  }, [alertContent]);
+
   return (
     <>
       <DispatchContext.Provider value={dispatch}>
         <Alert content={alertContent} />
         <div id="button-group" className="d-print-none">
           <SaveButton
-            control_state={control_state}
             setResumeList={setResumeList}
             setCurrentResume={setCurrentResume}
             setAlertContent={setAlertContent}

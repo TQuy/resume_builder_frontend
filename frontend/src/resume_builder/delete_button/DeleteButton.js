@@ -1,3 +1,4 @@
+import { Modal } from "bootstrap";
 import React, { useContext, useRef } from "react";
 import { delete_resume, list_resume } from "resume_builder/Base";
 import { DispatchContext } from "resume_builder/ResumeBuilder";
@@ -9,10 +10,17 @@ export default function DeleteButton({
   setAlertContent,
 }) {
   const dispatch = useContext(DispatchContext);
-  const closeBtn = useRef(null);
-
+  const deleteModalRef = useRef(null);
   const resume_id = currentResume["id"];
   const resume_name = currentResume["name"];
+
+  const handleShowModal = () => {
+    if (deleteModalRef.current) {
+      const modalController = Modal.getOrCreateInstance(deleteModalRef.current);
+      modalController.show();
+    }
+  };
+
   const handleDelete = async (resume_id) => {
     const data = await delete_resume(resume_id);
     // reset resume name and its id
@@ -25,15 +33,18 @@ export default function DeleteButton({
     const resume_list = await list_resume();
     setResumeList(resume_list);
     // close delete modal
-    closeBtn.current.click();
+    if (deleteModalRef.current) {
+      const modalController = Modal.getOrCreateInstance(deleteModalRef.current);
+      modalController.hide();
+    }
   };
+
   return (
     <>
       <button
         type="button"
         className="btn btn-danger"
-        data-bs-toggle="modal"
-        data-bs-target="#deleteModal"
+        onClick={handleShowModal}
       >
         Delete
       </button>
@@ -44,6 +55,7 @@ export default function DeleteButton({
         tabIndex="-1"
         aria-labelledby="deleteModalLabel"
         aria-hidden="true"
+        ref={deleteModalRef}
       >
         <div className="modal-dialog">
           <div className="modal-content">
@@ -56,7 +68,6 @@ export default function DeleteButton({
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                ref={closeBtn}
               ></button>
             </div>
             <div className="modal-body">
