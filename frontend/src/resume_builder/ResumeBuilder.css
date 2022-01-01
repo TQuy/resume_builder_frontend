@@ -31,7 +31,6 @@
   margin-bottom: 10px;
 }
 
-.section:hover,
 .section:hover input,
 .section:hover textarea {
   border: 1px solid black;
