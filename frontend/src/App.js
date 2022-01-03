@@ -1,6 +1,6 @@
 import "./App.css";
 import { useState } from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import NavigationBar from "navigation_bar/NavigationBar";
 import LoginPage from "./login_page/LoginPage";
 import RegisterPage from "register_page/RegisterPage";
@@ -10,25 +10,33 @@ function App() {
   const [authToken, setAuthToken] = useState(
     sessionStorage.getItem("auth_token")
   );
+
+  console.log("authToken", authToken);
+
   return (
     <>
       <BrowserRouter>
         <NavigationBar authToken={authToken} setAuthToken={setAuthToken} />
-        <Switch>
-          <Route path="/resume/">
-            {authToken ? (
-              <ResumeBuilder authToken={authToken} />
-            ) : (
-              <Redirect to="/login/" />
-            )}
-          </Route>
-          <Route path="/login/">
-            <LoginPage setAuthToken={setAuthToken} />
-          </Route>
-          <Route path="/register/">
-            <RegisterPage setAuthToken={setAuthToken} />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route
+            path="/login/"
+            element={<LoginPage setAuthToken={setAuthToken} />}
+          />
+          <Route
+            path="/register/"
+            element={<RegisterPage setAuthToken={setAuthToken} />}
+          />
+          <Route
+            path="/"
+            element={
+              authToken ? (
+                <ResumeBuilder authToken={authToken} />
+              ) : (
+                <Navigate to="/login/" />
+              )
+            }
+          />
+        </Routes>
       </BrowserRouter>
     </>
   );

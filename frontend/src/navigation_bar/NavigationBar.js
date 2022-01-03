@@ -12,7 +12,7 @@ export default function NavigationBar({ authToken, setAuthToken }) {
       <NavLink
         className="nav-link"
         to="/login/"
-        activeClassName="active"
+        className="active"
         aria-current="page"
       >
         Log in
@@ -21,7 +21,7 @@ export default function NavigationBar({ authToken, setAuthToken }) {
       <NavLink
         className="nav-link"
         to="/register/"
-        activeClassName="active"
+        className="active"
         aria-current="page"
       >
         Register
@@ -54,8 +54,8 @@ export default function NavigationBar({ authToken, setAuthToken }) {
           <div className="navbar-nav me-auto">
             <NavLink
               className="nav-link"
-              to="/resume/"
-              activeClassName="active"
+              to="/"
+              className="active"
               aria-current="page"
             >
               Home

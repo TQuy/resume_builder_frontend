@@ -13,7 +13,7 @@ export default function RegisterPage({ setAuthToken }) {
         const data = await login(username, password);
         setAuthToken(data["token"]);
         sessionStorage.setItem("auth_token", data["token"]);
-        window.location.replace("/resume/");
+        window.location.replace("/");
       } else {
         // if the username or password is invalid
         const data = await response.json();

@@ -13,7 +13,7 @@ export default function LoginPage({ setAuthToken }) {
       console.log("data", data);
       setAuthToken(data["token"]);
       sessionStorage.setItem("auth_token", data["token"]);
-      window.location.replace("/resume/");
+      window.location.replace("/");
     } catch (error) {
       alert(error);
     }
