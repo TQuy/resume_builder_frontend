@@ -18,6 +18,11 @@ import Alert from "./alert/Alert";
 
 const initControlState = (preservedKey) => {
   switch (preservedKey) {
+    case "currentResume": {
+      const preservedState = sessionStorage.getItem(preservedKey);
+      if (preservedState) return JSON.parse(preservedState);
+      return { name: "blank", id: 0 };
+    }
     case "control_state": {
       const preservedState = sessionStorage.getItem(preservedKey);
       if (preservedState) return JSON.parse(preservedState);
@@ -39,19 +44,15 @@ function reducer(state, action) {
   switch (action.name) {
     case "blank":
       const initState = initControlState("init");
-      sessionStorage.setItem("control_state", JSON.stringify(initState));
       return initState;
     case "load":
-      sessionStorage.setItem("control_state", JSON.stringify(action.value));
       return action.value;
     default:
-      // avoid shallow copy
       const newSectionState = {
         ...state[action.name],
         [action.key]: action.value,
       };
       const newState = { ...state, [action.name]: newSectionState };
-      sessionStorage.setItem("control_state", JSON.stringify(newState));
       return newState;
   }
 }
@@ -60,13 +61,25 @@ export const DispatchContext = createContext();
 
 function ResumeBuilder({ authToken }) {
   const [resumeList, setResumeList] = useState([]);
-  const [currentResume, setCurrentResume] = useState({ name: "blank", id: 0 });
+  const [currentResume, setCurrentResume] = useState(() =>
+    initControlState("currentResume")
+  );
   const [control_state, dispatch] = useReducer(
     reducer,
     "control_state",
     initControlState
   );
   const [alertContent, setAlertContent] = useState("");
+
+  useEffect(() => {
+    // preserved currentResume identity in sessionStorage
+    sessionStorage.setItem("currentResume", JSON.stringify(currentResume));
+  });
+
+  useEffect(() => {
+    // preserve control_state in sessionStorage
+    sessionStorage.setItem("control_state", JSON.stringify(control_state));
+  }, [control_state]);
 
   useEffect(() => {
     if (authToken) {

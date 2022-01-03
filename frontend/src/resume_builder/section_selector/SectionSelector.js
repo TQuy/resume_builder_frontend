@@ -18,32 +18,38 @@ function SectionSelector({ control_state, dispatch }) {
         <li>
           <Section
             name={"basic-info"}
-            states={control_state["basic-info"]}
+            checked={control_state["basic-info"].checked}
+            number_subsection={control_state["basic-info"].number_subsection}
             dispatch={dispatch}
           />
           <Section
             name={"education"}
-            states={control_state["education"]}
+            checked={control_state["education"].checked}
+            number_subsection={control_state["education"].number_subsection}
             dispatch={dispatch}
           />
           <Section
             name={"employment"}
-            states={control_state["employment"]}
+            checked={control_state["employment"].checked}
+            number_subsection={control_state["employment"].number_subsection}
             dispatch={dispatch}
           />
           <Section
             name={"certificates"}
-            states={control_state["certificates"]}
+            checked={control_state["certificates"].checked}
+            number_subsection={control_state["certificates"].number_subsection}
             dispatch={dispatch}
           />
           <Section
             name={"projects"}
-            states={control_state["projects"]}
+            checked={control_state["projects"].checked}
+            number_subsection={control_state["projects"].number_subsection}
             dispatch={dispatch}
           />
           <Section
             name={"skills"}
-            states={control_state["skills"]}
+            checked={control_state["skills"].checked}
+            number_subsection={control_state["skills"].number_subsection}
             dispatch={dispatch}
           />
         </li>
@@ -52,14 +58,18 @@ function SectionSelector({ control_state, dispatch }) {
   );
 }
 
-const Section = React.memo(function ({ name, states, dispatch }) {
+const Section = React.memo(function ({
+  name,
+  checked,
+  number_subsection,
+  dispatch,
+}) {
   const box_name = `${name}-checkbox`;
   const number_name = `number-${name}`;
   const label_name = name
     .split("-")
     .map((word) => capitalize(word))
     .join(" ");
-  const [checked, number_subsection] = Object.values(states);
   const handleChange = (e) => {
     if (e.target.type === "checkbox") {
       dispatch({ name: name, key: "checked", value: e.target.checked });
