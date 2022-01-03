@@ -86,7 +86,7 @@ const SaveButton = React.memo(function SaveButton({
                 />
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-success">
+                <button type="submit" className="btn btn-success">
                   Save
                 </button>
               </div>
