@@ -1,9 +1,9 @@
-import { Modal } from "bootstrap";
 import React, { useContext, useRef } from "react";
 import { delete_resume, list_resume } from "resume_builder/Base";
 import { DispatchContext } from "resume_builder/ResumeBuilder";
+import { handleShowHideModal } from "utils";
 
-export default function DeleteButton({
+const DeleteButton = React.memo(function DeleteButton({
   currentResume,
   setCurrentResume,
   setResumeList,
@@ -13,13 +13,6 @@ export default function DeleteButton({
   const deleteModalRef = useRef(null);
   const resume_id = currentResume["id"];
   const resume_name = currentResume["name"];
-
-  const handleShowModal = () => {
-    if (deleteModalRef.current) {
-      const modalController = Modal.getOrCreateInstance(deleteModalRef.current);
-      modalController.show();
-    }
-  };
 
   const handleDelete = async (resume_id) => {
     const data = await delete_resume(resume_id);
@@ -33,10 +26,7 @@ export default function DeleteButton({
     const resume_list = await list_resume();
     setResumeList(resume_list);
     // close delete modal
-    if (deleteModalRef.current) {
-      const modalController = Modal.getOrCreateInstance(deleteModalRef.current);
-      modalController.hide();
-    }
+    handleShowHideModal("hide", deleteModalRef);
   };
 
   return (
@@ -44,7 +34,7 @@ export default function DeleteButton({
       <button
         type="button"
         className="btn btn-danger"
-        onClick={handleShowModal}
+        onClick={() => handleShowHideModal("show", deleteModalRef)}
       >
         Delete
       </button>
@@ -87,4 +77,6 @@ export default function DeleteButton({
       </div>
     </>
   );
-}
+});
+
+export { DeleteButton as default };

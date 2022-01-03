@@ -1,3 +1,4 @@
+import "./NavigationBar.css";
 import { NavLink } from "react-router-dom";
 
 export default function NavigationBar({ authToken, setAuthToken }) {
@@ -29,10 +30,11 @@ export default function NavigationBar({ authToken, setAuthToken }) {
     </>
   );
   const Logout = (
-    <a className="nav-link" onClick={handleLogout}>
+    <button className="nav-link logout btn btn-dark" onClick={handleLogout}>
       Log out
-    </a>
+    </button>
   );
+
   const in_or_out = authToken ? Logout : Login;
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark d-print-none">

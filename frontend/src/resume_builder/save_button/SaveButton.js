@@ -1,6 +1,6 @@
-import { Modal } from "bootstrap";
 import React, { useRef, useEffect } from "react";
 import { list_resume, save_resume } from "resume_builder/Base";
+import { handleShowHideModal } from "utils";
 
 const SaveButton = React.memo(function SaveButton({
   setResumeList,
@@ -12,21 +12,15 @@ const SaveButton = React.memo(function SaveButton({
 
   useEffect(() => {
     // focus input when modal show up
+    const currentModalRef = saveModalRef.current;
+
     function focusInput() {
       return nameInputRef.current.focus();
     }
-    saveModalRef.current?.addEventListener("shown.bs.modal", focusInput);
+    currentModalRef?.addEventListener("shown.bs.modal", focusInput);
     return () =>
-      saveModalRef.current?.removeEventListener("shown.bs.modal", focusInput);
+      currentModalRef?.removeEventListener("shown.bs.modal", focusInput);
   }, []);
-
-  const handleShowModal = () => {
-    console.log("hello");
-    if (saveModalRef.current) {
-      const modalController = Modal.getOrCreateInstance(saveModalRef.current);
-      modalController.show();
-    }
-  };
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -42,10 +36,7 @@ const SaveButton = React.memo(function SaveButton({
       // call alert
       setAlertContent(data["message"]);
       // close saveModal
-      if (saveModalRef.current) {
-        const modalController = Modal.getOrCreateInstance(saveModalRef.current);
-        modalController.hide();
-      }
+      handleShowHideModal("hide", saveModalRef);
     } catch (err) {
       alert(err);
     }
@@ -56,7 +47,7 @@ const SaveButton = React.memo(function SaveButton({
       <button
         type="button"
         className="btn btn-success"
-        onClick={handleShowModal}
+        onClick={() => handleShowHideModal("show", saveModalRef)}
       >
         Save
       </button>

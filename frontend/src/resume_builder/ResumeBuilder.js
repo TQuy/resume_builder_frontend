@@ -60,7 +60,7 @@ export const DispatchContext = createContext();
 
 function ResumeBuilder({ authToken }) {
   const [resumeList, setResumeList] = useState([]);
-  const [currentResume, setCurrentResume] = useState({ name: "", id: 0 });
+  const [currentResume, setCurrentResume] = useState({ name: "blank", id: 0 });
   const [control_state, dispatch] = useReducer(
     reducer,
     "control_state",
@@ -82,7 +82,7 @@ function ResumeBuilder({ authToken }) {
       alertTimeout = setTimeout(() => setAlertContent(""), 1000);
     }
     return () => {
-      if (alertContent) clearTimeout(alertContent);
+      if (alertTimeout) clearTimeout(alertTimeout);
     };
   }, [alertContent]);
 

@@ -32,7 +32,7 @@ const BasicInfo = React.memo(function ({ control_state }) {
 
 function Info({ content, handleChange }) {
   return (
-    <div className="basic-info" className="row section">
+    <div className="basic-info row section">
       <div className="col-4">
         <div className="row">
           <input
