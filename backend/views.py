@@ -1,5 +1,4 @@
 import json
-from icecream import ic
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
 from rest_framework import status
