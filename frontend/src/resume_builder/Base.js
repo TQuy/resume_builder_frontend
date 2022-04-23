@@ -20,8 +20,8 @@ export function str2bool(value) {
 }
 
 export async function list_resume() {
+  console.log("list_resume");
   try {
-    console.log("list_resume");
     const auth_token = get_auth_token();
     const response = await fetch(`${hostName}resumes/`, {
       method: "GET",
@@ -36,8 +36,8 @@ export async function list_resume() {
 }
 
 export async function load_resume(resume_id) {
+  console.log("load_resume");
   try {
-    console.log("load_resume");
     const auth_token = get_auth_token();
     const response = await fetch(`${hostName}resume/${resume_id}/`, {
       method: "GET",
@@ -51,8 +51,8 @@ export async function load_resume(resume_id) {
 }
 
 export async function save_resume(fileName, content) {
+  console.log("save_resume");
   try {
-    console.log("save_resume");
     const auth_token = get_auth_token();
     const response = await fetch(`${hostName}save_resume/`, {
       method: "POST",
@@ -73,8 +73,8 @@ export async function save_resume(fileName, content) {
 }
 
 export async function delete_resume(resume_id) {
+  console.log("delete_resume");
   try {
-    console.log("delete_resume");
     const auth_token = get_auth_token();
     const response = await fetch(
       `${hostName}resume/${resume_id}/delete/`,
@@ -92,8 +92,8 @@ export async function delete_resume(resume_id) {
 }
 
 export async function login(username, password) {
+  console.log("login");
   try {
-    console.log("login");
     const response = await fetch(`${hostName}api-token-auth/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -112,8 +112,11 @@ export async function login(username, password) {
 }
 
 export async function register(username, password, confirm_password) {
+  console.log("register");
+  if (password !== confirm_password) {
+    alert('The password and confirm password are not the same.');
+  }
   try {
-    console.log("register");
     const response = await fetch(`${hostName}resume/register/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
