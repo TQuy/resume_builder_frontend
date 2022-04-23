@@ -41,15 +41,15 @@ function SectionSelector({ control_state, dispatch }) {
             dispatch={dispatch}
           />
           <Section
-            name={"projects"}
-            checked={control_state["projects"].checked}
-            number_subsection={control_state["projects"].number_subsection}
-            dispatch={dispatch}
-          />
-          <Section
             name={"skills"}
             checked={control_state["skills"].checked}
             number_subsection={control_state["skills"].number_subsection}
+            dispatch={dispatch}
+          />
+          <Section
+            name={"projects"}
+            checked={control_state["projects"].checked}
+            number_subsection={control_state["projects"].number_subsection}
             dispatch={dispatch}
           />
         </li>

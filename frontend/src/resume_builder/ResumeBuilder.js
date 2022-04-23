@@ -134,8 +134,8 @@ function ResumeBuilder({ authToken }) {
           <Education control_state={control_state["education"]} />
           <Employment control_state={control_state["employment"]} />
           <Certificates control_state={control_state["certificates"]} />
-          <Projects control_state={control_state["projects"]} />
           <Skills control_state={control_state["skills"]} />
+          <Projects control_state={control_state["projects"]} />
         </div>
       </DispatchContext.Provider>
     </>
