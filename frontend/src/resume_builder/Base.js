@@ -3,6 +3,7 @@
 // export const csrftoken = Cookies.get('csrftoken');
 
 const get_auth_token = () => `Token ${sessionStorage.getItem("auth_token")}`;
+const hostName = "http://127.0.0.1:8000/";
 
 export function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -22,7 +23,7 @@ export async function list_resume() {
   try {
     console.log("list_resume");
     const auth_token = get_auth_token();
-    const response = await fetch("http://127.0.0.1:8000/resumes/", {
+    const response = await fetch(`${hostName}resumes/`, {
       method: "GET",
       headers: { Authorization: auth_token },
     });
@@ -38,7 +39,7 @@ export async function load_resume(resume_id) {
   try {
     console.log("load_resume");
     const auth_token = get_auth_token();
-    const response = await fetch(`http://127.0.0.1:8000/resume/${resume_id}/`, {
+    const response = await fetch(`${hostName}resume/${resume_id}/`, {
       method: "GET",
       headers: { Authorization: auth_token },
     });
@@ -53,7 +54,7 @@ export async function save_resume(fileName, content) {
   try {
     console.log("save_resume");
     const auth_token = get_auth_token();
-    const response = await fetch("http://127.0.0.1:8000/save_resume/", {
+    const response = await fetch(`${hostName}save_resume/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -76,7 +77,7 @@ export async function delete_resume(resume_id) {
     console.log("delete_resume");
     const auth_token = get_auth_token();
     const response = await fetch(
-      `http://127.0.0.1:8000/resume/${resume_id}/delete/`,
+      `${hostName}resume/${resume_id}/delete/`,
       {
         method: "DELETE",
         headers: { Authorization: auth_token },
@@ -93,7 +94,7 @@ export async function delete_resume(resume_id) {
 export async function login(username, password) {
   try {
     console.log("login");
-    const response = await fetch("http://localhost:8000/api-token-auth/", {
+    const response = await fetch(`${hostName}api-token-auth/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -113,7 +114,7 @@ export async function login(username, password) {
 export async function register(username, password, confirm_password) {
   try {
     console.log("register");
-    const response = await fetch("http://localhost:8000/resume/register/", {
+    const response = await fetch(`${hostName}resume/register/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
