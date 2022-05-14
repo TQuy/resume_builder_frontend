@@ -16,7 +16,6 @@ export default function NavigationBar({ authToken, setAuthToken }) {
       >
         Log in
       </NavLink>
-      ;
       <NavLink
         className="nav-link active"
         to="/register/"
@@ -24,7 +23,6 @@ export default function NavigationBar({ authToken, setAuthToken }) {
       >
         Register
       </NavLink>
-      ;
     </>
   );
   const Logout = (
