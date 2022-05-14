@@ -3,7 +3,7 @@
 // export const csrftoken = Cookies.get('csrftoken');
 
 const get_auth_token = () => `Token ${sessionStorage.getItem("auth_token")}`;
-const hostName = "http://127.0.0.1:8000/";
+const hostName = "http://192.168.18.3:8000/";
 
 export function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
