@@ -8,14 +8,12 @@ export default function LoginPage({ setAuthToken }) {
       e.preventDefault();
       const username = e.target[0].value;
       const password = e.target[1].value;
-      console.log(`username: ${username}, password: ${password}`);
-      const data = await login(username, password);
-      console.log("data", data);
-      setAuthToken(data["token"]);
-      sessionStorage.setItem("auth_token", data["token"]);
+      const token = await login(username, password);
+      setAuthToken(token);
+      sessionStorage.setItem("auth_token", token);
       window.location.replace("/");
     } catch (error) {
-      alert(error);
+      console.error(error);
     }
   };
 

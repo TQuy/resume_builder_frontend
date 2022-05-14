@@ -10,7 +10,9 @@ export function capitalize(str) {
 }
 
 export function str2bool(value) {
-  // convert 'true' and 'false' to its boolean value
+  /* 
+  convert 'true' and 'false' to its boolean value
+  */
   switch (true) {
     case value === true || value === "true":
       return true;
@@ -20,6 +22,9 @@ export function str2bool(value) {
 }
 
 export async function list_resume() {
+  /*
+  List all resume of the current user.
+  */
   console.log("list_resume");
   try {
     const auth_token = get_auth_token();
@@ -28,6 +33,12 @@ export async function list_resume() {
       headers: { Authorization: auth_token },
     });
     const data = await response.json();
+
+    if (response.ok === false) {
+      alert(data["message"]);
+      throw new Error(data["message"]);
+    }
+
     const content = data["content"];
     return content;
   } catch (error) {
@@ -44,6 +55,12 @@ export async function load_resume(resume_id) {
       headers: { Authorization: auth_token },
     });
     const data = await response.json();
+
+    if (response.ok === false) {
+      alert(data["message"]);
+      throw new Error(data["message"]);
+    }
+
     return data;
   } catch (error) {
     throw error;
@@ -66,6 +83,12 @@ export async function save_resume(fileName, content) {
       }),
     });
     const data = await response.json();
+
+    if (response.ok === false) {
+      alert(data["message"]);
+      throw new Error(data["message"]);
+    }
+    
     return data;
   } catch (error) {
     throw error;
@@ -84,6 +107,12 @@ export async function delete_resume(resume_id) {
       }
     );
     const data = await response.json();
+
+    if (response.ok === false) {
+      alert(data["message"]);
+      throw new Error(data["message"]);
+    }
+
     const message = data["message"];
     return message;
   } catch (error) {
@@ -101,11 +130,15 @@ export async function login(username, password) {
         username: username,
         password: password,
       }),
-    });
+    });    
     const data = await response.json();
-    const token = data.token;
-    if (!token) throw new Error("Login unsuccessful.");
-    return data;
+
+    if (response.ok === false) {
+      alert("Login failed.");
+      throw new Error();
+    }
+
+    return data["token"];
   } catch (error) {
     throw error;
   }
@@ -126,7 +159,14 @@ export async function register(username, password, confirm_password) {
         confirm_password: confirm_password,
       }),
     });
-    return response;
+    const data = await response.json();
+
+    if (response.ok === false) {
+      alert("Login failed.");
+      throw new Error();
+    }
+
+    return;
   } catch (error) {
     throw error;
   }

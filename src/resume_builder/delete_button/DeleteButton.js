@@ -15,18 +15,22 @@ const DeleteButton = React.memo(function DeleteButton({
   const resume_name = currentResume["name"];
 
   const handleDelete = async (resume_id) => {
-    const data = await delete_resume(resume_id);
-    // reset resume name and its id
-    setCurrentResume({ name: "", id: 0 });
-    // clean the resume's content
-    dispatch({ name: "blank" });
-    // call alert
-    setAlertContent(data);
-    // update list of resumes
-    const resume_list = await list_resume();
-    setResumeList(resume_list);
-    // close delete modal
-    handleShowHideModal("hide", deleteModalRef);
+    try {
+      const message = await delete_resume(resume_id);
+      // reset resume name and its id
+      setCurrentResume({ name: "", id: 0 });
+      // clean the resume's content
+      dispatch({ name: "blank" });
+      // call alert
+      setAlertContent(message);
+      // update list of resumes
+      const resume_list = await list_resume();
+      setResumeList(resume_list);
+      // close delete modal
+      handleShowHideModal("hide", deleteModalRef);
+    } catch(error) {
+      console.error(error);
+    }
   };
 
   return (

@@ -8,19 +8,13 @@ export default function RegisterPage({ setAuthToken }) {
     const password = e.target[1].value;
     const confirm_password = e.target[2].value;
     try {
-      const response = await register(username, password, confirm_password);
-      if (response.status === 201) {
-        const data = await login(username, password);
-        setAuthToken(data["token"]);
-        sessionStorage.setItem("auth_token", data["token"]);
-        window.location.replace("/");
-      } else {
-        // if the username or password is invalid
-        const data = await response.json();
-        alert(data["message"]);
-      }
+      await register(username, password, confirm_password);
+      const token = await login(username, password);
+      setAuthToken(token);
+      sessionStorage.setItem("auth_token", token);
+      window.location.replace("/");
     } catch (error) {
-      throw error;
+      console.error(error);
     }
   };
 

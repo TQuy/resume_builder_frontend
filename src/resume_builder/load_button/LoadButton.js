@@ -46,12 +46,16 @@ function SavedResume({
   dispatch,
   setAlertContent,
 }) {
-  const handleClick = async (resume_id) => {
-    const data = await load_resume(resume_id);
-    setCurrentResume({ id: resume_id, name: resume_name });
-    dispatch({ name: "load", value: data["content"] });
-    // call alert
-    setAlertContent(data["message"]);
+  const handleClick = async (resume_id, resume_name) => {
+    try {
+      const data = await load_resume(resume_id);
+      setCurrentResume({ id: resume_id, name: resume_name });
+      dispatch({ name: "load", value: data["content"] });
+      // call alert
+      setAlertContent(data["message"]);
+    } catch(error) {
+      console.error(error);
+    }
   };
   return (
     <li>
