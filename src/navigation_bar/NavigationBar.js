@@ -9,18 +9,10 @@ export default function NavigationBar({ authToken, setAuthToken }) {
   };
   const Login = (
     <>
-      <NavLink
-        className="nav-link active"
-        to="/login/"
-        aria-current="page"
-      >
+      <NavLink className="nav-link active" to="/login/" aria-current="page">
         Log in
       </NavLink>
-      <NavLink
-        className="nav-link active"
-        to="/register/"
-        aria-current="page"
-      >
+      <NavLink className="nav-link active" to="/register/" aria-current="page">
         Register
       </NavLink>
     </>
@@ -48,11 +40,7 @@ export default function NavigationBar({ authToken, setAuthToken }) {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav me-auto">
-            <NavLink
-              className="nav-link active"
-              to="/"
-              aria-current="page"
-            >
+            <NavLink className="nav-link active" to="/" aria-current="page">
               Home
             </NavLink>
           </div>

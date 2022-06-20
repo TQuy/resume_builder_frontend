@@ -53,7 +53,7 @@ function SavedResume({
       dispatch({ name: "load", value: data["content"] });
       // call alert
       setAlertContent(data["message"]);
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
   };

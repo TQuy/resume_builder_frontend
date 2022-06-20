@@ -88,7 +88,7 @@ export async function save_resume(fileName, content) {
       alert(data["message"]);
       throw new Error(data["message"]);
     }
-    
+
     return data;
   } catch (error) {
     throw error;
@@ -99,13 +99,10 @@ export async function delete_resume(resume_id) {
   console.log("delete_resume");
   try {
     const auth_token = get_auth_token();
-    const response = await fetch(
-      `${hostName}resume/${resume_id}/delete/`,
-      {
-        method: "DELETE",
-        headers: { Authorization: auth_token },
-      }
-    );
+    const response = await fetch(`${hostName}resume/${resume_id}/delete/`, {
+      method: "DELETE",
+      headers: { Authorization: auth_token },
+    });
     const data = await response.json();
 
     if (response.ok === false) {
@@ -130,7 +127,7 @@ export async function login(username, password) {
         username: username,
         password: password,
       }),
-    });    
+    });
     const data = await response.json();
 
     if (response.ok === false) {
@@ -147,7 +144,7 @@ export async function login(username, password) {
 export async function register(username, password, confirm_password) {
   console.log("register");
   if (password !== confirm_password) {
-    alert('The password and confirm password are not the same.');
+    alert("The password and confirm password are not the same.");
   }
   try {
     const response = await fetch(`${hostName}resume/register/`, {
@@ -159,7 +156,6 @@ export async function register(username, password, confirm_password) {
         confirm_password: confirm_password,
       }),
     });
-    const data = await response.json();
 
     if (response.ok === false) {
       alert("Login failed.");

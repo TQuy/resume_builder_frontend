@@ -28,7 +28,7 @@ const DeleteButton = React.memo(function DeleteButton({
       setResumeList(resume_list);
       // close delete modal
       handleShowHideModal("hide", deleteModalRef);
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
   };
