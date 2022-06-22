@@ -1,17 +1,28 @@
-# How to start this project
-
-1. Create `python` environment and activate it.
-1. Install dependencies `pip install -r requirements.txt`
-1. start `Django` server `python manage.py runserver`
-1. Open new terminal for `ReactJS`
-1. In the new terminal, redirect to `frontend` directory
-1. Install dependencies `npm install`
-1. Start React app with `npm start`
-# Running with docker
-
-1. `git checkout containerization`
-1. `docker-compose up`
-1. access the website via `http://192.168.18.2:81/`
+# How to start ReactJS
+1. Redirect to `frontend` directory
+    ```
+    cd frontend
+    ```
+2. Install dependencies
+    ```
+    npm install
+    ```
+3. Start React app
+    ```
+    npm start
+    ```
+# How to format front-end code
+To format python codes  
+```
+npm run prettier
+```
+## Build image
+To build an image
+```
+docker image build -t thequy/resume_builder_reactjs_nginx:1.0 .
+```
+You need to change `thequy` to your docker hub username if you wish to publish your own image to docker hub.  
+Google to learn how to publish your docker image.
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
