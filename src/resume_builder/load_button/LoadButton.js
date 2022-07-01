@@ -59,7 +59,7 @@ function SavedResume({
   };
   return (
     <li>
-      <button className="dropdown-item" onClick={() => handleClick(resume_id)}>
+      <button className="dropdown-item" onClick={() => handleClick(resume_id, resume_name)}>
         {resume_name}
       </button>
     </li>
