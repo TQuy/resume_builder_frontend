@@ -48,18 +48,22 @@ function SavedResume({
 }) {
   const handleClick = async (resume_id, resume_name) => {
     try {
-      const data = await load_resume(resume_id);
-      setCurrentResume({ id: resume_id, name: resume_name });
-      dispatch({ name: "load", value: data["content"] });
+      const resume = await load_resume(resume_id);
+      setCurrentResume({ id: resume.id, name: resume.name });
+      dispatch({ name: "load", value: resume.content });
       // call alert
-      setAlertContent(data["message"]);
+      setAlertContent("resume loaded successfully.");
     } catch (error) {
+      if (error.response) setAlertContent(error.response.data.error);
       console.error(error);
     }
   };
   return (
     <li>
-      <button className="dropdown-item" onClick={() => handleClick(resume_id, resume_name)}>
+      <button
+        className="dropdown-item"
+        onClick={() => handleClick(resume_id, resume_name)}
+      >
         {resume_name}
       </button>
     </li>

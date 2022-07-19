@@ -37,8 +37,9 @@ const SaveButton = React.memo(function SaveButton({
       setAlertContent(data["message"]);
       // close saveModal
       handleShowHideModal("hide", saveModalRef);
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      if (error.response) alert(error.response.data.error);
+      console.error(error);
     }
   };
 

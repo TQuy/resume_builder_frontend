@@ -14,6 +14,7 @@ export default function RegisterPage({ setAuthToken }) {
       sessionStorage.setItem("auth_token", token);
       window.location.replace("/");
     } catch (error) {
+      if (error.response) alert(error.response.data.error);
       console.error(error);
     }
   };

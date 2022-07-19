@@ -58,6 +58,7 @@ function reducer(state, action) {
 }
 
 export const DispatchContext = createContext();
+DispatchContext.displayName = "DispatchContext";
 
 function ResumeBuilder({ authToken }) {
   const [resumeList, setResumeList] = useState([]);
@@ -85,7 +86,10 @@ function ResumeBuilder({ authToken }) {
     if (authToken) {
       list_resume()
         .then((resume_list) => setResumeList(resume_list))
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          if (error.response) alert(error.response.data.error);
+          console.error(error);
+        });
     }
   }, [authToken]);
 
