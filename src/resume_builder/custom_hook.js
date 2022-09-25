@@ -50,12 +50,12 @@ export function useDetailRef() {
 }
 
 export function handleChange(e, index, dispatch) {
-  const setHeight = (target) => {
+  const updateHeight = (target) => {
     if (target.tagName === "TEXTAREA") {
       target.style.height = 0;
       target.style.height = `${Math.max(e.target.scrollHeight, 45)}px`;
     }
   };
-  setHeight(e.target);
+  updateHeight(e.target);
   dispatch(e, index);
 }
