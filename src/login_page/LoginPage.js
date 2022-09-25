@@ -6,9 +6,9 @@ export default function LoginPage({ setAuthToken }) {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const username = e.target[0].value;
-      const password = e.target[1].value;
-      const token = await login(username, password);
+      const formData = new FormData(e.target);
+      const formProps = Object.fromEntries(formData);
+      const token = await login(formProps.username, formProps.password);
       setAuthToken(token);
       sessionStorage.setItem("auth_token", token);
       window.location.replace("/");
