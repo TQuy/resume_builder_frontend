@@ -1,5 +1,5 @@
 import "./RegisterPage.css";
-import { register, login } from "resume_builder/Base";
+import { register, login } from "resume_builder/utils";
 
 export default function RegisterPage({ setAuthToken }) {
   const handleSubmit = async (e) => {

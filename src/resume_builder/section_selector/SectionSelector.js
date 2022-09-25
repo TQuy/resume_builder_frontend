@@ -1,5 +1,5 @@
 import React from "react";
-import { capitalize } from "resume_builder/Base";
+import { capitalize } from "resume_builder/utils";
 import "./SectionSelector.css";
 
 function SectionSelector({ control_state, dispatch }) {

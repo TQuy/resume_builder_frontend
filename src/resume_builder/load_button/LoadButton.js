@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { load_resume } from "resume_builder/Base";
+import { load_resume } from "resume_builder/utils";
 import { DispatchContext } from "resume_builder/ResumeBuilder";
 
 const LoadButton = React.memo(function ({

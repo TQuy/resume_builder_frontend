@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from "react";
-import { delete_resume, list_resume } from "resume_builder/Base";
+import { delete_resume, list_resume } from "resume_builder/utils";
 import { DispatchContext } from "resume_builder/ResumeBuilder";
 import { handleShowHideModal } from "utils";
 

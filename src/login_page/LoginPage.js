@@ -1,6 +1,6 @@
 import "./LoginPage.css";
 import { Link } from "react-router-dom";
-import { login } from "resume_builder/Base";
+import { login } from "resume_builder/utils";
 
 export default function LoginPage({ setAuthToken }) {
   const handleSubmit = async (e) => {

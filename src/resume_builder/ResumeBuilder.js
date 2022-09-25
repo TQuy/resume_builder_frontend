@@ -1,7 +1,7 @@
 /* eslint-disable no-fallthrough */
 import "./ResumeBuilder.css";
 import { useReducer, useEffect, useState, createContext } from "react";
-import { list_resume } from "./Base";
+import { list_resume } from "./utils";
 import SectionSelector from "./section_selector/SectionSelector";
 import BasicInfo from "./basic_info/BasicInfo";
 import Education from "./education/Education";

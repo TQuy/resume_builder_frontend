@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { list_resume, save_resume } from "resume_builder/Base";
+import { list_resume, save_resume } from "resume_builder/utils";
 import { handleShowHideModal } from "utils";
 
 const SaveButton = React.memo(function SaveButton({
