@@ -1,41 +1,45 @@
 import { useRef, useEffect } from "react";
+import _set from "lodash/fp/set";
 
-export function useSectionList(name, control_state, initial_content, dispatch) {
-  const { checked, number_subsection, payload } = control_state;
-  let content_list;
-  let empty_list;
-  if (payload.length === 0) {
-    content_list = Array(number_subsection).fill(initial_content);
-  } else if (payload.length >= number_subsection) {
-    content_list = payload.slice(0, number_subsection);
-  } else {
-    // when content.length < number_subsection
-    empty_list = Array(number_subsection - payload.length).fill(
-      initial_content
-    );
-    content_list = payload.concat(empty_list);
-  }
-  const handleChange = (e, index) => {
-    const new_payload = content_list.slice(0);
-    const new_content = {
-      ...new_payload[index],
-      [e.target.name]: e.target.value,
-    };
-    new_payload[index] = new_content;
-    dispatch({ name: name, key: "payload", value: new_payload });
+export function useSectionList(name, state, initialContent, updater) {
+  const { checked, number_subsection: subsectionQuantity, payload } = state;
+  const sectionContent = getContentList(
+    payload,
+    subsectionQuantity,
+    initialContent
+  );
+  const handleUpdateSubsection = (e, idx) => {
+    const newPayload = _set([idx, e.target.name], e.target.value)(sectionContent);
+    updater({ name: name, key: "payload", value: newPayload });
   };
-  return [content_list, handleChange, checked];
+  return [sectionContent, handleUpdateSubsection, checked];
+}
+
+function getContentList(sectionContent, displayQuantity, initialValue) {
+  const availableQuantity = sectionContent.length;
+  if (availableQuantity === 0) {
+    return Array(displayQuantity).fill(initialValue);
+  } else if (availableQuantity >= displayQuantity) {
+    return sectionContent.slice(0, displayQuantity);
+  } else {
+    // when availableQuantity < displayQuantity
+    const fillInContent = Array(displayQuantity - availableQuantity).fill(
+      initialValue
+    );
+    return sectionContent.concat(fillInContent);
+  }
 }
 
 export function useDetailRef() {
   const Detail = useRef(null);
   useEffect(() => {
-    Detail.current.style.height = `${Math.max(
-      Detail.current.scrollHeight,
-      45
-    )}px`;
-    Detail.current.style.overflowY = "hidden";
+    const autoReizeTextArea = (areaProps) => {
+      areaProps.style.height = `${Math.max(areaProps.scrollHeight, 45)}px`;
+      areaProps.style.overflowY = "hidden";
+    };
+    autoReizeTextArea(Detail.current);
   });
+
   return Detail;
 }
 
