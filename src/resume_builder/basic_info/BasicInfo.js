@@ -3,7 +3,7 @@ import "./BasicInfo.css";
 import { useSectionList, handleChange } from "../custom_hook";
 import { DispatchContext } from "resume_builder/ResumeBuilder";
 
-const BasicInfo = React.memo(function ({ control_state }) {
+const BasicInfo = React.memo(function ({ state }) {
   const dispatch = useContext(DispatchContext);
   const initialContent = {
     gender: "",
@@ -14,7 +14,7 @@ const BasicInfo = React.memo(function ({ control_state }) {
   };
   const [contentList, setContentList, checked] = useSectionList(
     "basic-info",
-    control_state,
+    state,
     initialContent,
     dispatch
   );

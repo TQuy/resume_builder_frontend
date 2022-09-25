@@ -16,16 +16,17 @@ import DeleteButton from "./delete_button/DeleteButton";
 import PrintButton from "./print_button/PrintButton";
 import Alert from "./alert/Alert";
 
-const initControlState = (preservedKey) => {
+const getInitialValue = (preservedKey) => {
   switch (preservedKey) {
     case "currentResume": {
       const preservedState = sessionStorage.getItem(preservedKey);
       if (preservedState) return JSON.parse(preservedState);
       return { name: "blank", id: 0 };
     }
-    case "control_state": {
+    case "state": {
       const preservedState = sessionStorage.getItem(preservedKey);
       if (preservedState) return JSON.parse(preservedState);
+      // else go to default
     }
     default: {
       return {
@@ -43,7 +44,7 @@ const initControlState = (preservedKey) => {
 function reducer(state, action) {
   switch (action.name) {
     case "blank":
-      const initState = initControlState("init");
+      const initState = getInitialValue("init");
       return initState;
     case "load":
       return action.value;
@@ -63,13 +64,9 @@ DispatchContext.displayName = "DispatchContext";
 function ResumeBuilder({ authToken }) {
   const [resumeList, setResumeList] = useState([]);
   const [currentResume, setCurrentResume] = useState(() =>
-    initControlState("currentResume")
+    getInitialValue("currentResume")
   );
-  const [control_state, dispatch] = useReducer(
-    reducer,
-    "control_state",
-    initControlState
-  );
+  const [state, dispatch] = useReducer(reducer, "state", getInitialValue);
   const [alertContent, setAlertContent] = useState("");
 
   useEffect(() => {
@@ -78,9 +75,9 @@ function ResumeBuilder({ authToken }) {
   });
 
   useEffect(() => {
-    // preserve control_state in sessionStorage
-    sessionStorage.setItem("control_state", JSON.stringify(control_state));
-  }, [control_state]);
+    // preserve state in sessionStorage
+    sessionStorage.setItem("state", JSON.stringify(state));
+  }, [state]);
 
   useEffect(() => {
     if (authToken) {
@@ -131,15 +128,15 @@ function ResumeBuilder({ authToken }) {
           {currentResume["name"]}
         </h1>
         <div className="d-print-none">
-          <SectionSelector control_state={control_state} dispatch={dispatch} />
+          <SectionSelector state={state} dispatch={dispatch} />
         </div>
         <div id="resume" className="sheet">
-          <BasicInfo control_state={control_state["basic-info"]} />
-          <Education control_state={control_state["education"]} />
-          <Employment control_state={control_state["employment"]} />
-          <Certificates control_state={control_state["certificates"]} />
-          <Skills control_state={control_state["skills"]} />
-          <Projects control_state={control_state["projects"]} />
+          <BasicInfo state={state["basic-info"]} />
+          <Education state={state["education"]} />
+          <Employment state={state["employment"]} />
+          <Certificates state={state["certificates"]} />
+          <Skills state={state["skills"]} />
+          <Projects state={state["projects"]} />
         </div>
       </DispatchContext.Provider>
     </>

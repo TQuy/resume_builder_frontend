@@ -26,8 +26,8 @@ const SaveButton = React.memo(function SaveButton({
     e.preventDefault();
     const fileName = nameInputRef.current.value;
     try {
-      const controlState = JSON.parse(sessionStorage.getItem("control_state"));
-      const data = await save_resume(fileName, controlState);
+      const state = JSON.parse(sessionStorage.getItem("state"));
+      const data = await save_resume(fileName, state);
       // update the resume_list for load button
       const resume_list = await list_resume();
       setResumeList(resume_list);

@@ -20,17 +20,19 @@ export function useSectionList(name, state, initialContent, updater) {
 
 function getContentList(sectionContent, displayQuantity, initialValue) {
   const availableQuantity = sectionContent.length;
+  let newSectionContent;
   if (availableQuantity === 0) {
-    return Array(displayQuantity).fill(initialValue);
+    newSectionContent = Array(displayQuantity).fill(initialValue);
   } else if (availableQuantity >= displayQuantity) {
-    return sectionContent.slice(0, displayQuantity);
+    newSectionContent = sectionContent.slice(0, displayQuantity);
   } else {
     // when availableQuantity < displayQuantity
     const fillInContent = Array(displayQuantity - availableQuantity).fill(
       initialValue
     );
-    return sectionContent.concat(fillInContent);
+    newSectionContent = sectionContent.concat(fillInContent);
   }
+  return newSectionContent;
 }
 
 export function useDetailRef() {

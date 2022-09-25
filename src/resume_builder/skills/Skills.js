@@ -3,14 +3,14 @@ import "./Skills.css";
 import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
 import { DispatchContext } from "resume_builder/ResumeBuilder";
 
-const Skills = React.memo(function ({ control_state }) {
+const Skills = React.memo(function ({ state }) {
   const dispatch = useContext(DispatchContext);
   const initial_content = {
     "skill-detail": "",
   };
   const [contentList, setContentList, checked] = useSectionList(
     "skills",
-    control_state,
+    state,
     initial_content,
     dispatch
   );

@@ -3,7 +3,7 @@ import "./Employment.css";
 import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
 import { DispatchContext } from "resume_builder/ResumeBuilder";
 
-const Employment = React.memo(function ({ control_state }) {
+const Employment = React.memo(function ({ state }) {
   const dispatch = useContext(DispatchContext);
   const initial_content = {
     "company-period": "",
@@ -13,7 +13,7 @@ const Employment = React.memo(function ({ control_state }) {
   };
   const [contentList, setContentList, checked] = useSectionList(
     "employment",
-    control_state,
+    state,
     initial_content,
     dispatch
   );

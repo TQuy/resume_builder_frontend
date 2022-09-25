@@ -3,7 +3,7 @@ import "./Certificates.css";
 import { useSectionList, handleChange } from "../custom_hook";
 import { DispatchContext } from "resume_builder/ResumeBuilder";
 
-const Certificates = React.memo(function ({ control_state }) {
+const Certificates = React.memo(function ({ state }) {
   const dispatch = useContext(DispatchContext);
   const initial_content = {
     "valid-period": "",
@@ -11,7 +11,7 @@ const Certificates = React.memo(function ({ control_state }) {
   };
   const [contentList, setContentList, checked] = useSectionList(
     "certificates",
-    control_state,
+    state,
     initial_content,
     dispatch
   );

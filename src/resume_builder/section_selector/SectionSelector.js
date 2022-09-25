@@ -2,7 +2,7 @@ import React from "react";
 import { capitalize } from "resume_builder/utils";
 import "./SectionSelector.css";
 
-function SectionSelector({ control_state, dispatch }) {
+function SectionSelector({ state, dispatch }) {
   return (
     <div id="section-selector" className="dropdown">
       <button
@@ -18,38 +18,38 @@ function SectionSelector({ control_state, dispatch }) {
         <li>
           <Section
             name={"basic-info"}
-            checked={control_state["basic-info"].checked}
-            number_subsection={control_state["basic-info"].number_subsection}
+            checked={state["basic-info"].checked}
+            number_subsection={state["basic-info"].number_subsection}
             dispatch={dispatch}
           />
           <Section
             name={"education"}
-            checked={control_state["education"].checked}
-            number_subsection={control_state["education"].number_subsection}
+            checked={state["education"].checked}
+            number_subsection={state["education"].number_subsection}
             dispatch={dispatch}
           />
           <Section
             name={"employment"}
-            checked={control_state["employment"].checked}
-            number_subsection={control_state["employment"].number_subsection}
+            checked={state["employment"].checked}
+            number_subsection={state["employment"].number_subsection}
             dispatch={dispatch}
           />
           <Section
             name={"certificates"}
-            checked={control_state["certificates"].checked}
-            number_subsection={control_state["certificates"].number_subsection}
+            checked={state["certificates"].checked}
+            number_subsection={state["certificates"].number_subsection}
             dispatch={dispatch}
           />
           <Section
             name={"skills"}
-            checked={control_state["skills"].checked}
-            number_subsection={control_state["skills"].number_subsection}
+            checked={state["skills"].checked}
+            number_subsection={state["skills"].number_subsection}
             dispatch={dispatch}
           />
           <Section
             name={"projects"}
-            checked={control_state["projects"].checked}
-            number_subsection={control_state["projects"].number_subsection}
+            checked={state["projects"].checked}
+            number_subsection={state["projects"].number_subsection}
             dispatch={dispatch}
           />
         </li>
