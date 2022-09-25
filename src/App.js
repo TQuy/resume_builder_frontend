@@ -11,8 +11,6 @@ function App() {
     sessionStorage.getItem("auth_token")
   );
 
-  console.log("authToken", authToken);
-
   return (
     <>
       <BrowserRouter>
