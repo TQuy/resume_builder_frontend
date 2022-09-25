@@ -4,12 +4,12 @@ import { register, login } from "resume_builder/utils";
 export default function RegisterPage({ setAuthToken }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const username = e.target[0].value;
-    const password = e.target[1].value;
-    const confirm_password = e.target[2].value;
+    const formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
+    console.log({formProps})
     try {
-      await register(username, password, confirm_password);
-      const token = await login(username, password);
+      await register(formProps.username, formProps.password, formProps.passwordConfirmation);
+      const token = await login(formProps.username, formProps.password);
       setAuthToken(token);
       sessionStorage.setItem("auth_token", token);
       window.location.replace("/");
@@ -53,7 +53,7 @@ export default function RegisterPage({ setAuthToken }) {
             Confirm password
           </label>
           <input
-            name="password"
+            name="passwordConfirmation"
             type="password"
             className="form-control"
             id="confirmPassword"
