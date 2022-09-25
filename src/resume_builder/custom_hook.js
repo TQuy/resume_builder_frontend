@@ -9,7 +9,10 @@ export function useSectionList(name, state, initialContent, updater) {
     initialContent
   );
   const handleUpdateSubsection = (e, idx) => {
-    const newPayload = _set([idx, e.target.name], e.target.value)(sectionContent);
+    const newPayload = _set(
+      [idx, e.target.name],
+      e.target.value
+    )(sectionContent);
     updater({ name: name, key: "payload", value: newPayload });
   };
   return [sectionContent, handleUpdateSubsection, checked];
@@ -33,21 +36,26 @@ function getContentList(sectionContent, displayQuantity, initialValue) {
 export function useDetailRef() {
   const Detail = useRef(null);
   useEffect(() => {
-    const autoReizeTextArea = (areaProps) => {
-      areaProps.style.height = `${Math.max(areaProps.scrollHeight, 45)}px`;
-      areaProps.style.overflowY = "hidden";
+    const setInitialHeight = (textAreaProps) => {
+      textAreaProps.style.height = `${Math.max(
+        textAreaProps.scrollHeight,
+        45
+      )}px`;
+      textAreaProps.style.overflowY = "hidden";
     };
-    autoReizeTextArea(Detail.current);
-  });
+    setInitialHeight(Detail.current);
+  }, []);
 
   return Detail;
 }
 
 export function handleChange(e, index, dispatch) {
-  if (e.target.tagName === "TEXTAREA") {
-    // adjust textarea height
-    e.target.style.height = "auto";
-    e.target.style.height = `${Math.max(e.target.scrollHeight, 45)}px`;
-  }
+  const setHeight = (target) => {
+    if (target.tagName === "TEXTAREA") {
+      target.style.height = 0;
+      target.style.height = `${Math.max(e.target.scrollHeight, 45)}px`;
+    }
+  };
+  setHeight(e.target);
   dispatch(e, index);
 }
