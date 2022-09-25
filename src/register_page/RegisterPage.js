@@ -6,9 +6,12 @@ export default function RegisterPage({ setAuthToken }) {
     e.preventDefault();
     const formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
-    console.log({formProps})
     try {
-      await register(formProps.username, formProps.password, formProps.passwordConfirmation);
+      await register(
+        formProps.username,
+        formProps.password,
+        formProps.passwordConfirmation
+      );
       const token = await login(formProps.username, formProps.password);
       setAuthToken(token);
       sessionStorage.setItem("auth_token", token);

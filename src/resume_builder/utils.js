@@ -111,10 +111,10 @@ export async function login(username, password) {
 export async function register(username, password, passwordConfirmation) {
   console.log("register");
   if (password !== passwordConfirmation) {
-    const errorContent = "The password and confirm password are not the same."
+    const errorContent = "The password and confirm password are not the same.";
     // if you close the alert dialog, the program will run the next line of code/
     alert(errorContent);
-    throw new Error(errorContent)
+    throw new Error(errorContent);
   }
   try {
     await axios({

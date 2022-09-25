@@ -5,7 +5,7 @@ import { DispatchContext } from "resume_builder/ResumeBuilder";
 
 const BasicInfo = React.memo(function ({ control_state }) {
   const dispatch = useContext(DispatchContext);
-  const initial_content = {
+  const initialContent = {
     gender: "",
     "year-of-birth": "",
     "full-name": "",
@@ -15,10 +15,10 @@ const BasicInfo = React.memo(function ({ control_state }) {
   const [contentList, setContentList, checked] = useSectionList(
     "basic-info",
     control_state,
-    initial_content,
+    initialContent,
     dispatch
   );
-  const list_of_info = contentList.map((content_i, i) => {
+  const ListOfInfo = contentList.map((content_i, i) => {
     return (
       <Info
         key={i.toString()}
@@ -27,7 +27,7 @@ const BasicInfo = React.memo(function ({ control_state }) {
       />
     );
   });
-  return <>{checked && <div id="basic-info">{list_of_info}</div>}</>;
+  return <>{checked && <div id="basic-info">{ListOfInfo}</div>}</>;
 });
 
 function Info({ content, handleChange }) {
