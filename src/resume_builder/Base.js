@@ -93,7 +93,7 @@ export async function delete_resume(resume_id) {
 export async function login(username, password) {
   console.log("login");
   try {
-    const response = await fetch({
+    const response = await axios({
       url: `${hostName}auth/login`,
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -115,7 +115,7 @@ export async function register(username, password, confirm_password) {
   }
   try {
     await axios({
-      url: `${hostName}auth/register/`,
+      url: `${hostName}auth/register`,
       method: "post",
       headers: { "Content-Type": "application/json" },
       data: {
