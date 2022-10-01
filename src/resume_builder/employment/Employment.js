@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "./Employment.css";
-import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
+import { useSectionList, useDetailRef } from "../custom_hook";
 import { DispatchContext } from "resume_builder/ResumeBuilder";
 
 const Employment = React.memo(function ({ state }) {
@@ -22,7 +22,7 @@ const Employment = React.memo(function ({ state }) {
       <Company
         key={i.toString()}
         content={content_i}
-        handleChange={(e) => handleChange(e, i, setContentList)}
+        handleChange={(e) => setContentList(e, i)}
       />
     );
   });

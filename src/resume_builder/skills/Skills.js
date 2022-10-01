@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "./Skills.css";
-import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
+import { useSectionList, useDetailRef } from "../custom_hook";
 import { DispatchContext } from "resume_builder/ResumeBuilder";
 
 const Skills = React.memo(function ({ state }) {
@@ -19,7 +19,7 @@ const Skills = React.memo(function ({ state }) {
       <Skill
         key={i.toString()}
         content={content_i}
-        handleChange={(e) => handleChange(e, i, setContentList)}
+        handleChange={(e) => setContentList(e, i)}
       />
     );
   });

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "./Projects.css";
-import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
+import { useSectionList, useDetailRef } from "../custom_hook";
 import { DispatchContext } from "resume_builder/ResumeBuilder";
 
 const Projects = React.memo(function ({ state }) {
@@ -20,7 +20,7 @@ const Projects = React.memo(function ({ state }) {
       <Project
         key={i.toString()}
         content={content_i}
-        handleChange={(e) => handleChange(e, i, setContentList)}
+        handleChange={(e) => setContentList(e, i)}
       />
     );
   });

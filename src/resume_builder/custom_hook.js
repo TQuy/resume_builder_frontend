@@ -3,7 +3,7 @@ import _set from "lodash/fp/set";
 
 export function useSectionList(name, state, initialContent, updater) {
   const { checked, number_subsection: subsectionQuantity, payload } = state;
-  const sectionContent = getContentList(
+  const sectionContent = getSectionDOMContent(
     payload,
     subsectionQuantity,
     initialContent
@@ -18,7 +18,7 @@ export function useSectionList(name, state, initialContent, updater) {
   return [sectionContent, handleUpdateSubsection, checked];
 }
 
-function getContentList(sectionContent, displayQuantity, initialValue) {
+function getSectionDOMContent(sectionContent, displayQuantity, initialValue) {
   const availableQuantity = sectionContent.length;
   let newSectionContent;
   if (availableQuantity === 0) {
@@ -48,16 +48,18 @@ export function useDetailRef() {
     setInitialHeight(Detail.current);
   }, []);
 
-  return Detail;
-}
+  useEffect(() => {
+    const textAreaObj = Detail.current;
 
-export function handleChange(e, index, dispatch) {
-  const updateHeight = (target) => {
-    if (target.tagName === "TEXTAREA") {
-      target.style.height = 0;
-      target.style.height = `${Math.max(e.target.scrollHeight, 45)}px`;
-    }
-  };
-  updateHeight(e.target);
-  dispatch(e, index);
+    const updateHeight = () => {
+      textAreaObj.style.height = 0;
+      textAreaObj.style.height = `${Math.max(textAreaObj.scrollHeight, 45)}px`;
+    };
+
+    textAreaObj.addEventListener("input", updateHeight);
+
+    return () => textAreaObj.removeEventListener("input", updateHeight);
+  });
+
+  return Detail;
 }

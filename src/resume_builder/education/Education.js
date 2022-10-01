@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "./Education.css";
-import { useSectionList, useDetailRef, handleChange } from "../custom_hook";
+import { useSectionList, useDetailRef } from "../custom_hook";
 import { DispatchContext } from "resume_builder/ResumeBuilder";
 
 const Education = React.memo(function ({ state }) {
@@ -22,7 +22,7 @@ const Education = React.memo(function ({ state }) {
       <School
         key={i.toString()}
         content={content_i}
-        handleChange={(e) => handleChange(e, i, setContentList)}
+        handleChange={(e) => setContentList(e, i)}
       />
     );
   });
@@ -83,5 +83,7 @@ function School({ content, handleChange }) {
     </li>
   );
 }
+
+Education.displayName = "Education";
 
 export default Education;

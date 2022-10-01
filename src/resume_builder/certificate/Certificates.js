@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "./Certificates.css";
-import { useSectionList, handleChange } from "../custom_hook";
+import { useSectionList } from "../custom_hook";
 import { DispatchContext } from "resume_builder/ResumeBuilder";
 
 const Certificates = React.memo(function ({ state }) {
@@ -20,7 +20,7 @@ const Certificates = React.memo(function ({ state }) {
       <Certificate
         key={i.toString()}
         content={content_i}
-        handleChange={(e) => handleChange(e, i, setContentList)}
+        handleChange={(e) => setContentList(e, i)}
       />
     );
   });
