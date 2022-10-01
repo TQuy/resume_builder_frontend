@@ -143,4 +143,6 @@ function ResumeBuilder({ authToken }) {
   );
 }
 
+ResumeBuilder.displayName = "ResumeBuilder";
+
 export default ResumeBuilder;
