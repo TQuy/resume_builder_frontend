@@ -37,6 +37,7 @@ function getSectionDOMContent(sectionContent, displayQuantity, initialValue) {
 
 export function useDetailRef() {
   const Detail = useRef(null);
+
   useEffect(() => {
     const setInitialHeight = (textAreaProps) => {
       textAreaProps.style.height = `${Math.max(

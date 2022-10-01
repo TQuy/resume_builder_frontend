@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import "./Education.css";
 import { useSectionList, useDetailRef } from "../custom_hook";
-import { DispatchContext } from "resume_builder/ResumeBuilder";
+import { dispatchContext } from "resume_builder/ResumeBuilder";
 
 const Education = React.memo(function ({ state }) {
-  const dispatch = useContext(DispatchContext);
+  const dispatch = useContext(dispatchContext);
   const initial_content = {
     "school-period": "",
     "school-name": "",

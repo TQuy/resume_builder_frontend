@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import "./BasicInfo.css";
 import { useSectionList } from "../custom_hook";
-import { DispatchContext } from "resume_builder/ResumeBuilder";
+import { dispatchContext } from "resume_builder/ResumeBuilder";
 
 const BasicInfo = React.memo(function ({ state }) {
-  const dispatch = useContext(DispatchContext);
+  const dispatch = useContext(dispatchContext);
   const initialContent = {
     gender: "",
     "year-of-birth": "",

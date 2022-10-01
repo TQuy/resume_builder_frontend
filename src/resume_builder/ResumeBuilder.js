@@ -58,8 +58,8 @@ function reducer(state, action) {
   }
 }
 
-export const DispatchContext = createContext();
-DispatchContext.displayName = "DispatchContext";
+export const dispatchContext = createContext();
+dispatchContext.displayName = "DispatchContext";
 
 function ResumeBuilder({ authToken }) {
   const [resumeList, setResumeList] = useState([]);
@@ -102,7 +102,7 @@ function ResumeBuilder({ authToken }) {
 
   return (
     <>
-      <DispatchContext.Provider value={dispatch}>
+      <dispatchContext.Provider value={dispatch}>
         <Alert content={alertContent} />
         <div id="button-group" className="d-print-none">
           <SaveButton
@@ -138,7 +138,7 @@ function ResumeBuilder({ authToken }) {
           <Skills state={state["skills"]} />
           <Projects state={state["projects"]} />
         </div>
-      </DispatchContext.Provider>
+      </dispatchContext.Provider>
     </>
   );
 }
