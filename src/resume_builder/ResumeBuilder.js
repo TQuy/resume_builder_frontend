@@ -117,7 +117,6 @@ function ResumeBuilder({ authToken }) {
             />
             <ClearButton setCurrentResume={setCurrentResume} />
             <DeleteButton
-              currentResume={currentResume}
               setCurrentResume={setCurrentResume}
               setResumeList={setResumeList}
               setAlertContent={setAlertContent}
@@ -125,7 +124,7 @@ function ResumeBuilder({ authToken }) {
             <PrintButton />
           </div>
           <h1 style={{ textAlign: "center" }} className="d-print-none">
-            {currentResume["name"]}
+            {currentResume.name}
           </h1>
           <div className="d-print-none">
             <SectionSelector state={state} dispatch={dispatch} />
