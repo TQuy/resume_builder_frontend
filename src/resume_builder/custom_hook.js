@@ -1,5 +1,4 @@
 import _set from "lodash/fp/set";
-import _reverse from "lodash/fp/reverse";
 
 export function useSectionList(name, state, initialContent, updater) {
   const { checked, number_subsection: subsectionQuantity, payload } = state;
@@ -32,5 +31,5 @@ function getSectionDOMContent(sectionContent, displayQuantity, initialValue) {
     );
     newSectionContent = sectionContent.concat(fillInContent);
   }
-  return _reverse(newSectionContent);
+  return newSectionContent;
 }
