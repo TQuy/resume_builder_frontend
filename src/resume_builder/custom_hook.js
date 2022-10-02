@@ -1,4 +1,3 @@
-import { useRef, useEffect } from "react";
 import _set from "lodash/fp/set";
 
 export function useSectionList(name, state, initialContent, updater) {
@@ -33,34 +32,4 @@ function getSectionDOMContent(sectionContent, displayQuantity, initialValue) {
     newSectionContent = sectionContent.concat(fillInContent);
   }
   return newSectionContent;
-}
-
-export function useDetailRef() {
-  const Detail = useRef(null);
-
-  useEffect(() => {
-    const setInitialHeight = (textAreaProps) => {
-      textAreaProps.style.height = `${Math.max(
-        textAreaProps.scrollHeight,
-        45
-      )}px`;
-      textAreaProps.style.overflowY = "hidden";
-    };
-    setInitialHeight(Detail.current);
-  }, []);
-
-  useEffect(() => {
-    const textAreaObj = Detail.current;
-
-    const updateHeight = () => {
-      textAreaObj.style.height = 0;
-      textAreaObj.style.height = `${Math.max(textAreaObj.scrollHeight, 45)}px`;
-    };
-
-    textAreaObj.addEventListener("input", updateHeight);
-
-    return () => textAreaObj.removeEventListener("input", updateHeight);
-  });
-
-  return Detail;
 }

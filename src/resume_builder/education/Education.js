@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import "./Education.css";
-import { useSectionList, useDetailRef } from "../custom_hook";
-import { dispatchContext } from "resume_builder/ResumeBuilder";
+import { useSectionList } from "../custom_hook";
+import { dispatchContext, resumeIDContext } from "resume_builder/ResumeBuilder";
+import TextareaAutosize from "react-textarea-autosize";
 
 const Education = React.memo(function ({ state }) {
   const dispatch = useContext(dispatchContext);
@@ -39,7 +40,8 @@ const Education = React.memo(function ({ state }) {
 });
 
 function School({ content, handleChange }) {
-  const Detail = useDetailRef();
+  const currentResume = useContext(resumeIDContext);
+
   return (
     <li className="school">
       <div className="row">
@@ -72,9 +74,9 @@ function School({ content, handleChange }) {
         </div>
       </div>
       <div className="details">
-        <textarea
+        <TextareaAutosize
+          resumeID={currentResume.id}
           name="school-detail"
-          ref={Detail}
           placeholder="more detail"
           value={content["school-detail"]}
           onInput={(e) => handleChange(e)}

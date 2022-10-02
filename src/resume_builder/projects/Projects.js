@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import "./Projects.css";
-import { useSectionList, useDetailRef } from "../custom_hook";
+import { useSectionList } from "../custom_hook";
 import { dispatchContext } from "resume_builder/ResumeBuilder";
+import ReactTextareaAutosize from "react-textarea-autosize";
 
 const Projects = React.memo(function ({ state }) {
   const dispatch = useContext(dispatchContext);
@@ -37,7 +38,6 @@ const Projects = React.memo(function ({ state }) {
 });
 
 function Project({ content, handleChange }) {
-  const Detail = useDetailRef();
   return (
     <li className="project">
       <div className="row">
@@ -50,12 +50,11 @@ function Project({ content, handleChange }) {
         />
       </div>
       <div className="details">
-        <textarea
+        <ReactTextareaAutosize
           name="project-detail"
           className="left-max"
           placeholder="more detail"
           value={content["project-detail"]}
-          ref={Detail}
           onInput={(e) => handleChange(e)}
         />
       </div>

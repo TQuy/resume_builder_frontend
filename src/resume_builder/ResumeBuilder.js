@@ -15,6 +15,7 @@ import LoadButton from "./load_button/LoadButton";
 import DeleteButton from "./delete_button/DeleteButton";
 import PrintButton from "./print_button/PrintButton";
 import Alert from "./alert/Alert";
+import _set from "lodash/fp/set";
 
 const getInitialValue = (preservedKey) => {
   switch (preservedKey) {
@@ -44,22 +45,20 @@ const getInitialValue = (preservedKey) => {
 function reducer(state, action) {
   switch (action.name) {
     case "blank":
-      const initState = getInitialValue("init");
+      const initState = getInitialValue();
       return initState;
     case "load":
       return action.value;
     default:
-      const newSectionState = {
-        ...state[action.name],
-        [action.key]: action.value,
-      };
-      const newState = { ...state, [action.name]: newSectionState };
-      return newState;
+      return _set([action.name, action.key], action.value)(state);
   }
 }
 
 export const dispatchContext = createContext();
-dispatchContext.displayName = "DispatchContext";
+dispatchContext.displayName = "Dispatch Context";
+
+export const resumeIDContext = createContext();
+resumeIDContext.displayName = "Resume ID Context";
 
 function ResumeBuilder({ authToken }) {
   const [resumeList, setResumeList] = useState([]);
@@ -103,41 +102,43 @@ function ResumeBuilder({ authToken }) {
   return (
     <>
       <dispatchContext.Provider value={dispatch}>
-        <Alert content={alertContent} />
-        <div id="button-group" className="d-print-none">
-          <SaveButton
-            setResumeList={setResumeList}
-            setCurrentResume={setCurrentResume}
-            setAlertContent={setAlertContent}
-          />
-          <LoadButton
-            setCurrentResume={setCurrentResume}
-            resume_list={resumeList}
-            setAlertContent={setAlertContent}
-          />
-          <ClearButton setCurrentResume={setCurrentResume} />
-          <DeleteButton
-            currentResume={currentResume}
-            setCurrentResume={setCurrentResume}
-            setResumeList={setResumeList}
-            setAlertContent={setAlertContent}
-          />
-          <PrintButton />
-        </div>
-        <h1 style={{ textAlign: "center" }} className="d-print-none">
-          {currentResume["name"]}
-        </h1>
-        <div className="d-print-none">
-          <SectionSelector state={state} dispatch={dispatch} />
-        </div>
-        <div id="resume" className="sheet">
-          <BasicInfo state={state["basic-info"]} />
-          <Education state={state["education"]} />
-          <Employment state={state["employment"]} />
-          <Certificates state={state["certificates"]} />
-          <Skills state={state["skills"]} />
-          <Projects state={state["projects"]} />
-        </div>
+        <resumeIDContext.Provider value={currentResume}>
+          <Alert content={alertContent} />
+          <div id="button-group" className="d-print-none">
+            <SaveButton
+              setResumeList={setResumeList}
+              setCurrentResume={setCurrentResume}
+              setAlertContent={setAlertContent}
+            />
+            <LoadButton
+              setCurrentResume={setCurrentResume}
+              resume_list={resumeList}
+              setAlertContent={setAlertContent}
+            />
+            <ClearButton setCurrentResume={setCurrentResume} />
+            <DeleteButton
+              currentResume={currentResume}
+              setCurrentResume={setCurrentResume}
+              setResumeList={setResumeList}
+              setAlertContent={setAlertContent}
+            />
+            <PrintButton />
+          </div>
+          <h1 style={{ textAlign: "center" }} className="d-print-none">
+            {currentResume["name"]}
+          </h1>
+          <div className="d-print-none">
+            <SectionSelector state={state} dispatch={dispatch} />
+          </div>
+          <div id="resume" className="sheet">
+            <BasicInfo state={state["basic-info"]} />
+            <Education state={state["education"]} />
+            <Employment state={state["employment"]} />
+            <Certificates state={state["certificates"]} />
+            <Skills state={state["skills"]} />
+            <Projects state={state["projects"]} />
+          </div>
+        </resumeIDContext.Provider>
       </dispatchContext.Provider>
     </>
   );

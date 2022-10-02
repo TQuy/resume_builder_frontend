@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { DispatchContext } from "resume_builder/ResumeBuilder";
+import { dispatchContext } from "resume_builder/ResumeBuilder";
 
 export default function ClearButton({ setCurrentResume }) {
-  const dispatch = useContext(DispatchContext);
+  const dispatch = useContext(dispatchContext);
   const handleClear = () => {
     dispatch({ name: "blank" });
     setCurrentResume({ name: "blank", id: 0 });

@@ -75,3 +75,7 @@ ul {
 .left-max {
   text-align: left;
 }
+
+textarea {
+  overflow-y: hidden;
+}
