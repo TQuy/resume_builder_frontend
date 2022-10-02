@@ -1,4 +1,5 @@
 import _set from "lodash/fp/set";
+import _reverse from "lodash/fp/reverse";
 
 export function useSectionList(name, state, initialContent, updater) {
   const { checked, number_subsection: subsectionQuantity, payload } = state;
@@ -14,7 +15,12 @@ export function useSectionList(name, state, initialContent, updater) {
     )(sectionContent);
     updater({ name: name, key: "payload", value: newPayload });
   };
-  return [sectionContent, handleUpdateSubsection, checked];
+
+  const handleUpdateSubsectionInReverse = (e, idx) => {
+    handleUpdateSubsection(e, sectionContent.length - 1 - idx);
+  };
+
+  return [_reverse(sectionContent), handleUpdateSubsectionInReverse, checked];
 }
 
 function getSectionDOMContent(sectionContent, displayQuantity, initialValue) {
