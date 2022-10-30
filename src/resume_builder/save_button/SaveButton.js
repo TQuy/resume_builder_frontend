@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { list_resume, save_resume } from "resume_builder/utils";
-import { handleShowHideModal } from "utils";
+import { handleShowHideModal, removeRedundancy } from "utils";
 
 const SaveButton = React.memo(function SaveButton({
   setResumeList,
@@ -27,7 +27,7 @@ const SaveButton = React.memo(function SaveButton({
     const fileName = nameInputRef.current.value;
     try {
       const state = JSON.parse(sessionStorage.getItem("state"));
-      const data = await save_resume(fileName, state);
+      const data = await save_resume(fileName, removeRedundancy(state));
       // update the resume_list for load button
       const resume_list = await list_resume();
       setResumeList(resume_list);
