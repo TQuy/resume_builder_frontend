@@ -70,6 +70,7 @@ const Section = React.memo(function ({
     .split("-")
     .map((word) => capitalize(word))
     .join(" ");
+
   const handleChange = (e) => {
     if (e.target.type === "checkbox") {
       dispatch({ name: name, key: "checked", value: e.target.checked });
@@ -81,6 +82,7 @@ const Section = React.memo(function ({
       });
     }
   };
+
   return (
     <div className="form-check">
       <input

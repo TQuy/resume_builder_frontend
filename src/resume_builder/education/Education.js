@@ -3,6 +3,7 @@ import "./Education.css";
 import { useSectionList } from "../custom_hook";
 import { dispatchContext } from "resume_builder/ResumeBuilder";
 import TextareaAutosize from "react-textarea-autosize";
+import RemoveWrapper from "resume_builder/remove_wrapper/RemoveWrapper";
 
 const Education = React.memo(function ({ state }) {
   const dispatch = useContext(dispatchContext);
@@ -12,19 +13,21 @@ const Education = React.memo(function ({ state }) {
     "school-location": "",
     "school-detail": "",
   };
-  const [contentList, setContentList, checked] = useSectionList(
+  const [contentList, setContentList, checked, handleRemove] = useSectionList(
     "education",
     state,
     initial_content,
     dispatch
   );
+
   const list_of_schools = contentList.map((content_i, i) => {
     return (
-      <School
-        key={i.toString()}
-        content={content_i}
-        handleChange={(e) => setContentList(e, i)}
-      />
+      <RemoveWrapper key={i.toString()} handleRemove={() => handleRemove(i)}>
+        <School
+          content={content_i}
+          handleChange={(e) => setContentList(e, i)}
+        />
+      </RemoveWrapper>
     );
   });
   return (

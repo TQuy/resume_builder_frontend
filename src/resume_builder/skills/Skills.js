@@ -3,13 +3,14 @@ import "./Skills.css";
 import { useSectionList } from "../custom_hook";
 import { dispatchContext } from "resume_builder/ResumeBuilder";
 import TextareaAutosize from "react-textarea-autosize";
+import RemoveWrapper from "resume_builder/remove_wrapper/RemoveWrapper";
 
 const Skills = React.memo(function ({ state }) {
   const dispatch = useContext(dispatchContext);
   const initial_content = {
     "skill-detail": "",
   };
-  const [contentList, setContentList, checked] = useSectionList(
+  const [contentList, setContentList, checked, handleRemove] = useSectionList(
     "skills",
     state,
     initial_content,
@@ -17,11 +18,9 @@ const Skills = React.memo(function ({ state }) {
   );
   const list_of_skills = contentList.map((content_i, i) => {
     return (
-      <Skill
-        key={i.toString()}
-        content={content_i}
-        handleChange={(e) => setContentList(e, i)}
-      />
+      <RemoveWrapper key={i.toString()} handleRemove={() => handleRemove(i)}>
+        <Skill content={content_i} handleChange={(e) => setContentList(e, i)} />
+      </RemoveWrapper>
     );
   });
   return (

@@ -50,6 +50,18 @@ function reducer(state, action) {
     case "load":
       return action.value;
     default:
+      if (action.key === "payload") {
+        const oldSectionState = state[action.name];
+        const newSectionState = {
+          ...oldSectionState,
+          number_subsection: Math.max(1, action.value.length),
+          payload: action.value,
+        };
+        return {
+          ...state,
+          [action.name]: newSectionState,
+        };
+      }
       return _set([action.name, action.key], action.value)(state);
   }
 }

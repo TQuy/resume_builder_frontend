@@ -36,6 +36,10 @@
   border: 1px solid black;
 }
 
+.section:hover .remove-icon-wrapper {
+  visibility: visible;
+}
+
 ul {
   list-style-type: none;
   margin: 0;
@@ -62,6 +66,19 @@ ul {
 .section textarea {
   font-size: 12px;
   resize: none;
+}
+
+.subsection-wrapper {
+  position: relative;
+}
+
+.remove-icon-wrapper {
+ position: absolute;
+ top: 0;
+ right: -30px;
+ font-size: 20px;
+ color: red;
+ visibility: hidden
 }
 
 .center-max {

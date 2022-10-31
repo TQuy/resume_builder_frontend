@@ -3,30 +3,36 @@ import "./Employment.css";
 import { useSectionList } from "../custom_hook";
 import { dispatchContext } from "resume_builder/ResumeBuilder";
 import TextareaAutosize from "react-textarea-autosize";
+import RemoveWrapper from "resume_builder/remove_wrapper/RemoveWrapper";
 
 const Employment = React.memo(function ({ state }) {
   const dispatch = useContext(dispatchContext);
+
   const initial_content = {
     "company-period": "",
     "company-name": "",
     "company-location": "",
     "company-detail": "",
   };
-  const [contentList, setContentList, checked] = useSectionList(
+
+  const [contentList, setContentList, checked, handleRemove] = useSectionList(
     "employment",
     state,
     initial_content,
     dispatch
   );
+
   const list_of_companies = contentList.map((content_i, i) => {
     return (
-      <Company
-        key={i.toString()}
-        content={content_i}
-        handleChange={(e) => setContentList(e, i)}
-      />
+      <RemoveWrapper key={i.toString()} handleRemove={() => handleRemove(i)}>
+        <Company
+          content={content_i}
+          handleChange={(e) => setContentList(e, i)}
+        />
+      </RemoveWrapper>
     );
   });
+
   return (
     <>
       {checked && (

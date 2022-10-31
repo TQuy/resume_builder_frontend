@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import "./Certificates.css";
 import { useSectionList } from "../custom_hook";
 import { dispatchContext } from "resume_builder/ResumeBuilder";
+import RemoveWrapper from "resume_builder/remove_wrapper/RemoveWrapper";
 
 const Certificates = React.memo(function ({ state }) {
   const dispatch = useContext(dispatchContext);
@@ -9,7 +10,7 @@ const Certificates = React.memo(function ({ state }) {
     "valid-period": "",
     "certificate-name": "",
   };
-  const [contentList, setContentList, checked] = useSectionList(
+  const [contentList, setContentList, checked, handleRemove] = useSectionList(
     "certificates",
     state,
     initial_content,
@@ -17,11 +18,13 @@ const Certificates = React.memo(function ({ state }) {
   );
   const list_of_certificates = contentList.map((content_i, i) => {
     return (
-      <Certificate
-        key={i.toString()}
-        content={content_i}
-        handleChange={(e) => setContentList(e, i)}
-      />
+      <RemoveWrapper key={i.toString()} handleRemove={() => handleRemove(i)}>
+        <Certificate
+          key={i.toString()}
+          content={content_i}
+          handleChange={(e) => setContentList(e, i)}
+        />
+      </RemoveWrapper>
     );
   });
   return (
