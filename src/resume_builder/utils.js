@@ -4,7 +4,9 @@ import axios from "axios";
 // export const csrftoken = Cookies.get('csrftoken');
 
 const get_auth_token = () => `Bearer ${sessionStorage.getItem("auth_token")}`;
-const hostName = "http://localhost:8000/";
+
+// const hostName = process.env.REACT_APP_BACKEND_HOST;
+const hostName = process.env.REACT_APP_BACKEND_HOST;
 
 export function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
