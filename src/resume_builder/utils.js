@@ -5,8 +5,7 @@ import axios from "axios";
 
 const get_auth_token = () => `Bearer ${sessionStorage.getItem("auth_token")}`;
 
-// const hostName = process.env.REACT_APP_BACKEND_HOST;
-const hostName = process.env.REACT_APP_BACKEND_HOST;
+const hostName = process.env.REACT_APP_BACKEND_HOST || "http://localhost:8000/";
 
 export function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
