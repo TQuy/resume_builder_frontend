@@ -1,7 +1,7 @@
 /* eslint-disable no-fallthrough */
 import "./ResumeBuilder.css";
 import { useReducer, useEffect, useState, createContext } from "react";
-import { list_resume } from "./utils";
+import { list_resume, reducer, getInitialValue } from "./utils";
 import SectionSelector from "./section_selector/SectionSelector";
 import BasicInfo from "./basic_info/BasicInfo";
 import Education from "./education/Education";
@@ -15,56 +15,6 @@ import LoadButton from "./load_button/LoadButton";
 import DeleteButton from "./delete_button/DeleteButton";
 import PrintButton from "./print_button/PrintButton";
 import Alert from "./alert/Alert";
-import _set from "lodash/fp/set";
-
-const getInitialValue = (preservedKey) => {
-  switch (preservedKey) {
-    case "currentResume": {
-      const preservedState = sessionStorage.getItem(preservedKey);
-      if (preservedState) return JSON.parse(preservedState);
-      return { name: "blank", id: 0 };
-    }
-    case "state": {
-      const preservedState = sessionStorage.getItem(preservedKey);
-      if (preservedState) return JSON.parse(preservedState);
-      // else go to default
-    }
-    default: {
-      return {
-        "basic-info": { checked: false, number_subsection: 1, payload: [] },
-        education: { checked: false, number_subsection: 1, payload: [] },
-        employment: { checked: false, number_subsection: 1, payload: [] },
-        projects: { checked: false, number_subsection: 1, payload: [] },
-        certificates: { checked: false, number_subsection: 1, payload: [] },
-        skills: { checked: false, number_subsection: 1, payload: [] },
-      };
-    }
-  }
-};
-
-function reducer(state, action) {
-  switch (action.name) {
-    case "blank":
-      const initState = getInitialValue();
-      return initState;
-    case "load":
-      return action.value;
-    default:
-      if (action.key === "payload") {
-        const oldSectionState = state[action.name];
-        const newSectionState = {
-          ...oldSectionState,
-          number_subsection: Math.max(1, action.value.length),
-          payload: action.value,
-        };
-        return {
-          ...state,
-          [action.name]: newSectionState,
-        };
-      }
-      return _set([action.name, action.key], action.value)(state);
-  }
-}
 
 export const dispatchContext = createContext();
 dispatchContext.displayName = "Dispatch Context";
@@ -91,6 +41,7 @@ function ResumeBuilder({ authToken }) {
   }, [state]);
 
   useEffect(() => {
+    // update resume list after authorization
     if (authToken) {
       list_resume()
         .then((resume_list) => setResumeList(resume_list))
@@ -102,6 +53,7 @@ function ResumeBuilder({ authToken }) {
   }, [authToken]);
 
   useEffect(() => {
+    // display alert for a span of time, then hide it
     let alertTimeout;
     if (alertContent) {
       alertTimeout = setTimeout(() => setAlertContent(""), 1000);
