@@ -25,16 +25,25 @@ const SaveButton = React.memo(function SaveButton({
   const handleSave = async (e) => {
     e.preventDefault();
     const fileName = nameInputRef.current.value;
+    if (fileName === "blank") {
+      handleShowHideModal("hide", saveModalRef);
+      setAlertContent(
+        "This name is not allowed. Consider using different name."
+      );
+
+      return;
+    }
+
     try {
       const state = JSON.parse(sessionStorage.getItem("state"));
-      const data = await save_resume(fileName, removeRedundancy(state));
-      // update the resume_list for load button
-      const resume_list = await list_resume();
-      setResumeList(resume_list);
+      const resume = await save_resume(fileName, removeRedundancy(state));
       // set current resume to the newly saved one
-      setCurrentResume({ id: data["id"], name: data["name"] });
+      setCurrentResume({ name: resume.name });
+      // update the resume_list for load button
+      const resumeList = await list_resume();
+      setResumeList(resumeList);
       // call alert
-      setAlertContent(data["message"]);
+      setAlertContent(`Saved resume ${fileName} successfully.`);
       // close saveModal
       handleShowHideModal("hide", saveModalRef);
     } catch (error) {

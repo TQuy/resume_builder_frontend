@@ -1,20 +1,15 @@
 import React, { useContext } from "react";
-import { load_resume } from "resume_builder/utils";
-import { dispatchContext } from "resume_builder/context";
+// import { load_resume } from "resume_builder/utils";
+import { dispatchContext, resumeListContext } from "resume_builder/context";
 
-const LoadButton = React.memo(function ({
-  setCurrentResume,
-  resume_list,
-  setAlertContent,
-}) {
-  const dispatch = useContext(dispatchContext);
-  const list_of_resumes = resume_list.map((i) => {
+const LoadButton = React.memo(function ({ setCurrentResume, setAlertContent }) {
+  const resumeList = useContext(resumeListContext);
+
+  const ResumeList = resumeList.map((i) => {
     return (
       <SavedResume
         key={i.name}
-        resume_id={i.id}
-        resume_name={i.name}
-        dispatch={dispatch}
+        resume={i}
         setCurrentResume={setCurrentResume}
         setAlertContent={setAlertContent}
       />
@@ -33,26 +28,21 @@ const LoadButton = React.memo(function ({
         Load
       </button>
       <ul className="dropdown-menu" aria-labelledby="load_btn">
-        {list_of_resumes}
+        {ResumeList}
       </ul>
     </div>
   );
 });
 
-function SavedResume({
-  setCurrentResume,
-  resume_id,
-  resume_name,
-  dispatch,
-  setAlertContent,
-}) {
-  const handleClick = async (resume_id, resume_name) => {
+function SavedResume({ setCurrentResume, resume, setAlertContent }) {
+  const dispatch = useContext(dispatchContext);
+
+  const handleClick = async (resume) => {
     try {
-      const resume = await load_resume(resume_id);
-      setCurrentResume({ id: resume.id, name: resume.name });
+      // const resume = await load_resume(resume);
+      setCurrentResume({ name: resume.name });
       dispatch({ name: "load", value: resume.content });
-      // call alert
-      setAlertContent("resume loaded successfully.");
+      setAlertContent("Resume loaded successfully.");
     } catch (error) {
       if (error.response) setAlertContent(error.response.data.error);
       console.error(error);
@@ -60,14 +50,12 @@ function SavedResume({
   };
   return (
     <li>
-      <button
-        className="dropdown-item"
-        onClick={() => handleClick(resume_id, resume_name)}
-      >
-        {resume_name}
+      <button className="dropdown-item" onClick={() => handleClick(resume)}>
+        {resume.name}
       </button>
     </li>
   );
 }
 
+LoadButton.displayName = "LoadButton";
 export default LoadButton;

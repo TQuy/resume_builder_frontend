@@ -16,5 +16,6 @@ export function removeRedundancy(obj) {
       payload: section.payload.slice(0, section.number_subsection),
     };
   });
+
   return compactObj;
 }

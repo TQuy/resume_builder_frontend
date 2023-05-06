@@ -1,11 +1,15 @@
 // import Cookies from 'js-cookie';
 import axios from "axios";
 import _set from "lodash/fp/set";
+import _update from "lodash/fp/update";
 
 // export const csrftoken = Cookies.get('csrftoken');
 
-const get_auth_token = () => `Bearer ${sessionStorage.getItem("auth_token")}`;
+function get_auth_token() {
+  return `Bearer ${sessionStorage.getItem("auth_token")}`;
+}
 
+// mode local or cloud
 const hostName = process.env.REACT_APP_BACKEND_HOST || "http://localhost:8000";
 console.log({ hostName });
 
@@ -25,10 +29,11 @@ export function str2bool(value) {
   }
 }
 
+/**
+ * List all resumes of the current user
+ * @returns {Array<object>|error} resumes
+ */
 export async function list_resume() {
-  /*
-  List all resume of the current user.
-  */
   console.log("list_resume");
   try {
     const response = await axios({
@@ -36,24 +41,10 @@ export async function list_resume() {
       method: "get",
       headers: { Authorization: get_auth_token() },
     });
-    const data = response.data;
-    const resumes = data.resumes;
-    return resumes;
-  } catch (error) {
-    throw error;
-  }
-}
+    const resumes = response.data.resumes;
+    console.log({ resumes });
 
-export async function load_resume(resume_id) {
-  console.log("load_resume");
-  try {
-    const response = await axios({
-      url: `${hostName}/resumes/${resume_id}`,
-      method: "get",
-      headers: { Authorization: get_auth_token() },
-    });
-    const resume = response.data.resume;
-    return resume;
+    return resumes;
   } catch (error) {
     throw error;
   }
@@ -73,21 +64,24 @@ export async function save_resume(fileName, content) {
         content: JSON.stringify(content),
       },
     });
-    return response.data;
+    return response.data.resume;
   } catch (error) {
     throw error;
   }
 }
 
-export async function delete_resume(resume_id) {
+export async function delete_resume(resume_name) {
   console.log("delete_resume");
   try {
     const response = await axios({
-      url: `${hostName}/resumes/${resume_id}`,
+      url: `${hostName}/resumes/`,
       method: "delete",
       headers: { Authorization: get_auth_token() },
+      params: {
+        name: resume_name,
+      },
     });
-    return response.data.data;
+    return response.data.message;
   } catch (error) {
     throw error;
   }
@@ -140,50 +134,56 @@ export async function register(username, password, passwordConfirmation) {
  * @returns
  */
 export function getInitialValue(preservedKey) {
+  if (Boolean(preservedKey)) {
+    const preservedValue = sessionStorage.getItem(preservedKey);
+    if (preservedValue) return JSON.parse(preservedValue);
+  }
+
+  let returnValue = {};
+
   switch (preservedKey) {
     case "currentResume": {
-      const preservedState = sessionStorage.getItem(preservedKey);
-      if (preservedState) return JSON.parse(preservedState);
-      // if there is no state in sessionStorage, return blank identity
-      return { name: "blank", id: 0 };
+      Object.assign(returnValue, {
+        name: "blank",
+      });
+      break;
     }
-    case "state": {
-      const preservedState = sessionStorage.getItem(preservedKey);
-      if (preservedState) return JSON.parse(preservedState);
-      // falls through if there is no state in sessionStorage
-    }
-    default: {
-      return {
+    default:
+      Object.assign(returnValue, {
         "basic-info": { checked: false, number_subsection: 1, payload: [] },
         education: { checked: false, number_subsection: 1, payload: [] },
         employment: { checked: false, number_subsection: 1, payload: [] },
         projects: { checked: false, number_subsection: 1, payload: [] },
         certificates: { checked: false, number_subsection: 1, payload: [] },
         skills: { checked: false, number_subsection: 1, payload: [] },
-      };
-    }
+      });
   }
+  return returnValue;
 }
 
+/**
+ * There are three cases: blank, load and default.
+ * In blank mode, initialize the state.
+ * In load mode, set the state to action.value
+ * In default mode, modify the section states
+ * @param {object} state
+ * @param {object} action
+ * @returns {object} newState
+ */
 export function reducer(state, action) {
   switch (action.name) {
-    case "blank":
+    case "reset":
       const initState = getInitialValue();
       return initState;
     case "load":
       return action.value;
     default:
       if (action.key === "payload") {
-        const oldSectionState = state[action.name];
-        const newSectionState = {
-          ...oldSectionState,
+        return _update([action.name], (sectionState) => ({
+          ...sectionState,
           number_subsection: Math.max(1, action.value.length),
           payload: action.value,
-        };
-        return {
-          ...state,
-          [action.name]: newSectionState,
-        };
+        }))(state);
       }
       return _set([action.name, action.key], action.value)(state);
   }

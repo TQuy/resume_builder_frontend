@@ -2,7 +2,11 @@
 import "./ResumeBuilder.css";
 import { useReducer, useEffect, useState } from "react";
 import { list_resume, reducer, getInitialValue } from "./utils";
-import { dispatchContext, resumeIDContext } from "resume_builder/context";
+import {
+  dispatchContext,
+  resumeIDContext,
+  resumeListContext,
+} from "resume_builder/context";
 import SectionSelector from "./section_selector/SectionSelector";
 import BasicInfo from "./basic_info/BasicInfo";
 import Education from "./education/Education";
@@ -39,7 +43,7 @@ function ResumeBuilder({ authToken }) {
     // update resume list after authorization
     if (authToken) {
       list_resume()
-        .then((resume_list) => setResumeList(resume_list))
+        .then((data) => setResumeList(data))
         .catch((error) => {
           if (error.response) alert(error.response.data.error);
           console.error(error);
@@ -62,40 +66,41 @@ function ResumeBuilder({ authToken }) {
     <>
       <dispatchContext.Provider value={dispatch}>
         <resumeIDContext.Provider value={currentResume}>
-          <Alert content={alertContent} />
-          <div id="button-group" className="d-print-none">
-            {/* <SaveButton
-              setResumeList={setResumeList}
-              setCurrentResume={setCurrentResume}
-              setAlertContent={setAlertContent}
-            /> */}
-            <LoadButton
-              setCurrentResume={setCurrentResume}
-              resume_list={resumeList}
-              setAlertContent={setAlertContent}
-            />
-            {/* <ClearButton setCurrentResume={setCurrentResume} /> */}
-            {/* <DeleteButton
-              setCurrentResume={setCurrentResume}
-              setResumeList={setResumeList}
-              setAlertContent={setAlertContent}
-            /> */}
-            {/* <PrintButton /> */}
-          </div>
-          <h1 style={{ textAlign: "center" }} className="d-print-none">
-            {currentResume.name}
-          </h1>
-          <div className="d-print-none">
-            <SectionSelector state={state} dispatch={dispatch} />
-          </div>
-          <div id="resume" className="sheet">
-            {/* <BasicInfo state={state["basic-info"]} />
-            <Education state={state["education"]} />
-            <Employment state={state["employment"]} />
-            <Certificates state={state["certificates"]} />
-            <Skills state={state["skills"]} />
-            <Projects state={state["projects"]} /> */}
-          </div>
+          <resumeListContext.Provider value={resumeList}>
+            <Alert content={alertContent} />
+            <div id="button-group" className="d-print-none">
+              <SaveButton
+                setResumeList={setResumeList}
+                setCurrentResume={setCurrentResume}
+                setAlertContent={setAlertContent}
+              />
+              <LoadButton
+                setCurrentResume={setCurrentResume}
+                setAlertContent={setAlertContent}
+              />
+              <ClearButton setCurrentResume={setCurrentResume} />
+              <DeleteButton
+                setCurrentResume={setCurrentResume}
+                setResumeList={setResumeList}
+                setAlertContent={setAlertContent}
+              />
+              <PrintButton />
+            </div>
+            <h1 style={{ textAlign: "center" }} className="d-print-none">
+              {currentResume.name}
+            </h1>
+            <div className="d-print-none">
+              <SectionSelector state={state} dispatch={dispatch} />
+            </div>
+            <div id="resume" className="sheet">
+              <BasicInfo state={state["basic-info"]} />
+              <Education state={state["education"]} />
+              <Employment state={state["employment"]} />
+              <Certificates state={state["certificates"]} />
+              <Skills state={state["skills"]} />
+              <Projects state={state["projects"]} />
+            </div>
+          </resumeListContext.Provider>
         </resumeIDContext.Provider>
       </dispatchContext.Provider>
     </>
@@ -103,5 +108,4 @@ function ResumeBuilder({ authToken }) {
 }
 
 ResumeBuilder.displayName = "ResumeBuilder";
-
 export default ResumeBuilder;
