@@ -1,7 +1,8 @@
 /* eslint-disable no-fallthrough */
 import "./ResumeBuilder.css";
-import { useReducer, useEffect, useState, createContext } from "react";
+import { useReducer, useEffect, useState } from "react";
 import { list_resume, reducer, getInitialValue } from "./utils";
+import { dispatchContext, resumeIDContext } from "resume_builder/context";
 import SectionSelector from "./section_selector/SectionSelector";
 import BasicInfo from "./basic_info/BasicInfo";
 import Education from "./education/Education";
@@ -15,12 +16,6 @@ import LoadButton from "./load_button/LoadButton";
 import DeleteButton from "./delete_button/DeleteButton";
 import PrintButton from "./print_button/PrintButton";
 import Alert from "./alert/Alert";
-
-export const dispatchContext = createContext();
-dispatchContext.displayName = "Dispatch Context";
-
-export const resumeIDContext = createContext();
-resumeIDContext.displayName = "Resume ID Context";
 
 function ResumeBuilder({ authToken }) {
   const [resumeList, setResumeList] = useState([]);
@@ -69,23 +64,23 @@ function ResumeBuilder({ authToken }) {
         <resumeIDContext.Provider value={currentResume}>
           <Alert content={alertContent} />
           <div id="button-group" className="d-print-none">
-            <SaveButton
+            {/* <SaveButton
               setResumeList={setResumeList}
               setCurrentResume={setCurrentResume}
               setAlertContent={setAlertContent}
-            />
+            /> */}
             <LoadButton
               setCurrentResume={setCurrentResume}
               resume_list={resumeList}
               setAlertContent={setAlertContent}
             />
-            <ClearButton setCurrentResume={setCurrentResume} />
-            <DeleteButton
+            {/* <ClearButton setCurrentResume={setCurrentResume} /> */}
+            {/* <DeleteButton
               setCurrentResume={setCurrentResume}
               setResumeList={setResumeList}
               setAlertContent={setAlertContent}
-            />
-            <PrintButton />
+            /> */}
+            {/* <PrintButton /> */}
           </div>
           <h1 style={{ textAlign: "center" }} className="d-print-none">
             {currentResume.name}
@@ -94,12 +89,12 @@ function ResumeBuilder({ authToken }) {
             <SectionSelector state={state} dispatch={dispatch} />
           </div>
           <div id="resume" className="sheet">
-            <BasicInfo state={state["basic-info"]} />
+            {/* <BasicInfo state={state["basic-info"]} />
             <Education state={state["education"]} />
             <Employment state={state["employment"]} />
             <Certificates state={state["certificates"]} />
             <Skills state={state["skills"]} />
-            <Projects state={state["projects"]} />
+            <Projects state={state["projects"]} /> */}
           </div>
         </resumeIDContext.Provider>
       </dispatchContext.Provider>

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "./Education.css";
 import { useSectionList } from "../custom_hook";
-import { dispatchContext } from "resume_builder/ResumeBuilder";
+import { dispatchContext } from "resume_builder/context";
 import TextareaAutosize from "react-textarea-autosize";
 import RemoveWrapper from "resume_builder/remove_wrapper/RemoveWrapper";
 
