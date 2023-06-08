@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "./Certificates.css";
-import { useSectionList } from "../custom_hook";
-import { dispatchContext } from "resume_builder/context";
+import { useSectionList } from "custom_hook";
+import { dispatchContext } from "context";
 import RemoveWrapper from "resume_builder/remove_wrapper/RemoveWrapper";
 
 const Certificates = React.memo(function ({ state }) {

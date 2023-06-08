@@ -1,17 +1,17 @@
 import React, { useContext, useRef } from "react";
-import { delete_resume, list_resume } from "resume_builder/utils";
+import { delete_resume, list_resume } from "resume_builder/APIs";
 import { handleShowHideModal } from "utils";
-import { resumeIDContext, dispatchContext } from "resume_builder/context";
+import { resumeIDContext, dispatchContext, alertContext } from "context";
 
 const DeleteButton = React.memo(function DeleteButton({
   setCurrentResume,
   setResumeList,
-  setAlertContent,
 }) {
   const dispatch = useContext(dispatchContext);
   const currentResume = useContext(resumeIDContext);
   const deleteModalRef = useRef(null);
   const resumeName = currentResume.name;
+  const setAlertContent = useContext(alertContext);
 
   const handleDelete = async (resumeName) => {
     try {

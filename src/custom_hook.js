@@ -1,5 +1,6 @@
 import _set from "lodash/fp/set";
 import _reverse from "lodash/fp/reverse";
+import { useState, useEffect } from "react";
 
 export function useSectionList(name, state, initialContent, updater) {
   const { checked, number_subsection: subsectionQuantity, payload } = state;
@@ -57,4 +58,24 @@ function getSectionDOMContent(sectionContent, displayQuantity, initialValue) {
     newSectionContent = sectionContent.concat(fillInContent);
   }
   return newSectionContent;
+}
+
+/**
+ * custom hook to set alert
+ */
+export function useAlert(initalContent) {
+  const [alertContent, setAlertContent] = useState(initalContent);
+
+  useEffect(() => {
+    // display alert for a span of time, then hide it
+    let alertTimeout;
+    if (alertContent) {
+      alertTimeout = setTimeout(() => setAlertContent(""), 1000);
+    }
+    return () => {
+      if (alertTimeout) clearTimeout(alertTimeout);
+    };
+  }, [alertContent]);
+
+  return [alertContent, setAlertContent];
 }

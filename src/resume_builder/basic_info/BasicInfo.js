@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "./BasicInfo.css";
-import { useSectionList } from "../custom_hook";
-import { dispatchContext } from "resume_builder/context";
+import { useSectionList } from "custom_hook";
+import { dispatchContext } from "context";
 
 const BasicInfo = React.memo(function ({ state }) {
   const dispatch = useContext(dispatchContext);

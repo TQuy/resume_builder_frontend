@@ -1,12 +1,9 @@
 /* eslint-disable no-fallthrough */
 import "./ResumeBuilder.css";
 import { useReducer, useEffect, useState } from "react";
-import { list_resume, reducer, getInitialValue } from "./utils";
-import {
-  dispatchContext,
-  resumeIDContext,
-  resumeListContext,
-} from "resume_builder/context";
+import { reducer, getInitialValue } from "utils";
+import { list_resume } from "resume_builder/APIs";
+import { dispatchContext, resumeIDContext, resumeListContext } from "context";
 import SectionSelector from "./section_selector/SectionSelector";
 import BasicInfo from "./basic_info/BasicInfo";
 import Education from "./education/Education";
@@ -19,7 +16,6 @@ import SaveButton from "./save_button/SaveButton";
 import LoadButton from "./load_button/LoadButton";
 import DeleteButton from "./delete_button/DeleteButton";
 import PrintButton from "./print_button/PrintButton";
-import Alert from "./alert/Alert";
 
 function ResumeBuilder({ authToken }) {
   const [resumeList, setResumeList] = useState([]);
@@ -27,7 +23,6 @@ function ResumeBuilder({ authToken }) {
     getInitialValue("currentResume")
   );
   const [state, dispatch] = useReducer(reducer, "state", getInitialValue);
-  const [alertContent, setAlertContent] = useState("");
 
   useEffect(() => {
     // preserved currentResume identity in sessionStorage
@@ -51,38 +46,22 @@ function ResumeBuilder({ authToken }) {
     }
   }, [authToken]);
 
-  useEffect(() => {
-    // display alert for a span of time, then hide it
-    let alertTimeout;
-    if (alertContent) {
-      alertTimeout = setTimeout(() => setAlertContent(""), 1000);
-    }
-    return () => {
-      if (alertTimeout) clearTimeout(alertTimeout);
-    };
-  }, [alertContent]);
-
   return (
     <>
       <dispatchContext.Provider value={dispatch}>
         <resumeIDContext.Provider value={currentResume}>
           <resumeListContext.Provider value={resumeList}>
-            <Alert content={alertContent} />
+            {/* <Alert content={alertContent} /> */}
             <div id="button-group" className="d-print-none">
               <SaveButton
                 setResumeList={setResumeList}
                 setCurrentResume={setCurrentResume}
-                setAlertContent={setAlertContent}
               />
-              <LoadButton
-                setCurrentResume={setCurrentResume}
-                setAlertContent={setAlertContent}
-              />
+              <LoadButton setCurrentResume={setCurrentResume} />
               <ClearButton setCurrentResume={setCurrentResume} />
               <DeleteButton
                 setCurrentResume={setCurrentResume}
                 setResumeList={setResumeList}
-                setAlertContent={setAlertContent}
               />
               <PrintButton />
             </div>

@@ -1,14 +1,15 @@
-import React, { useRef, useEffect } from "react";
-import { list_resume, save_resume } from "resume_builder/utils";
-import { handleShowHideModal, removeRedundancy } from "utils";
+import React, { useRef, useEffect, useContext } from "react";
+import { list_resume, put_resume } from "resume_builder/APIs";
+import { handleShowHideModal, removeRedundantSubsection } from "utils";
+import { alertContext } from "context";
 
 const SaveButton = React.memo(function SaveButton({
   setResumeList,
   setCurrentResume,
-  setAlertContent,
 }) {
   const saveModalRef = useRef(null);
   const nameInputRef = useRef(null);
+  const setAlertContent = useContext(alertContext);
 
   useEffect(() => {
     // focus input when modal show up
@@ -36,9 +37,9 @@ const SaveButton = React.memo(function SaveButton({
 
     try {
       const state = JSON.parse(sessionStorage.getItem("state"));
-      const resume = await save_resume(fileName, removeRedundancy(state));
+      await put_resume(fileName, removeRedundantSubsection(state));
       // set current resume to the newly saved one
-      setCurrentResume({ name: resume.name });
+      setCurrentResume({ name: fileName });
       // update the resume_list for load button
       const resumeList = await list_resume();
       setResumeList(resumeList);

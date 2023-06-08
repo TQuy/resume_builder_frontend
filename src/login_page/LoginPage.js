@@ -1,13 +1,18 @@
+import { useContext } from "react";
 import "./LoginPage.css";
 import { Link } from "react-router-dom";
-import { login } from "resume_builder/utils";
+import { login } from "resume_builder/APIs";
+import { alertContext } from "context";
 
 export default function LoginPage({ setAuthToken }) {
+  const setAlertContent = useContext(alertContext);
+
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
       const formData = new FormData(e.target);
       const formProps = Object.fromEntries(formData);
+      setAlertContent("Wait for it...");
       const token = await login(formProps.username, formProps.password);
       setAuthToken(token);
       sessionStorage.setItem("auth_token", token);

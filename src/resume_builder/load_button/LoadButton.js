@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-// import { load_resume } from "resume_builder/utils";
-import { dispatchContext, resumeListContext } from "resume_builder/context";
+import { dispatchContext, resumeListContext, alertContext } from "context";
 
-const LoadButton = React.memo(function ({ setCurrentResume, setAlertContent }) {
+const LoadButton = React.memo(function ({ setCurrentResume }) {
   const resumeList = useContext(resumeListContext);
+  const setAlertContent = useContext(alertContext);
 
   const ResumeList = resumeList.map((i) => {
     return (

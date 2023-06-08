@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { dispatchContext } from "resume_builder/context";
+import { dispatchContext } from "context";
 
 export default function ClearButton({ setCurrentResume }) {
   const dispatch = useContext(dispatchContext);
