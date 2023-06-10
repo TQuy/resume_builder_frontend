@@ -5,15 +5,16 @@ import { login } from "resume_builder/APIs";
 import { alertContext } from "context";
 
 export default function LoginPage({ setAuthToken }) {
-  const setAlertContent = useContext(alertContext);
+  const dispatchAlert = useContext(alertContext);
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
       const formData = new FormData(e.target);
       const formProps = Object.fromEntries(formData);
-      setAlertContent("Wait for it...");
+      dispatchAlert({ content: "Wait for it...", timeout: 50000 });
       const token = await login(formProps.username, formProps.password);
+      dispatchAlert({ content: "" });
       setAuthToken(token);
       sessionStorage.setItem("auth_token", token);
       window.location.replace("/");

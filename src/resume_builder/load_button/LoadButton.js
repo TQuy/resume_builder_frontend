@@ -3,7 +3,7 @@ import { dispatchContext, resumeListContext, alertContext } from "context";
 
 const LoadButton = React.memo(function ({ setCurrentResume }) {
   const resumeList = useContext(resumeListContext);
-  const setAlertContent = useContext(alertContext);
+  const dispatchAlert = useContext(alertContext);
 
   const ResumeList = resumeList.map((i) => {
     return (
@@ -11,7 +11,7 @@ const LoadButton = React.memo(function ({ setCurrentResume }) {
         key={i.name}
         resume={i}
         setCurrentResume={setCurrentResume}
-        setAlertContent={setAlertContent}
+        dispatchAlert={dispatchAlert}
       />
     );
   });
@@ -34,7 +34,7 @@ const LoadButton = React.memo(function ({ setCurrentResume }) {
   );
 });
 
-function SavedResume({ setCurrentResume, resume, setAlertContent }) {
+function SavedResume({ setCurrentResume, resume, dispatchAlert }) {
   const dispatch = useContext(dispatchContext);
 
   const handleClick = async (resume) => {
@@ -42,9 +42,9 @@ function SavedResume({ setCurrentResume, resume, setAlertContent }) {
       // const resume = await load_resume(resume);
       setCurrentResume({ name: resume.name });
       dispatch({ name: "load", value: resume.content });
-      setAlertContent("Resume loaded successfully.");
+      dispatchAlert({ content: "Resume loaded successfully." });
     } catch (error) {
-      if (error.response) setAlertContent(error.response.data.error);
+      if (error.response) dispatchAlert({ content: error.response.data.error });
       console.error(error);
     }
   };

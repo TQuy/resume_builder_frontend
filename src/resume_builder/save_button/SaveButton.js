@@ -9,7 +9,7 @@ const SaveButton = React.memo(function SaveButton({
 }) {
   const saveModalRef = useRef(null);
   const nameInputRef = useRef(null);
-  const setAlertContent = useContext(alertContext);
+  const dispatchAlert = useContext(alertContext);
 
   useEffect(() => {
     // focus input when modal show up
@@ -28,9 +28,9 @@ const SaveButton = React.memo(function SaveButton({
     const fileName = nameInputRef.current.value;
     if (fileName === "blank") {
       handleShowHideModal("hide", saveModalRef);
-      setAlertContent(
-        "This name is not allowed. Consider using different name."
-      );
+      dispatchAlert({
+        content: "This name is not allowed. Consider using different name.",
+      });
 
       return;
     }
@@ -43,10 +43,10 @@ const SaveButton = React.memo(function SaveButton({
       // update the resume_list for load button
       const resumeList = await list_resume();
       setResumeList(resumeList);
-      // call alert
-      setAlertContent(`Saved resume ${fileName} successfully.`);
-      // close saveModal
       handleShowHideModal("hide", saveModalRef);
+      dispatchAlert({
+        content: `Saved resume ${fileName} successfully.`,
+      });
     } catch (error) {
       if (error.response) alert(error.response.data.error);
       console.error(error);

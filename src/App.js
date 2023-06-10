@@ -13,11 +13,11 @@ function App() {
   const [authToken, setAuthToken] = useState(
     sessionStorage.getItem("auth_token")
   );
-  const [alertContent, setAlertContent] = useAlert("");
+  const [alertContent, dispatchAlert] = useAlert("");
 
   return (
     <>
-      <alertContext.Provider value={setAlertContent}>
+      <alertContext.Provider value={dispatchAlert}>
         <BrowserRouter>
           <NavigationBar authToken={authToken} setAuthToken={setAuthToken} />
           <Alert content={alertContent} />
