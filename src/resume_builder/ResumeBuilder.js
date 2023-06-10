@@ -25,18 +25,21 @@ function ResumeBuilder({ authToken }) {
   const [state, dispatch] = useReducer(reducer, "state", getInitialValue);
 
   useEffect(() => {
-    // preserved currentResume identity in sessionStorage
     sessionStorage.setItem("currentResume", JSON.stringify(currentResume));
   });
 
   useEffect(() => {
-    // preserve state in sessionStorage
     sessionStorage.setItem("state", JSON.stringify(state));
   }, [state]);
 
   useEffect(() => {
+    sessionStorage.setItem("resumeList", JSON.stringify(resumeList));
+  }, [resumeList]);
+
+  useEffect(() => {
     // update resume list after authorization
     if (authToken) {
+      console.log({ authToken });
       list_resume()
         .then((data) => setResumeList(data))
         .catch((error) => {
@@ -51,7 +54,6 @@ function ResumeBuilder({ authToken }) {
       <dispatchContext.Provider value={dispatch}>
         <resumeIDContext.Provider value={currentResume}>
           <resumeListContext.Provider value={resumeList}>
-            {/* <Alert content={alertContent} /> */}
             <div id="button-group" className="d-print-none">
               <SaveButton
                 setResumeList={setResumeList}

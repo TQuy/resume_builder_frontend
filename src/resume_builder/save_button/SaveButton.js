@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useContext } from "react";
-import { list_resume, put_resume } from "resume_builder/APIs";
+import { put_resume } from "resume_builder/APIs";
 import { handleShowHideModal, removeRedundantSubsection } from "utils";
-import { alertContext } from "context";
+import { alertContext, resumeListContext } from "context";
+import _set from "lodash/fp/set";
 
 const SaveButton = React.memo(function SaveButton({
   setResumeList,
@@ -10,6 +11,7 @@ const SaveButton = React.memo(function SaveButton({
   const saveModalRef = useRef(null);
   const nameInputRef = useRef(null);
   const dispatchAlert = useContext(alertContext);
+  const resumeList = useContext(resumeListContext);
 
   useEffect(() => {
     // focus input when modal show up
@@ -37,12 +39,19 @@ const SaveButton = React.memo(function SaveButton({
 
     try {
       const state = JSON.parse(sessionStorage.getItem("state"));
-      await put_resume(fileName, removeRedundantSubsection(state));
+      const compactState = removeRedundantSubsection(state);
+      await put_resume(fileName, compactState);
       // set current resume to the newly saved one
       setCurrentResume({ name: fileName });
       // update the resume_list for load button
-      const resumeList = await list_resume();
-      setResumeList(resumeList);
+      setResumeList(() => {
+        const idx = resumeList.findIndex((i) => i.name === fileName);
+        if (idx === -1) {
+          return resumeList.concat({ name: fileName, content: compactState });
+        } else {
+          return _set([idx, "content"], compactState)(resumeList);
+        }
+      });
       handleShowHideModal("hide", saveModalRef);
       dispatchAlert({
         content: `Saved resume ${fileName} successfully.`,

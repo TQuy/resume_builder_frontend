@@ -1,7 +1,12 @@
 import React, { useContext, useRef } from "react";
-import { delete_resume, list_resume } from "resume_builder/APIs";
+import { delete_resume } from "resume_builder/APIs";
 import { handleShowHideModal } from "utils";
-import { resumeIDContext, dispatchContext, alertContext } from "context";
+import {
+  resumeIDContext,
+  dispatchContext,
+  alertContext,
+  resumeListContext,
+} from "context";
 
 const DeleteButton = React.memo(function DeleteButton({
   setCurrentResume,
@@ -12,6 +17,7 @@ const DeleteButton = React.memo(function DeleteButton({
   const deleteModalRef = useRef(null);
   const resumeName = currentResume.name;
   const dispatchAlert = useContext(alertContext);
+  const resumeList = useContext(resumeListContext);
 
   const handleDelete = async (resumeName) => {
     try {
@@ -22,8 +28,7 @@ const DeleteButton = React.memo(function DeleteButton({
       dispatch({ name: "reset" });
       handleShowHideModal("hide", deleteModalRef);
       dispatchAlert({ content: "Deleted resume successfully" });
-      const resume_list = await list_resume();
-      setResumeList(resume_list);
+      setResumeList(resumeList.filter((re) => re.name !== resumeName));
     } catch (error) {
       if (error.response) alert(error.response.data.error);
       console.error(error);

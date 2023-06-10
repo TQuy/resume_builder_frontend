@@ -23,34 +23,39 @@ export function removeRedundantSubsection(obj) {
 }
 
 /**
- *
+ * Check if the initial value exists in sessionStorage. If yes then get it else create a new one
  * @param {String} preservedKey
  * @returns
  */
 export function getInitialValue(preservedKey) {
   if (Boolean(preservedKey)) {
     const preservedValue = sessionStorage.getItem(preservedKey);
-    if (preservedValue) return JSON.parse(preservedValue);
+
+    if (preservedValue) {
+      return JSON.parse(preservedValue);
+    }
   }
 
   let returnValue = {};
 
   switch (preservedKey) {
     case "currentResume": {
-      Object.assign(returnValue, {
-        name: "blank",
-      });
+      returnValue = { name: "blank" };
+      break;
+    }
+    case "resumeList": {
+      returnValue = [];
       break;
     }
     default:
-      Object.assign(returnValue, {
+      returnValue = {
         "basic-info": { checked: false, number_subsection: 1, payload: [] },
         education: { checked: false, number_subsection: 1, payload: [] },
         employment: { checked: false, number_subsection: 1, payload: [] },
         projects: { checked: false, number_subsection: 1, payload: [] },
         certificates: { checked: false, number_subsection: 1, payload: [] },
         skills: { checked: false, number_subsection: 1, payload: [] },
-      });
+      };
   }
   return returnValue;
 }
