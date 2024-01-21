@@ -39,7 +39,6 @@ function ResumeBuilder({ authToken }) {
   useEffect(() => {
     // update resume list after authorization
     if (authToken) {
-      console.log({ authToken });
       list_resume()
         .then((data) => setResumeList(data))
         .catch((error) => {
